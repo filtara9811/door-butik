@@ -1,0 +1,7 @@
+{
+  "appId": "com.doorbutik.app",
+  "appName": "Door Butik",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false }
+}
