@@ -46,7 +46,7 @@ jobs:
             "appId": "com.doorbutik.app",
             "appName": "Door Butik",
             "webDir": "www",
-            "server": { "androidScheme": "https" }
+            "server": { "url": "https://filtara9811.github.io/door-butik/", "androidScheme": "https" }
           }
           JSON
 
