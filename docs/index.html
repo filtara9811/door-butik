@@ -764,6 +764,25 @@ html.real .page{top:env(safe-area-inset-top);bottom:env(safe-area-inset-bottom)}
 .updi{width:58px;height:58px;border-radius:50%;background:var(--g);color:var(--p);font-size:28px;font-weight:900;display:grid;place-items:center;margin:-52px auto 0;border:4px solid #fff}
 .updb h3{margin:6px 0 0;color:var(--p);font-size:19px;letter-spacing:0}.updb p{font-size:12.5px;color:#6b5b6e;font-weight:700;line-height:1.5}
 .updb button{padding:14px;border-radius:16px;font-weight:900;font-size:14px}.updb .ok{background:var(--p);color:#fff}.updb .no{background:#f3ebf4;color:var(--p)}
+
+/* ---- v26 ---- */
+.pbar{position:absolute;left:12px;right:12px;bottom:40px;z-index:6;display:flex;gap:8px;align-items:center;background:var(--p);border-radius:32px;padding:7px 7px 7px 18px;box-shadow:0 8px 22px rgba(60,10,58,.42)}
+.pbm{flex:1;min-width:0;background:none;color:#fff;display:flex;align-items:center;gap:8px;text-align:left;padding:0}
+.pbm span{display:flex;flex-direction:column;min-width:0;gap:2px}.pbm b{font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pbm small{font-size:11px;color:#FFD66B;font-weight:800;white-space:nowrap}
+.pbm i{font-style:normal;color:var(--g);font-size:20px;font-weight:900;margin-left:auto;animation:pbb 1.8s infinite}
+@keyframes pbb{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.pbc{background:var(--g);color:var(--p);border-radius:26px;padding:14px 16px;font-weight:900;font-size:13px;white-space:nowrap}
+.hint2{bottom:112px!important}
+.pbar.hid{display:none}
+#fs.md .fsp{height:88%}
+#fs.md .fsbd{background:rgba(20,0,24,.2)}
+#fs.md .fsx{top:calc(12% - 17px)}
+.pkc{display:flex;gap:12px;padding:6px 18px 16px}
+.pkb{flex:1;background:#f6f1f6;border:2px solid #efe6f0;border-radius:22px;padding:18px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--p)}
+.pkb i{font-style:normal;font-size:34px}.pkb b{font-size:15px;font-weight:900}.pkb small{font-size:10.5px;color:#8b7d8e;font-weight:700}
+.paybar{position:sticky;bottom:-14px;margin:14px -14px -14px;padding:12px 14px 14px;background:linear-gradient(rgba(255,255,248,0),#FFFFF8 28%);z-index:3}
+.paybar .btn{margin:0;box-shadow:0 8px 22px rgba(255,184,0,.45)}
+html[data-theme=dark] .paybar{background:linear-gradient(rgba(27,18,32,0),#1b1220 28%)}
 </style>
 </head>
 <body>
@@ -979,7 +998,7 @@ function mount(html){
  if(!$('.home'))renderHome();
  if($('#seli'))saveCur();
  ph.querySelectorAll('.load').forEach(x=>x.remove());
- let f=$('#fs');
+ let f=$('#fs');if(f)f.classList.remove('md');
  if(!f){f=document.createElement('div');f.id='fs';f.innerHTML='<div class="fsbd"></div><div class="fsp"><div class="fsh"></div><div class="fsb"></div></div><button class="fsx press" aria-label="बंद करें">✕</button>';ph.append(f);
   f.querySelector('.fsbd').onclick=closeFS;f.querySelector('.fsx').onclick=closeFS}
  f.classList.remove('out');$('.fsb',f).innerHTML=html;const nv=$('#fs .nav');if(nv)nv.onclick=navGo;
@@ -990,16 +1009,16 @@ function closeFS(){
  f.classList.add('out');
  setTimeout(()=>{f.remove();const h=$('.home');if(!h)return;
   const bk=$('.home .bkb');if(bk){const t=document.createElement('div');t.innerHTML=basketBtn();bk.replaceWith(t.firstChild);$('.home .bkb').onclick=showCart}
-  const cs=$('#cs');if(cs)cs.innerHTML=catsHTML();const nv=$('.home .nav');if(nv){const t=document.createElement('div');t.innerHTML=navHTML();nv.innerHTML=t.firstChild.innerHTML}},380);
+  const cs=$('#cs');if(cs)cs.innerHTML=catsHTML();const nv=$('.home .nav');if(nv){const t=document.createElement('div');t.innerHTML=navHTML();nv.innerHTML=t.firstChild.innerHTML}paintPbar()},380);
 }
 function showHome(){if($('#fs')&&$('.home'))closeFS();else renderHome()}
-function goForm(){if(!looks.length)addLook(true);else{curLook=Math.min(curLook,looks.length-1);loadLook(looks[curLook]);applyLook(looks[curLook])}ph.insertAdjacentHTML('beforeend','<div class="load"><div class="spin"></div><p>PROCESSING SELI DESIGN...</p></div>');setTimeout(showForm,1500)}
+function goForm(){if(!looks.length)addLook(true);else{curLook=Math.min(curLook,looks.length-1);loadLook(looks[curLook]);applyLook(looks[curLook])}showForm()}
 
 /* ---------- SWIPE BETWEEN RELATED PRODUCTS ---------- */
 let swBusy=false,swBlock=0;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function relatedModels(){if(curModel.sys)return s2List();const gm=allModels().filter(m=>grpOfM(m)===grpOfM(curModel));return gm.filter(m=>m.cat===curModel.cat).concat(gm.filter(m=>m.cat!==curModel.cat))}
-function paintSwi(){paintSys();const s=$('#swi');if(!s)return;const l=relatedModels(),i=Math.max(0,l.findIndex(m=>m.id===curModel.id));
+function paintSwi(){paintSys();paintPbar();const s=$('#swi');if(!s)return;const l=relatedModels(),i=Math.max(0,l.findIndex(m=>m.id===curModel.id));
  s.innerHTML=`<b>${esc(curModel.name)}</b><span class="sdots">${l.slice(0,10).map((m,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</span><small>${i+1}/${l.length} · ${esc(catName(curModel.cat))}</small>`}
 async function swipeTo(dir,fromDx){
  if(swBusy)return;const w=$('.wrap');if(!w)return;const l=relatedModels();
@@ -1046,15 +1065,16 @@ function renderHome(){
  <div class="stage" id="stg"><div class="wrap"><canvas id="c"></canvas><canvas id="f"></canvas></div><div class="hb"><span class="hlogo"></span><span class="hbr"><button class="gear press" id="gear" aria-label="वेंडर पैनल"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></svg></button>${basketBtn()}</span></div><button class="sysb press" id="sysb" aria-label="सिस्टम चुनें"><i>◧</i><span id="sysn">सिस्टम 1</span></button><button class="moreb press" id="moreb" aria-label="और विकल्प"><i></i><i></i><i></i></button><div class="mm" id="mm"><button data-m="save"><b>⬇</b>गैलरी में सेव करें</button><button data-m="share"><b>📤</b>शेयर करें (WhatsApp आदि)</button><button data-m="clean"><b>🧹</b>दुपट्टा + स्टैंड हटाएँ / लगाएँ</button><button data-m="bg"><b>🖼</b>बैकग्राउंड बदलें</button></div><button class="plus3 press" id="plus3" aria-label="इस लुक को जोड़ें"><b>＋</b><small>जोड़ें</small></button>
   <button class="swa l press" id="swl" aria-label="पिछला प्रोडक्ट">‹</button><button class="swa r press" id="swr" aria-label="अगला प्रोडक्ट">›</button><div class="swi" id="swi"></div>
   <button class="catfab qdb press" id="catfab" aria-label="मॉडल और कैटेगरी"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-  <div class="hint2" id="hint2">कपड़े का हिस्सा दबाइए · बैकग्राउंड दबाकर बदलिए</div></div>
+  <div class="hint2" id="hint2">कपड़े का हिस्सा दबाइए · बैकग्राउंड दबाकर बदलिए</div>
+  <div class="pbar" id="pbar"><button class="pbm press" id="pbm" aria-label="नाप खोलें"><span><b id="pbn"></b><small id="pba"></small></span><i>⌃</i></button><button class="pbc press" id="pbc">＋ Add to cart</button></div></div>
  ${navHTML()}<div class="tray" id="tray"><div class="th"><span id="hintTxt"></span><button class="tx" id="tx" aria-label="बंद करें">⌄</button></div><div class="chips2" id="chips"></div>
  <div class="zm"><span>🔍 कपड़े का ज़ूम</span><button id="zo" class="zb" aria-label="ज़ूम आउट">−</button><input type="range" id="zr" min="10" max="400" value="100" aria-label="कपड़े का ज़ूम"><button id="zi" class="zb" aria-label="ज़ूम इन">+</button><b id="zv">100%</b></div>
  <div class="zm"><span>🔄 घुमाएँ</span><button id="ro" class="zb" aria-label="बाएँ घुमाएँ">⟲</button><input type="range" id="rr" min="-180" max="180" value="0" aria-label="कपड़ा घुमाएँ"><button id="ri" class="zb" aria-label="दाएँ घुमाएँ">⟳</button><b id="rv">0°</b></div>
  <div class="zm mvr"><span>✥ खिसकाएँ</span><div class="dp" id="dp"><button class="zb" data-m="l" aria-label="बाएँ">←</button><button class="zb" data-m="u" aria-label="ऊपर">↑</button><button class="zb" data-m="d" aria-label="नीचे">↓</button><button class="zb" data-m="r" aria-label="दाएँ">→</button></div><small>या मॉडल पर खींचें · दो उँगली से ज़ूम / घुमाएँ</small></div>
- <div class="fabs" id="fabs"><label class="sw up press" title="गैलरी से कपड़ा">＋<input type="file" accept="image/*" hidden id="gal"></label></div></div>
+ <div class="fabs" id="fabs"><button class="sw up press" id="galb" title="कैमरा / गैलरी से कपड़ा">＋</button></div></div>
  <div class="tray" id="bgp"><div class="th"><span id="bgt">🖼 बैकग्राउंड बदलें</span><button class="tx" id="bgx" aria-label="बंद करें">⌄</button></div><div class="fabs" id="bgs"></div><p class="bgn">रंग, ग्रेडिएंट या अपनी फोटो चुनिए · कपड़े और मॉडल जैसे हैं वैसे रहेंगे</p></div></div>`;
  initSwipe();$('.bkb').onclick=showCart;$('#gear').onclick=()=>openVendor('ord');$('#plus3').onclick=addLook;$('#tx').onclick=closeTray;$('#stg').onclick=e=>{if(e.target.id==='stg'||e.target.classList.contains('wrap'))closeTray()};
- $('#catfab').onclick=toggleQd;qdInit();$('#moreb').onclick=toggleMore;$('#mm').onclick=moreMenu;initPlusDrag();$('#sysb').onclick=()=>openSystems();
+ $('#catfab').onclick=toggleQd;qdInit();$('#moreb').onclick=toggleMore;$('#mm').onclick=moreMenu;initPlusDrag();$('#sysb').onclick=()=>openSystems();$('#pbm').onclick=goForm;$('#pbc').onclick=pbAdd;paintPbar();{const upd=()=>{const h=['#tray','#bgp','#qd'].some(q=>{const e=$(q);return e&&e.classList.contains('open')});const pb=$('#pbar');pb&&pb.classList.toggle('hid',h)};['#tray','#bgp','#qd'].forEach(q=>{const e=$(q);e&&new MutationObserver(upd).observe(e,{attributes:true,attributeFilter:['class']})})}
  document.querySelector('.nav').onclick=e=>{const b=e.target.closest('[data-n]');if(b)({order:()=>showOrders(),nap:goForm,menu:openMenu})[b.dataset.n]()};
  ready=ready||boot(curModel.photo,curModel.mask);
  ready.then(()=>{if(!$('#c'))return;fitWrap();cv=$('#c');cv.width=W;cv.height=H;$('#f').width=W;$('#f').height=H;cx=cv.getContext('2d',{willReadFrequently:true});render();
@@ -1067,7 +1087,7 @@ function renderHome(){
   $('#chips').onpointerdown=e=>{if(e.target.dataset.a==='og')render(true)};
   ['pointerup','pointercancel','pointerleave'].forEach(n=>$('#chips').addEventListener(n,()=>render()));
   $('#fabs').onclick=e=>{const s=e.target.closest('.sw');if(s&&s._t)applyFab(s._t)};
-  $('#gal').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const rd=new FileReader();rd.onload=async()=>{const c=await cropEditor(rd.result,'कपड़ा सेट करें');if(!c)return;const t=mkTile(c,'गैलरी');TILES.splice(0,0,t);swBtn(t,true);applyFab(t)};rd.readAsDataURL(f)};
+  $('#galb').onclick=()=>pickImage(f=>{const rd=new FileReader();rd.onload=async()=>{const c=await cropEditor(rd.result,'कपड़ा सेट करें');if(!c)return;const t=mkTile(c,'गैलरी');TILES.splice(0,0,t);swBtn(t,true);applyFab(t)};rd.readAsDataURL(f)},'कपड़ा जोड़ें');
   setTimeout(()=>{const h=$('#hint2');if(h)h.style.opacity=0},6000)});
 }
 function fit(){if(document.documentElement.classList.contains('real')){ph.style.transform='none';return}const s=Math.min(innerWidth/440,innerHeight/892,1.25);ph.style.transform=`scale(${s})`}
@@ -1092,7 +1112,7 @@ function showForm(){
  </div>
  <div class="nb3"><div class="t" id="nt">Notes...</div><button class="press" id="clip" aria-label="अटैच">📎</button><button class="press mic" id="mic" aria-label="वॉइस नोट">🎤</button></div>
  <div class="bbar"><div class="bth" id="bth"></div><div class="bin" id="bin"></div><button class="bn press" id="bn">Buy now</button><button class="bcart press" id="fc">＋ Add to cart</button></div></div>`);
- buildRows();
+ $('#fs').classList.add('md');buildRows();
  $('#rows').onclick=e=>{const a=e.target.closest('[data-act]');if(!a)return;const rw=a.closest('.row'),id=rw.dataset.id;cur=id;if(a.dataset.act==='tape')return rw.classList.contains('lock')?toast('पहले ऊपर की नाप भरें 🔒'):openTape();a.dataset.act==='guide'?openGuide():openVar()};
  $('#rows').oninput=e=>{const id=e.target.closest('.row').dataset.id;vals[id]=e.target.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');refresh()};
  $('#pf').onclick=openCust;$('#pc').onclick=openLooks;$('#addc').onclick=openAdd;$('#clip').onclick=openAttach;$('#nt').onclick=openMedia;$('#mic').onclick=openMedia;
@@ -1440,7 +1460,7 @@ function showCart(){
  <div class="lbl">पेमेंट चुनें</div><div class="pks"><button class="pk ${bill.kind==='half'?'on':''}" data-k="half"><b>हाफ पेमेंट</b><span id="hf"></span><small>50% अभी, बाकी डिलीवरी पर</small></button><button class="pk ${bill.kind==='full'?'on':''}" data-k="full"><b>फुल पेमेंट</b><span id="fl"></span><small>पूरा अभी</small></button></div>
  <div class="mds">${['UPI','कैश','कार्ड'].map(m=>`<button class="md ${bill.mode===m?'on':''}" data-m="${m}">${m}</button>`).join('')}</div>
  <label class="ck allck"><input type="checkbox" id="allck" ${cart.every(p=>p.ok)?'checked':''}> सभी पीस के नाप जाँच लिए, सब सही है ✓</label><div class="card"><div class="sum2"><span>अभी देना है</span><b id="pn"></b></div><div class="sum2"><span>बाकी (डिलीवरी पर)</span><b id="bl"></b></div></div>
- <button class="btn gold press" id="pay">पेमेंट करके ऑर्डर कन्फर्म करें ✓</button><div class="two"><button class="btn ghost press" id="mo">＋ और पीस जोड़ें</button><button class="btn ghost press" id="cp">📋 इन्वॉइस कॉपी</button></div><p class="note3">पेमेंट अभी डेमो है — असली पेमेंट के लिए Razorpay/UPI जोड़ना होगा।</p>`,true);
+ <p class="note3">पेमेंट अभी डेमो है — असली पेमेंट के लिए Razorpay/UPI जोड़ना होगा।</p><div class="paybar"><button class="btn gold press" id="pay">पेमेंट करके ऑर्डर कन्फर्म करें ✓</button></div>`,true);
  const sb=$('#sb');
  const cmsg=()=>{$('#cmg').innerHTML=bill.coupon?`✓ <b>${bill.coupon}</b> लग गया — ${COUPONS[bill.coupon][3]} <u id="cr">हटाएँ</u>`:'उपलब्ध (डेमो): DOOR10 · WELCOME50 · FESTIVE15'};
  const recalc=()=>{let sub=0;cart.forEach((p,i)=>{const t=lineTotal(p);sub+=t;$('#lt'+i).textContent=t;$('#q'+i).textContent=p.qty||1});
@@ -1467,8 +1487,8 @@ function showCart(){
   if(d.p!==undefined)cart[d.p].pn=t.value;else if(d.m&&d.m.includes('.')){const[i,j]=d.m.split('.');cart[i].meas[j][1]=t.value.replace(/[^0-9.]/g,'')}
   else if(d.b!==undefined)cart[d.b].base=+t.value.replace(/\D/g,'')||0;else if(t.id==='ex')bill.extra=+t.value.replace(/\D/g,'')||0;recalc()};
  sb.onchange=e=>{const t=e.target;if(t.id==='allck'){cart.forEach(p=>p.ok=t.checked);document.querySelectorAll('[data-c]').forEach(x=>x.checked=t.checked)}else if(t.dataset.c!==undefined){cart[t.dataset.c].ok=t.checked;$('#allck').checked=cart.every(p=>p.ok)}};
- $('#mo').onclick=showForm;
- $('#cp').onclick=()=>{const k=bill.calc,txt=`DOOR | BUTIK इन्वॉइस\n${c.name} · ${c.mobile} · डिलीवरी ${fmt(bill.due)}\n`+cart.map(p=>`\n${p.pn} ×${p.qty||1}: ${p.meas.map(m=>m[0]+' '+m[1]).join(', ')}${p.add.length?'\nऐड-ऑन: '+p.add.filter(a=>a[2]).map(a=>a[0]+'×'+a[2]).join(', '):''}\n₹${lineTotal(p)}`).join('')+`\n\nकुल ₹${k.tot} · अभी ₹${k.now} (${bill.kind==='full'?'फुल':'हाफ'} · ${bill.mode}) · बाकी ₹${k.tot-k.now}`;
+ if($('#mo'))$('#mo').onclick=showForm;
+ if($('#cp'))$('#cp').onclick=()=>{const k=bill.calc,txt=`DOOR | BUTIK इन्वॉइस\n${c.name} · ${c.mobile} · डिलीवरी ${fmt(bill.due)}\n`+cart.map(p=>`\n${p.pn} ×${p.qty||1}: ${p.meas.map(m=>m[0]+' '+m[1]).join(', ')}${p.add.length?'\nऐड-ऑन: '+p.add.filter(a=>a[2]).map(a=>a[0]+'×'+a[2]).join(', '):''}\n₹${lineTotal(p)}`).join('')+`\n\nकुल ₹${k.tot} · अभी ₹${k.now} (${bill.kind==='full'?'फुल':'हाफ'} · ${bill.mode}) · बाकी ₹${k.tot-k.now}`;
   try{navigator.clipboard.writeText(txt).then(()=>toast('इन्वॉइस कॉपी हो गया ✓'),()=>toast('कॉपी नहीं हो सका'))}catch(er){toast('कॉपी नहीं हो सका')}};
  $('#pay').onclick=()=>{
   if(!custOK()){toast('ग्राहक की जानकारी भरें');cust={...cart[0].cust};custCb=showCart;return openCust()}
@@ -1607,6 +1627,15 @@ function openLooksHome(){
   const c=e.target.closest('.lrow');if(!c)return;curLook=+c.dataset.i;o.close();setTimeout(goForm,200)};
  $('#nl',o).onclick=()=>{o.close();toast('कपड़ा/मॉडल चुनकर ＋ जोड़ें दबाइए')};
 }
+
+function lookPrice(l){const f=(l&&l.f)||{};return BASE+Object.values(f.designs||{}).reduce((a,d)=>a+(+d[1]||0),0)+ADD.reduce((t,a)=>t+a[3]*((f.addons||{})[a[0]]||0),0)}
+function paintPbar(){const n=$('#pbn');if(!n)return;n.textContent=curModel.name;$('#pba').textContent='₹'+lookPrice(looks[curLook])+' · नाप खोलें'}
+function pbAdd(){if(!looks.length)addLook(true);curLook=Math.min(curLook,looks.length-1);loadLook(looks[curLook]);applyLook(looks[curLook]);showForm();
+ setTimeout(()=>{if(filled()<steps.length)toast('पहले नाप भरें, फिर Add to cart दबाइए');else if(!custOK())toast('पहले ग्राहक की जानकारी भरें');else addToCart(true)},500)}
+
+function pickImage(cb,title){
+ const o=sheet(`<h3 style="letter-spacing:0">${title||'फोटो कहाँ से लें?'}</h3><p class="sub">कैमरा खोलें या गैलरी से चुनें</p><div class="pkc"><button class="pkb press" data-k="1"><i>📷</i><b>कैमरा</b><small>अभी फोटो खींचें</small></button><button class="pkb press" data-k="0"><i>🖼️</i><b>गैलरी</b><small>फोन से चुनें</small></button></div><button class="btn press" data-close style="background:#EDE7EE;color:var(--p);box-shadow:none;margin-top:0">रद्द</button>`,{h:'46%',pop:true});
+ o.onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;const i=document.createElement('input');i.type='file';i.accept='image/*';if(b.dataset.k==='1')i.capture='environment';i.onchange=()=>{const f=i.files[0];if(f)cb(f)};o.close();i.click()}}
 function paintLooks(){paintTray()}
 /* category -> models picker */
 let SYSL=[],S3TOP=[],S3BOT_A=[],S3BOT_B=[],S3DUP=[],sysLoaded=null;
@@ -1861,8 +1890,8 @@ function openTplEditor(id){
    T.sizes=T.sizes.filter(s=>String(s.n).trim()).map(s=>({n:String(s.n).trim(),v:s.v}));
    const k=TPLS.findIndex(t=>t.id===T.id);if(k>=0)TPLS[k]=T;else TPLS.push(T);saveTpls();toast('नाप टेम्पलेट सेव ✓');openVendor('tpl')}}}
 function openFabAdd(){
- let src='';const o=sheet(`<h3>नया कपड़ा जोड़ें</h3><p class="sub">कपड़े की क्लोज़-अप फोटो चुनें</p><div class="sc"><label class="upl press" id="fl" style="min-height:120px">🧵<b>फोटो चुनें</b><input type="file" accept="image/*" hidden id="ff"></label><div class="field"><p>कपड़े का नाम</p><input id="fn" placeholder="जैसे: बनारसी सिल्क"></div></div><button class="btn gold press" id="ok">ADD</button>`,{h:'66%'});
- $('#ff',o).onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{const c=await cropEditor(r.result,'कपड़ा सेट करें');if(!c)return;src=c.toDataURL('image/jpeg',.85);$('#fl',o).innerHTML=`<img src="${src}" style="width:110px;height:110px;border-radius:14px;object-fit:cover"><input type="file" accept="image/*" hidden id="ff">`};r.readAsDataURL(f)};
+ let src='';const o=sheet(`<h3>नया कपड़ा जोड़ें</h3><p class="sub">कपड़े की क्लोज़-अप फोटो चुनें</p><div class="sc"><button class="upl press" id="fl" style="min-height:120px;width:100%">🧵<b>फोटो चुनें</b></button><div class="field"><p>कपड़े का नाम</p><input id="fn" placeholder="जैसे: बनारसी सिल्क"></div></div><button class="btn gold press" id="ok">ADD</button>`,{h:'66%'});
+ $('#fl',o).onclick=()=>pickImage(f=>{const r=new FileReader();r.onload=async()=>{const c=await cropEditor(r.result,'कपड़ा सेट करें');if(!c)return;src=c.toDataURL('image/jpeg',.85);$('#fl',o).innerHTML=`<img src="${src}" style="width:110px;height:110px;border-radius:14px;object-fit:cover">`};r.readAsDataURL(f)},'कपड़ा जोड़ें');
  $('#ok',o).onclick=async()=>{const n=$('#fn',o).value.trim();if(!src)return toast('पहले फोटो चुनें');if(!n)return toast('नाम लिखें');
   const id='f'+Date.now(),fs=LS('db_fabs')||[];fs.push({id,name:n,src});try{localStorage.setItem('db_fabs',JSON.stringify(fs))}catch(x){return toast('स्टोरेज भर गया')}
   const im=await imgLoad(src),c=document.createElement('canvas');c.width=c.height=SW;c.getContext('2d').drawImage(im,0,0,SW,SW);const t=mkTile(c,n);t.custom=id;TILES.push(t);$('#fabs')&&swBtn(t);o.close();toast('कपड़ा जुड़ गया ✓');openVendor('fabs')}}
@@ -2190,7 +2219,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-10-28.1';
+const APP_VER='2026-10-28.2';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
