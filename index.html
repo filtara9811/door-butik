@@ -742,6 +742,28 @@ html[data-theme=dark] .qd{background:rgba(36,26,40,.97)}html[data-theme=dark] .q
  .phone,.phone{width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
  .page{top:env(safe-area-inset-top);bottom:env(safe-area-inset-bottom)}
 }
+
+/* ---- v25 ---- */
+html.real body{display:block;background:var(--ph)}
+html.real .phone{width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none}
+html.real .page{top:env(safe-area-inset-top);bottom:env(safe-area-inset-bottom)}
+.disp.empty{margin:0!important;font-size:20px;color:#c9bccb;font-weight:700}
+.cre{position:absolute;inset:0;z-index:99999;background:rgba(20,8,22,.74);display:flex;align-items:center;justify-content:center;padding:14px;animation:fade .25s}
+.crb{background:#fff;border-radius:28px;width:100%;max-width:360px;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:100%;overflow:auto}
+.crb h3{margin:0;color:var(--p);font-size:18px;text-align:center;letter-spacing:0}
+.crb p{font-size:11px;color:#6b5b6e;text-align:center;font-weight:700;line-height:1.45}
+.crv{width:100%;aspect-ratio:1;border-radius:18px;overflow:hidden;background:#eee;border:3px solid var(--g);flex-shrink:0}
+.crv canvas{width:100%;height:100%;display:block;touch-action:none}
+.crt{display:flex;gap:6px}.crt button{flex:1;padding:10px 2px;border-radius:12px;background:#f3ebf4;color:var(--p);font-weight:800;font-size:12px}
+.crs{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--p)}.crs span{width:46px}.crs input{flex:1;min-width:0}.crs b{width:44px;text-align:right;font-size:11px}
+.cra{display:flex;gap:10px}.cra button{flex:1;padding:14px;border-radius:16px;font-weight:900;font-size:14px}.cra .no{background:#eee;color:#5a1157}.cra .ok{background:var(--g);color:var(--p)}
+.lrow .lgrip{flex:0 0 26px;align-self:stretch;display:grid;place-items:center;color:#b9a3bd;font-size:22px;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+.lrow.drg{box-shadow:0 8px 22px rgba(90,17,87,.3);transform:scale(1.02);z-index:2;background:#fff;border-color:var(--p)}
+.upd{position:absolute;inset:0;z-index:99998;background:rgba(20,8,22,.6);display:flex;align-items:center;justify-content:center;padding:24px;animation:fade .25s}
+.updb{background:#fff;border-radius:28px;padding:24px 20px 18px;width:100%;max-width:320px;text-align:center;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.updi{width:58px;height:58px;border-radius:50%;background:var(--g);color:var(--p);font-size:28px;font-weight:900;display:grid;place-items:center;margin:-52px auto 0;border:4px solid #fff}
+.updb h3{margin:6px 0 0;color:var(--p);font-size:19px;letter-spacing:0}.updb p{font-size:12.5px;color:#6b5b6e;font-weight:700;line-height:1.5}
+.updb button{padding:14px;border-radius:16px;font-weight:900;font-size:14px}.updb .ok{background:var(--p);color:#fff}.updb .no{background:#f3ebf4;color:var(--p)}
 </style>
 </head>
 <body>
@@ -752,6 +774,7 @@ html[data-theme=dark] .qd{background:rgba(36,26,40,.97)}html[data-theme=dark] .q
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>r.querySelectorAll(s);
 const ph=$('#phone');
+(function(){const real=!!window.Capacitor||innerWidth<=640||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);if(real)document.documentElement.classList.add('real')})();
 const OPTS=[['कमर नाप','📏'],['हिप नाप','🧵'],['सीना नाप','👕'],['लंबाई नाप','📐'],['तीरा नाप','✂️'],['बाजू नाप','🪡']];
 const DES=[['C | nack',0,'👔'],['C caller',100,'🎀'],['V Shape',50,'🔻']];
 let steps=[['length','लंबाई','📐'],['baju','बाजू','🪡'],['gala','गला','👔'],['ghera','घेरा','🌀'],['shoulder','तीरा','✂️']].map(([id,h,i])=>({id,h,i}));
@@ -820,6 +843,32 @@ const FABS=[
  ['आइवरी',()=>[240,232,214]]
 ];
 const imgLoad=s=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.src=s});
+/* ---------- कपड़ा क्रॉप / रोटेट एडिटर ---------- */
+function cropEditor(url,title){return new Promise(async res=>{
+ const im=await imgLoad(url),w=im.width,h=im.height,V=300,st={x:0,y:0,z:1,r:0,fl:1};
+ const ov=document.createElement('div');ov.className='cre';
+ ov.innerHTML=`<div class="crb"><h3>${title||'कपड़ा सेट करें'}</h3><p>खींचकर खिसकाएँ · दो उँगली से ज़ूम / घुमाएँ · चौकोर में जो दिखे वही कपड़ा बनेगा</p><div class="crv"><canvas width="${V}" height="${V}"></canvas></div><div class="crt"><button data-a="l">⟲ 90°</button><button data-a="r">90° ⟳</button><button data-a="f">⇋ पलटें</button><button data-a="z">↺ रीसेट</button></div><div class="crs"><span>ज़ूम</span><input data-s="z" type="range" min="100" max="400" value="100"><b></b></div><div class="crs"><span>घुमाएँ</span><input data-s="r" type="range" min="-180" max="180" value="0"><b></b></div><div class="cra"><button data-a="x" class="no">रद्द</button><button data-a="ok" class="ok">✓ लगाएँ</button></div></div>`;
+ ph.append(ov);
+ const cv=ov.querySelector('canvas'),base=Math.max(V/w,V/h),sl=k=>ov.querySelector(`[data-s=${k}]`),bs=ov.querySelectorAll('.crs b');
+ const draw=(c,S,guide)=>{const k=S/V,x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,S,S);x.save();x.translate(S/2+st.x*k,S/2+st.y*k);x.rotate(st.r*Math.PI/180);x.scale(base*st.z*st.fl*k,base*st.z*k);x.drawImage(im,-w/2,-h/2);x.restore();
+  if(guide){x.strokeStyle='rgba(255,255,255,.75)';x.lineWidth=1;x.beginPath();for(const t of[1/3,2/3]){x.moveTo(S*t,0);x.lineTo(S*t,S);x.moveTo(0,S*t);x.lineTo(S,S*t)}x.stroke()}};
+ const sync=()=>{draw(cv,V,true);sl('z').value=Math.round(st.z*100);sl('r').value=Math.round(st.r);bs[0].textContent=Math.round(st.z*100)+'%';bs[1].textContent=Math.round(st.r)+'°'};
+ const P=new Map();let g=null;
+ cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.clientX,y:e.clientY});g=null};
+ cv.onpointermove=e=>{const o=P.get(e.pointerId);if(!o)return;const kx=V/cv.getBoundingClientRect().width;
+  if(P.size===1){st.x+=(e.clientX-o.x)*kx;st.y+=(e.clientY-o.y)*kx}
+  P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(P.size>=2){const [a,b]=[...P.values()],d=Math.hypot(a.x-b.x,a.y-b.y),an=Math.atan2(b.y-a.y,b.x-a.x);if(g){st.z=clampN(g.z*d/g.d,1,4);st.r=wrapDeg(g.r+(an-g.a)*180/Math.PI)}else g={d:Math.max(8,d),a:an,z:st.z,r:st.r}}
+  sync()};
+ ['pointerup','pointercancel'].forEach(n=>cv.addEventListener(n,e=>{P.delete(e.pointerId);g=null}));
+ ov.oninput=e=>{const k=e.target.dataset.s;if(k==='z')st.z=+e.target.value/100;if(k==='r')st.r=+e.target.value;sync()};
+ ov.onclick=e=>{const a=e.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;
+  if(k==='l'){st.r=wrapDeg(st.r-90)}else if(k==='r'){st.r=wrapDeg(st.r+90)}else if(k==='f'){st.fl*=-1}else if(k==='z'){st.x=st.y=0;st.z=1;st.r=0;st.fl=1}
+  else if(k==='x'){ov.remove();res(null);return}
+  else if(k==='ok'){const out=document.createElement('canvas');out.width=out.height=SW;draw(out,SW,false);ov.remove();res(out);return}
+  sync()};
+ sync()})}
+
 function mkTile(c,name){return{c,name,d:c.getContext('2d').getImageData(0,0,SW,SW).data}}
 function boot(P0,M0){return(async()=>{
  parts=[];
@@ -972,7 +1021,7 @@ function initFabGest(st){
   if(G.pts.size>=2&&fab[sel]&&trayOpen()){G.mode='pinch';swAbort();const [a,b]=[...G.pts.values()];G.d0=Math.max(8,Math.hypot(a.x-b.x,a.y-b.y));G.a0=Math.atan2(b.y-a.y,b.x-a.x);G.z0=zoom[sel];G.r0=rot[sel]}
   else if(G.pts.size===1&&fabHit(e)){G.mode='pan';G.moved=false;G.sx=e.clientX;G.sy=e.clientY;G.ox0=ox[sel];G.oy0=oy[sel]}});
  st.addEventListener('pointermove',e=>{if(!G.pts.has(e.pointerId))return;G.pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(G.mode==='pinch'&&G.pts.size>=2){const [a,b]=[...G.pts.values()],d=Math.hypot(a.x-b.x,a.y-b.y),an=Math.atan2(b.y-a.y,b.x-a.x);zoom[sel]=clampN(G.z0*d/G.d0,.4,2.5);rot[sel]=wrapDeg(G.r0+(an-G.a0)*180/Math.PI);markV();rq();swBlock=Date.now()+400}
+  if(G.mode==='pinch'&&G.pts.size>=2){const [a,b]=[...G.pts.values()],d=Math.hypot(a.x-b.x,a.y-b.y),an=Math.atan2(b.y-a.y,b.x-a.x);zoom[sel]=clampN(G.z0*d/G.d0,.1,4);rot[sel]=wrapDeg(G.r0+(an-G.a0)*180/Math.PI);markV();rq();swBlock=Date.now()+400}
   else if(G.mode==='pan'){const dx=e.clientX-G.sx,dy=e.clientY-G.sy;if(!G.moved&&Math.hypot(dx,dy)<6)return;G.moved=true;const k=ptImg(e).k;ox[sel]=G.ox0+dx*k;oy[sel]=G.oy0+dy*k;rq();swBlock=Date.now()+400}});
  const up=e=>{if(!G.pts.has(e.pointerId))return;G.pts.delete(e.pointerId);if(!G.pts.size)G.mode='';else if(G.mode==='pinch'&&G.pts.size<2)G.mode='dead'};
  ['pointerup','pointercancel','pointerleave'].forEach(n=>st.addEventListener(n,up));
@@ -999,7 +1048,7 @@ function renderHome(){
   <button class="catfab qdb press" id="catfab" aria-label="मॉडल और कैटेगरी"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
   <div class="hint2" id="hint2">कपड़े का हिस्सा दबाइए · बैकग्राउंड दबाकर बदलिए</div></div>
  ${navHTML()}<div class="tray" id="tray"><div class="th"><span id="hintTxt"></span><button class="tx" id="tx" aria-label="बंद करें">⌄</button></div><div class="chips2" id="chips"></div>
- <div class="zm"><span>🔍 कपड़े का ज़ूम</span><button id="zo" class="zb" aria-label="ज़ूम आउट">−</button><input type="range" id="zr" min="40" max="250" value="100" aria-label="कपड़े का ज़ूम"><button id="zi" class="zb" aria-label="ज़ूम इन">+</button><b id="zv">100%</b></div>
+ <div class="zm"><span>🔍 कपड़े का ज़ूम</span><button id="zo" class="zb" aria-label="ज़ूम आउट">−</button><input type="range" id="zr" min="10" max="400" value="100" aria-label="कपड़े का ज़ूम"><button id="zi" class="zb" aria-label="ज़ूम इन">+</button><b id="zv">100%</b></div>
  <div class="zm"><span>🔄 घुमाएँ</span><button id="ro" class="zb" aria-label="बाएँ घुमाएँ">⟲</button><input type="range" id="rr" min="-180" max="180" value="0" aria-label="कपड़ा घुमाएँ"><button id="ri" class="zb" aria-label="दाएँ घुमाएँ">⟳</button><b id="rv">0°</b></div>
  <div class="zm mvr"><span>✥ खिसकाएँ</span><div class="dp" id="dp"><button class="zb" data-m="l" aria-label="बाएँ">←</button><button class="zb" data-m="u" aria-label="ऊपर">↑</button><button class="zb" data-m="d" aria-label="नीचे">↓</button><button class="zb" data-m="r" aria-label="दाएँ">→</button></div><small>या मॉडल पर खींचें · दो उँगली से ज़ूम / घुमाएँ</small></div>
  <div class="fabs" id="fabs"><label class="sw up press" title="गैलरी से कपड़ा">＋<input type="file" accept="image/*" hidden id="gal"></label></div></div>
@@ -1010,18 +1059,18 @@ function renderHome(){
  ready=ready||boot(curModel.photo,curModel.mask);
  ready.then(()=>{if(!$('#c'))return;fitWrap();cv=$('#c');cv.width=W;cv.height=H;$('#f').width=W;$('#f').height=H;cx=cv.getContext('2d',{willReadFrequently:true});render();
   TILES.forEach(t=>swBtn(t));mark();paintSwi();
-  let zq=0;const setZ=v=>{zoom[sel]=Math.min(2.5,Math.max(.4,v/100));markV();rq()};
-  $('#zr').oninput=e=>setZ(+e.target.value);$('#zo').onclick=()=>fab[sel]&&setZ(zoom[sel]*100-15);$('#zi').onclick=()=>fab[sel]&&setZ(zoom[sel]*100+15);
+  let zq=0;const setZ=v=>{zoom[sel]=Math.min(4,Math.max(.1,v/100));markV();rq()};
+  $('#zr').oninput=e=>setZ(+e.target.value);$('#zo').onclick=()=>fab[sel]&&setZ(zoom[sel]*100/1.25);$('#zi').onclick=()=>fab[sel]&&setZ(zoom[sel]*100*1.25);
   cv.addEventListener('wheel',e=>{if(!fab[sel])return;e.preventDefault();setZ(zoom[sel]*100-Math.sign(e.deltaY)*8)},{passive:false});
   fabTools();cv.onclick=e=>{const r=cv.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/r.width*W),y=Math.floor((e.clientY-r.top)/r.height*H),k=(y*W+x)*4;let b=-1,v=40;for(let i=0;i<3;i++)if(mk[k+i]>v){v=mk[k+i];b=i}b<0?openBg():select(b,true)};
   $('#chips').onclick=e=>{const c=e.target.closest('.chip');if(c&&c.dataset.i!==undefined)select(+c.dataset.i,true);if(c&&c.dataset.a==='hd'){hid[2]=!hid[2];render();mark();return}if(c&&c.dataset.a==='sw'){closeTray();openSystems(3);return}if(c&&c.dataset.a==='hs'){hidS=!hidS;render();mark();return}if(c&&c.dataset.a==='rs'){hid=[false,false,false];hidS=false;fab=[null,null,null];fabNames=['','',''];zoom=[1,1,1];rot=[0,0,0];ox=[0,0,0];oy=[0,0,0];fabName='';render();mark()}};
   $('#chips').onpointerdown=e=>{if(e.target.dataset.a==='og')render(true)};
   ['pointerup','pointercancel','pointerleave'].forEach(n=>$('#chips').addEventListener(n,()=>render()));
   $('#fabs').onclick=e=>{const s=e.target.closest('.sw');if(s&&s._t)applyFab(s._t)};
-  $('#gal').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=async()=>{const im=await imgLoad(rd.result),c=document.createElement('canvas');c.width=c.height=SW;const x=c.getContext('2d'),sc=Math.max(SW/im.width,SW/im.height);x.drawImage(im,(SW-im.width*sc)/2,(SW-im.height*sc)/2,im.width*sc,im.height*sc);const t=mkTile(c,'गैलरी');TILES.splice(0,0,t);swBtn(t,true);applyFab(t)};rd.readAsDataURL(f)};
+  $('#gal').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const rd=new FileReader();rd.onload=async()=>{const c=await cropEditor(rd.result,'कपड़ा सेट करें');if(!c)return;const t=mkTile(c,'गैलरी');TILES.splice(0,0,t);swBtn(t,true);applyFab(t)};rd.readAsDataURL(f)};
   setTimeout(()=>{const h=$('#hint2');if(h)h.style.opacity=0},6000)});
 }
-function fit(){if(innerWidth<=640){ph.style.transform='none';return}const s=Math.min(innerWidth/440,innerHeight/892,1.25);ph.style.transform=`scale(${s})`}
+function fit(){if(document.documentElement.classList.contains('real')){ph.style.transform='none';return}const s=Math.min(innerWidth/440,innerHeight/892,1.25);ph.style.transform=`scale(${s})`}
 addEventListener('resize',fit);fit();
 
 /* ---------- FORM ---------- */
@@ -1539,7 +1588,25 @@ function addLook(silent){
  const l=newLookObj();looks.push(l);
  if(silent===true){curLook=looks.length-1;loadLook(l);return}
  const b=$('#plus3'),m=$('.home .mid2');
- fly(l.thumb,()=>{homeNavRefresh();const g=$('.home .mid2 .bdg');g&&g.classList.add('bump');toast(`${l.name} जुड़ गया ✓ · अब ✂ नाप दबाइए`)},b,m)}
+ fly(l.thumb,()=>{homeNavRefresh();const g=$('.home .mid2 .bdg');g&&g.classList.add('bump');curLook=looks.length-1;openLooksHome()},b,m)}
+
+function openLooksHome(){
+ const price=l=>BASE+Object.values(l.f.designs||{}).reduce((a,d)=>a+(+d[1]||0),0)+ADD.reduce((t,a)=>t+a[3]*((l.f.addons||{})[a[0]]||0),0);
+ const o=sheet(`<h3>प्रोडक्ट चुनें</h3><p class="sub">दबाकर उसकी नाप खोलें · ⠿ पकड़कर ऊपर-नीचे खिसकाएँ</p><div class="sc" id="lkl"></div><button class="btn gold press" id="nl">＋ और प्रोडक्ट जोड़ें</button>`,{h:'72%'});
+ const L=$('#lkl',o);
+ const paint=()=>{L.innerHTML=looks.map((l,i)=>`<div class="lrow ${i===curLook?'on':''}" data-i="${i}"><span class="lgrip" aria-label="खिसकाएँ">⠿</span><img src="${l.thumb}" alt=""><div><b>${esc(l.name)}</b><small>${l.f.steps.filter(x=>l.f.vals[x.id]).length}/${l.f.steps.length} नाप · ₹${price(l)}</small></div>${looks.length>1?`<i class="lx" data-rm="${i}">✕</i>`:''}</div>`).join('')||'<p class="note3">कोई प्रोडक्ट नहीं</p>'};paint();
+ let dr=null;
+ L.addEventListener('pointerdown',e=>{const g=e.target.closest('.lgrip');if(!g)return;dr=g.closest('.lrow');dr.classList.add('drg');g.setPointerCapture(e.pointerId);e.preventDefault()});
+ L.addEventListener('pointermove',e=>{if(!dr)return;const rows=[...L.children];for(const r of rows){if(r===dr)continue;const b=r.getBoundingClientRect();if(e.clientY>b.top&&e.clientY<b.bottom){const after=rows.indexOf(r)>rows.indexOf(dr);L.insertBefore(dr,after?r.nextSibling:r);break}}});
+ const end=()=>{if(!dr)return;const ord=[...L.children].map(r=>+r.dataset.i),cur=looks[curLook],arr=ord.map(i=>looks[i]);looks.length=0;looks.push(...arr);curLook=Math.max(0,looks.indexOf(cur));dr=null;paint()};
+ L.addEventListener('pointerup',end);L.addEventListener('pointercancel',end);
+ L.onclick=e=>{
+  const rm=e.target.dataset.rm;
+  if(rm!==undefined){const i=+rm;looks.splice(i,1);if(i<curLook)curLook--;else if(curLook>looks.length-1)curLook=Math.max(0,looks.length-1);paint();homeNavRefresh();toast('प्रोडक्ट हटा दिया');return}
+  if(e.target.closest('.lgrip'))return;
+  const c=e.target.closest('.lrow');if(!c)return;curLook=+c.dataset.i;o.close();setTimeout(goForm,200)};
+ $('#nl',o).onclick=()=>{o.close();toast('कपड़ा/मॉडल चुनकर ＋ जोड़ें दबाइए')};
+}
 function paintLooks(){paintTray()}
 /* category -> models picker */
 let SYSL=[],S3TOP=[],S3BOT_A=[],S3BOT_B=[],S3DUP=[],sysLoaded=null;
@@ -1795,7 +1862,7 @@ function openTplEditor(id){
    const k=TPLS.findIndex(t=>t.id===T.id);if(k>=0)TPLS[k]=T;else TPLS.push(T);saveTpls();toast('नाप टेम्पलेट सेव ✓');openVendor('tpl')}}}
 function openFabAdd(){
  let src='';const o=sheet(`<h3>नया कपड़ा जोड़ें</h3><p class="sub">कपड़े की क्लोज़-अप फोटो चुनें</p><div class="sc"><label class="upl press" id="fl" style="min-height:120px">🧵<b>फोटो चुनें</b><input type="file" accept="image/*" hidden id="ff"></label><div class="field"><p>कपड़े का नाम</p><input id="fn" placeholder="जैसे: बनारसी सिल्क"></div></div><button class="btn gold press" id="ok">ADD</button>`,{h:'66%'});
- $('#ff',o).onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{const im=await imgLoad(r.result),c=document.createElement('canvas');c.width=c.height=SW;const x=c.getContext('2d'),sc=Math.max(SW/im.width,SW/im.height);x.drawImage(im,(SW-im.width*sc)/2,(SW-im.height*sc)/2,im.width*sc,im.height*sc);src=c.toDataURL('image/jpeg',.85);$('#fl',o).innerHTML=`<img src="${src}" style="width:110px;height:110px;border-radius:14px;object-fit:cover"><input type="file" accept="image/*" hidden id="ff">`};r.readAsDataURL(f)};
+ $('#ff',o).onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{const c=await cropEditor(r.result,'कपड़ा सेट करें');if(!c)return;src=c.toDataURL('image/jpeg',.85);$('#fl',o).innerHTML=`<img src="${src}" style="width:110px;height:110px;border-radius:14px;object-fit:cover"><input type="file" accept="image/*" hidden id="ff">`};r.readAsDataURL(f)};
  $('#ok',o).onclick=async()=>{const n=$('#fn',o).value.trim();if(!src)return toast('पहले फोटो चुनें');if(!n)return toast('नाम लिखें');
   const id='f'+Date.now(),fs=LS('db_fabs')||[];fs.push({id,name:n,src});try{localStorage.setItem('db_fabs',JSON.stringify(fs))}catch(x){return toast('स्टोरेज भर गया')}
   const im=await imgLoad(src),c=document.createElement('canvas');c.width=c.height=SW;c.getContext('2d').drawImage(im,0,0,SW,SW);const t=mkTile(c,n);t.custom=id;TILES.push(t);$('#fabs')&&swBtn(t);o.close();toast('कपड़ा जुड़ गया ✓');openVendor('fabs')}}
@@ -2121,6 +2188,14 @@ const L=(hi,en)=>lang==='en'?en:hi;
 applyTheme();
 
 showSplash();applyLang();
+
+/* ---------- ऐप के अंदर अपडेट ---------- */
+const APP_VER='2026-10-28.1';
+function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
+ o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
+function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
+ fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(!j||!j.v||j.v===APP_VER||window._updShown===j.v)return;window._updShown=j.v;showUpd(j)}).catch(()=>{})}
+setTimeout(checkUpdate,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});setInterval(checkUpdate,300000);
 </script>
 </body>
 </html>

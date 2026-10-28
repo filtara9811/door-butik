@@ -3,6 +3,9 @@ name: Build APK
 on:
   push:
     branches: [main]
+    paths:
+      - '.github/workflows/build-apk.yml'
+      - 'icon.png'
   workflow_dispatch:
 
 permissions:
@@ -58,6 +61,27 @@ jobs:
           npx cap add android
           npx cap sync android
           sed -i 's#</manifest>#    <uses-permission android:name="android.permission.CAMERA" />\n</manifest>#' android/app/src/main/AndroidManifest.xml
+
+      - name: App icon
+        run: |
+          pip install pillow
+          rm -rf android/app/src/main/res/mipmap-anydpi-v26
+          python3 - <<'PY'
+          import os
+          from PIL import Image, ImageDraw
+          src = Image.open('icon.png').convert('RGBA')
+          for k, v in {'mdpi': 48, 'hdpi': 72, 'xhdpi': 96, 'xxhdpi': 144, 'xxxhdpi': 192}.items():
+              d = 'android/app/src/main/res/mipmap-' + k
+              os.makedirs(d, exist_ok=True)
+              im = src.resize((v, v), Image.LANCZOS)
+              im.save(d + '/ic_launcher.png')
+              im.save(d + '/ic_launcher_foreground.png')
+              m = Image.new('L', (v * 4, v * 4), 0)
+              ImageDraw.Draw(m).ellipse([0, 0, v * 4 - 1, v * 4 - 1], fill=255)
+              r = im.copy()
+              r.putalpha(m.resize((v, v), Image.LANCZOS))
+              r.save(d + '/ic_launcher_round.png')
+          PY
 
       - name: Build debug APK
         working-directory: android
