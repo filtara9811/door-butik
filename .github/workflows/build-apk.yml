@@ -29,7 +29,7 @@ jobs:
       - name: Prepare project files
         run: |
           mkdir -p www
-          cp index.html www/
+          cp docs/index.html www/
           cat > package.json <<'JSON'
           {
             "name": "door-butik",
