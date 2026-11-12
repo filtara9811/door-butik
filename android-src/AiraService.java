@@ -10,6 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.graphics.PixelFormat;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Handler;
@@ -37,10 +40,8 @@ import java.util.TreeMap;
 import org.json.JSONObject;
 import org.vosk.Model;
 import org.vosk.Recognizer;
-import org.vosk.android.RecognitionListener;
-import org.vosk.android.SpeechService;
 
-public class AiraService extends Service implements RecognitionListener {
+public class AiraService extends Service {
     static AiraService I;
     static volatile boolean running = false;
     static volatile boolean appFg = true;
@@ -49,7 +50,13 @@ public class AiraService extends Service implements RecognitionListener {
 
     final Handler ui = new Handler(Looper.getMainLooper());
     Model model;
-    SpeechService speech;
+    Model modelEn;
+    Recognizer recHi;
+    Recognizer recEn;
+    Thread loop;
+    volatile boolean loopRun = false;
+    volatile boolean paused = false;
+    volatile boolean needReset = false;
     TextToSpeech tts;
     boolean ttsOk = false;
     boolean stopping = false;
@@ -190,7 +197,7 @@ public class AiraService extends Service implements RecognitionListener {
                     return;
                 }
                 curDone = done;
-                if (speech != null) speech.setPause(true);
+                paused = true;
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "u" + System.nanoTime());
                 safety = new Runnable() {
                     @Override
@@ -211,7 +218,10 @@ public class AiraService extends Service implements RecognitionListener {
         ui.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (speech != null && !stopping) speech.setPause(false);
+                if (!stopping) {
+                    needReset = true;
+                    paused = false;
+                }
             }
         }, 350);
         d.run();
@@ -235,25 +245,47 @@ public class AiraService extends Service implements RecognitionListener {
         }
     }
 
+    private File ensureModel(String name, boolean required) throws IOException {
+        File dir = new File(getFilesDir(), name);
+        File ok = new File(dir, ".ok");
+        if (!ok.exists()) {
+            String[] l = getAssets().list(name);
+            if (l == null || l.length == 0) {
+                if (required) throw new IOException(name + " missing");
+                return null;
+            }
+            copyAssets(name, dir);
+            ok.createNewFile();
+        }
+        return dir;
+    }
+
     private void loadModel() {
         try {
-            File dir = new File(getFilesDir(), "model-hi");
-            File ok = new File(dir, ".ok");
-            if (!ok.exists()) {
-                String[] l = getAssets().list("model-hi");
-                if (l == null || l.length == 0) throw new IOException("model missing");
-                copyAssets("model-hi", dir);
-                ok.createNewFile();
+            File hi = ensureModel("model-hi", true);
+            File en = null;
+            try {
+                en = ensureModel("model-en", false);
+            } catch (Exception e) {
+                en = null;
             }
-            model = new Model(dir.getAbsolutePath());
-            Recognizer rec = new Recognizer(model, 16000.0f);
-            speech = new SpeechService(rec, 16000.0f);
+            model = new Model(hi.getAbsolutePath());
+            recHi = new Recognizer(model, 16000.0f);
+            if (en != null) {
+                try {
+                    modelEn = new Model(en.getAbsolutePath());
+                    recEn = new Recognizer(modelEn, 16000.0f);
+                } catch (Exception e) {
+                    recEn = null;
+                }
+            }
             ui.post(new Runnable() {
                 @Override
                 public void run() {
                     if (stopping) return;
-                    speech.startListening(AiraService.this);
+                    startLoop();
                     JSObject o = new JSObject();
+                    o.put("en", recEn != null);
                     AiraPlugin.emit("airaReady", o);
                     if (!appFg) showBubble();
                 }
@@ -265,6 +297,68 @@ public class AiraService extends Service implements RecognitionListener {
         }
     }
 
+    private void startLoop() {
+        loopRun = true;
+        loop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int bs = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+                AudioRecord ar = null;
+                try {
+                    ar = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, Math.max(bs * 2, 32000));
+                    if (ar.getState() != AudioRecord.STATE_INITIALIZED) {
+                        JSObject o = new JSObject();
+                        o.put("msg", "माइक चालू नहीं हो पाया");
+                        AiraPlugin.emit("airaError", o);
+                        return;
+                    }
+                    ar.startRecording();
+                    short[] b = new short[2000];
+                    String lastP = "";
+                    while (loopRun) {
+                        int n = ar.read(b, 0, b.length);
+                        if (n <= 0) continue;
+                        if (paused) continue;
+                        if (needReset) {
+                            needReset = false;
+                            recHi.reset();
+                            if (recEn != null) recEn.reset();
+                            lastP = "";
+                        }
+                        boolean a = recHi.acceptWaveForm(b, n);
+                        boolean e = recEn != null && recEn.acceptWaveForm(b, n);
+                        if (a || e) {
+                            String h = field(a ? recHi.getResult() : recHi.getFinalResult(), "text");
+                            String en = "";
+                            if (recEn != null) en = field(e ? recEn.getResult() : recEn.getFinalResult(), "text");
+                            lastP = "";
+                            deliver(h, en);
+                        } else {
+                            String p = field(recHi.getPartialResult(), "partial");
+                            if (p.isEmpty() && recEn != null) p = field(recEn.getPartialResult(), "partial");
+                            if (!p.isEmpty() && !p.equals(lastP)) {
+                                lastP = p;
+                                partial(p);
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    JSObject o = new JSObject();
+                    o.put("msg", String.valueOf(ex.getMessage()));
+                    AiraPlugin.emit("airaError", o);
+                } finally {
+                    try {
+                        if (ar != null) {
+                            ar.stop();
+                            ar.release();
+                        }
+                    } catch (Exception ex) {}
+                }
+            }
+        });
+        loop.start();
+    }
+
     private String field(String json, String key) {
         try {
             return new JSONObject(json).optString(key, "").trim();
@@ -273,44 +367,28 @@ public class AiraService extends Service implements RecognitionListener {
         }
     }
 
-    @Override
-    public void onResult(String h) {
-        String t = field(h, "text");
-        if (t.isEmpty() || stopping) return;
+    private void deliver(final String hi, final String en) {
+        if ((hi.isEmpty() && en.isEmpty()) || stopping) return;
         int s;
         synchronized (pending) {
             s = ++seq;
-            pending.put(s, t);
+            pending.put(s, hi + "\u0001" + en);
         }
         JSObject o = new JSObject();
         o.put("seq", s);
-        o.put("text", t);
+        o.put("text", hi);
+        o.put("alt", en);
         AiraPlugin.emit("airaText", o);
-        if (!appFg) setLines(null, "सुना: " + t);
+        if (!appFg) setLines(null, "सुना: " + (hi.isEmpty() ? en : hi));
     }
 
-    @Override
-    public void onFinalResult(String h) {}
-
-    @Override
-    public void onPartialResult(String h) {
-        String t = field(h, "partial");
-        if (t.isEmpty() || stopping) return;
+    private void partial(String t) {
+        if (stopping) return;
         if (!appFg) setLines(null, "… " + t);
         JSObject o = new JSObject();
         o.put("text", t);
         AiraPlugin.emit("airaPartial", o);
     }
-
-    @Override
-    public void onError(Exception e) {
-        JSObject o = new JSObject();
-        o.put("msg", String.valueOf(e.getMessage()));
-        AiraPlugin.emit("airaError", o);
-    }
-
-    @Override
-    public void onTimeout() {}
 
     /* ---------- floating bubble ---------- */
     private int dp(int v) {
@@ -456,15 +534,22 @@ public class AiraService extends Service implements RecognitionListener {
         running = false;
         ui.removeCallbacksAndMessages(null);
         hideBubble();
-        try {
-            if (speech != null) {
-                speech.stop();
-                speech.shutdown();
+        loopRun = false;
+        final Thread lp = loop;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (lp != null) lp.join(2000);
+                } catch (Exception e) {}
+                try {
+                    if (recHi != null) recHi.close();
+                    if (recEn != null) recEn.close();
+                    if (model != null) model.close();
+                    if (modelEn != null) modelEn.close();
+                } catch (Exception e) {}
             }
-        } catch (Exception e) {}
-        try {
-            if (model != null) model.close();
-        } catch (Exception e) {}
+        }).start();
         try {
             if (tts != null) {
                 tts.stop();

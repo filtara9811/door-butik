@@ -165,7 +165,9 @@ public class AiraPlugin extends Plugin {
             for (Map.Entry<Integer, String> e : AiraService.pending.entrySet()) {
                 JSObject it = new JSObject();
                 it.put("seq", e.getKey());
-                it.put("text", e.getValue());
+                String[] pr = e.getValue().split("\u0001", -1);
+                it.put("text", pr[0]);
+                it.put("alt", pr.length > 1 ? pr[1] : "");
                 arr.put(it);
             }
         }
