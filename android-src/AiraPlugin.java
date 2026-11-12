@@ -18,7 +18,12 @@ import java.util.Map;
 
 @CapacitorPlugin(
     name = "Aira",
-    permissions = { @Permission(strings = { Manifest.permission.RECORD_AUDIO }, alias = "mic") }
+    permissions = {
+        @Permission(strings = { Manifest.permission.RECORD_AUDIO }, alias = "mic"),
+        @Permission(strings = { Manifest.permission.CAMERA }, alias = "camera"),
+        @Permission(strings = { "android.permission.POST_NOTIFICATIONS" }, alias = "notif"),
+        @Permission(strings = { "android.permission.READ_MEDIA_IMAGES" }, alias = "media")
+    }
 )
 public class AiraPlugin extends Plugin {
     static AiraPlugin inst;
@@ -44,6 +49,11 @@ public class AiraPlugin extends Plugin {
     private JSObject statusObj() {
         JSObject o = new JSObject();
         o.put("mic", getPermissionState("mic") == PermissionState.GRANTED);
+        o.put("camera", getPermissionState("camera") == PermissionState.GRANTED);
+        o.put("notif", android.os.Build.VERSION.SDK_INT < 33 || getPermissionState("notif") == PermissionState.GRANTED);
+        o.put("media", android.os.Build.VERSION.SDK_INT < 33 || getPermissionState("media") == PermissionState.GRANTED);
+        android.os.PowerManager pm = (android.os.PowerManager) getContext().getSystemService(android.content.Context.POWER_SERVICE);
+        o.put("battery", pm != null && pm.isIgnoringBatteryOptimizations(getContext().getPackageName()));
         o.put("overlay", Settings.canDrawOverlays(getContext()));
         o.put("model", hasModel());
         o.put("running", AiraService.running);
@@ -67,6 +77,22 @@ public class AiraPlugin extends Plugin {
     @PermissionCallback
     private void micCb(PluginCall call) {
         call.resolve(statusObj());
+    }
+
+    @PluginMethod
+    public void requestAll(PluginCall call) {
+        requestPermissionForAliases(new String[] { "mic", "camera", "notif", "media" }, call, "micCb");
+    }
+
+    @PluginMethod
+    public void requestBattery(PluginCall call) {
+        try {
+            Intent i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + getContext().getPackageName()));
+            getActivity().startActivity(i);
+        } catch (Exception e) {
+            // ignore
+        }
+        call.resolve();
     }
 
     @PluginMethod

@@ -77,7 +77,9 @@ jobs:
               'android.permission.FOREGROUND_SERVICE',
               'android.permission.FOREGROUND_SERVICE_MICROPHONE',
               'android.permission.POST_NOTIFICATIONS',
-              'android.permission.SYSTEM_ALERT_WINDOW'])
+              'android.permission.SYSTEM_ALERT_WINDOW',
+              'android.permission.READ_MEDIA_IMAGES',
+              'android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS'])
           s = s.replace('</manifest>', perms + '</manifest>', 1)
           svc = '    <service android:name=".AiraService" android:exported="false" android:foregroundServiceType="microphone" />\n'
           s = s.replace('</application>', svc + '</application>', 1)
