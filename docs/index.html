@@ -1220,33 +1220,38 @@ function paintTray(){
  const bn=$('#bn');bn.innerHTML=`Buy now${cart.length?`<i>${cart.length}</i>`:''}`;
 }
 
-/* ---------- आयरा : आवाज़ से नाप ---------- */
-const A={on:0,busy:0,idle:0,r:null,gen:0,said:0};
+/* ---------- आयरा : आवाज़ से नाप (ऑफ़लाइन + फ़्लोटिंग बबल) ---------- */
+const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0};
+const NP=()=>{const C=window.Capacitor;return(C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Aira)||null};
 const _nz=t=>String(t||'').normalize('NFD').replace(/[़]/g,'').replace(/ँ/g,'ं').normalize('NFC').toLowerCase();
+const _sk=t=>_nz(t).normalize('NFD').replace(/[ऀ-ःऺ-़ा-ॏ]/g,'').replace(/ई/g,'इ').replace(/ऊ/g,'उ').replace(/ऐ/g,'ए').replace(/औ/g,'ओ').replace(/(.)\1+/g,'$1');
 const _rx=src=>new RegExp(_nz(src));
-const NUMW={};
+const NUMW={},NUMSK={};
 ('शून्य जीरो|एक|दो|तीन|चार|पांच पाँच|छह छः छे छै छ|सात|आठ|नौ|दस|ग्यारह|बारह|तेरह|चौदह|पंद्रह पन्द्रह पंदरह|सोलह|सत्रह|अठारह|उन्नीस|बीस|इक्कीस|बाईस|तेईस|चौबीस|पच्चीस|छब्बीस|सत्ताईस|अट्ठाईस अठाईस अट्ठाइस|उनतीस|तीस|इकतीस|बत्तीस|तैंतीस|चौंतीस|पैंतीस|छत्तीस|सैंतीस|अड़तीस|उनतालीस|चालीस|इकतालीस|बयालीस|तैंतालीस|चौवालीस चवालीस चौआलीस|पैंतालीस|छियालीस|सैंतालीस|अड़तालीस|उनचास|पचास|इक्यावन|बावन|तिरपन|चौवन|पचपन|छप्पन|सत्तावन|अट्ठावन अठावन|उनसठ|साठ|इकसठ|बासठ|तिरसठ|चौंसठ|पैंसठ|छियासठ|सड़सठ|अड़सठ|उनहत्तर|सत्तर').split('|').forEach((g,i)=>g.split(' ').forEach(w=>NUMW[_nz(w)]=i));
 ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'].forEach((w,i)=>NUMW[w]=i);
 Object.assign(NUMW,{thirty:30,forty:40,fifty:50,sixty:60,seventy:70});
+Object.keys(NUMW).forEach(k=>{const q=_sk(k);if(q.length>=2&&!(q in NUMSK))NUMSK[q]=NUMW[k]});
+const numv=t=>{if(t in NUMW)return NUMW[t];if(t.length>=2){const q=_sk(t);if(q in NUMSK)return NUMSK[q]}};
 const DEVD='०१२३४५६७८९';
 const toDig=t=>String(t).replace(/[०-९]/g,c=>DEVD.indexOf(c));
-const IDAL={upper:['अपर चेस्ट','ऊपर चेस्ट','अपर','अप्पर','ऊपर','upper'],chest:['चेस्ट','बॉडी','छाती','बस्ट','chest','bust'],waist:['कमर','वेस्ट','waist'],hip:['हिप','कूल्हे','hip'],length:['लंबाई','लेंथ','length'],baju:['बाजू','बाँह','बाह','स्लीव','आस्तीन'],gala:['गला','गले','नेक'],ghera:['घेरा','घेर'],shoulder:['तीरा','तीर','कंधा','कंधे','शोल्डर'],bround:['बाजू घेरा','मोहरी'],blen:['लंबाई','लेंथ'],plen:['लंबाई','लेंथ'],llen:['लंबाई','लेंथ'],galaf:['गला आगे','आगे का गला'],galab:['गला पीछे','पीछे का गला']};
-function airaAliases(){ // alias -> step index (id aliases first, then name words)
+const IDAL={upper:['अपर चेस्ट','ऊपर चेस्ट','अपर','अप्पर','ऊपर','upper'],chest:['चेस्ट','बॉडी','छाती','बस्ट','chest','bust'],waist:['कमर','वेस्ट','waist'],hip:['हिप','कूल्हे','hip'],length:['लंबाई','लेंथ','length'],baju:['बाजू','बाँह','बाह','स्लीव','आस्तीन'],gala:['गला','गले','नेक','neck'],ghera:['घेरा','घेर'],shoulder:['तीरा','तीर','कंधा','कंधे','शोल्डर'],bround:['बाजू घेरा','मोहरी'],blen:['लंबाई','लेंथ'],plen:['लंबाई','लेंथ'],llen:['लंबाई','लेंथ'],galaf:['गला आगे','आगे का गला','फ्रंट नेक'],galab:['गला पीछे','पीछे का गला','बैक नेक','बैक','back']};
+function airaAliases(){
  const m={},put=(a,i)=>{const k=_nz(a);if(!(k in m))m[k]=i};
  steps.forEach((st,i)=>(IDAL[st.id]||[]).forEach(a=>put(a,i)));
  steps.forEach((st,i)=>{put(st.h,i);String(st.h).split(/[\s\/+]+/).filter(w=>w.length>=3).forEach(w=>put(w,i))});
  return m}
 function airaParse(text){
- const tk=toDig(_nz(text)).replace(/[,।.?!]/g,m=>m==='.'?'.':' ').split(/\s+/).map(x=>x.replace(/\.$/,'')).filter(Boolean);
+ const tk=toDig(_nz(text)).replace(/[,।?!]/g,' ').split(/\s+/).map(x=>x.replace(/\.$/,'')).filter(Boolean);
  const al=airaAliases(),out=[];let f=null,i=0,mod=0;
  const numAt=j=>{const t=tk[j];if(t==null)return null;if(/^\d+(\.\d+)?$/.test(t))return{v:+t,n:1};
-  if(t in NUMW){let v=NUMW[t];if(v>=20&&v%10===0&&v<70&&tk[j+1]&&/^\d$/.test(tk[j+1]))return{v:v+ +tk[j+1],n:2};
-   if(v>=20&&v%10===0&&v<70&&tk[j+1] in NUMW&&NUMW[tk[j+1]]<10)return{v:v+NUMW[tk[j+1]],n:2};return{v,n:1}}return null};
+  const v=numv(t);if(v===undefined)return null;
+  if(v>=20&&v%10===0&&v<70&&tk[j+1]){if(/^\d$/.test(tk[j+1]))return{v:v+ +tk[j+1],n:2};const u=numv(tk[j+1]);if(u!==undefined&&u<10&&u>0)return{v:v+u,n:2}}
+  return{v,n:1}};
  while(i<tk.length){
   const bi=tk[i]+' '+(tk[i+1]||'');
   if(bi in al){f=al[bi];i+=2;continue}
   if(tk[i] in al){f=al[tk[i]];i++;continue}
-  if(/^(साढे|साडे|साढ़े|साढ़े|साड़े|sade)$/.test(tk[i])||tk[i]==='साढ'+'े'){mod=.5;i++;continue}
+  if(/^(साढे|साडे|साढ़े|साढ़े|साड़े|sade)$/.test(tk[i])){mod=.5;i++;continue}
   if(tk[i]==='सवा'){mod=.25;i++;continue}if(tk[i]==='पौने'||tk[i]==='पोने'){mod=-.25;i++;continue}
   if(tk[i]==='डेढ'||tk[i]==='डेढ़'){out.push({f,v:1.5});f=null;i++;continue}
   if(tk[i]==='ढाई'){out.push({f,v:2.5});f=null;i++;continue}
@@ -1257,7 +1262,6 @@ function airaParse(text){
    else if(mod)v+=mod;
    mod=0;out.push({f,v});f=null;continue}
   i++}
- // field named without number -> {f,v:null}
  if(!out.length&&f!==null)out.push({f,v:null});
  return out}
 function airaFirstEmpty(){return steps.findIndex(s=>!vals[s.id])}
@@ -1265,44 +1269,50 @@ function airaPaint(i){
  document.querySelectorAll('.row.airon').forEach(r=>r.classList.remove('airon'));
  const st=steps[i];if(!st)return;const r=document.querySelector(`.row[data-id="${CSS.escape(st.id)}"]`);
  if(r){r.classList.add('airon');try{r.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}}}
-function airaUI(t,h){const b=$('#airas');if(!b)return;b.classList.toggle('on',!!A.on);const bt=$('#airab');bt&&bt.classList.toggle('on',!!A.on);
+function airaUI(t,h){
+ if(A.native){const N=NP();try{N&&N.bubble({t:t==null?undefined:String(t).replace(/^[🎙🔊⏳]\s*/u,''),h:h==null?undefined:h})}catch(_){}}
+ const b=$('#airas');if(!b)return;b.classList.toggle('on',!!A.on);const bt=$('#airab');bt&&bt.classList.toggle('on',!!A.on);
  if(t!=null)$('#airat').textContent=t;if(h!=null)$('#airah').textContent=h}
 function airaVoice(){const vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang));return vs.find(v=>/female|महिला|hima|swara/i.test(v.name))||vs[0]||null}
 function airaSay(text,cb){
- const done=(()=>{let d=0;return()=>{if(d)return;d=1;clearTimeout(tm);cb&&cb()}})();
- const tm=setTimeout(done,Math.max(3500,text.length*210));
+ let d=0;const done=()=>{if(d)return;d=1;clearTimeout(tm);cb&&cb()};
+ const tm=setTimeout(done,Math.max(5000,text.length*300));
  airaUI('🔊 आयरा: '+text);
+ const N=A.native&&NP();
+ if(N){try{N.say({text}).then(done).catch(done);return}catch(_){done();return}}
  try{
   if(window.speechSynthesis){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.rate=.95;u.pitch=1.15;const v=airaVoice();if(v)u.voice=v;u.onend=done;u.onerror=done;speechSynthesis.speak(u);return}
  }catch(_){}
  setTimeout(done,1200)}
 function airaListen(){
- if(!A.on||A.busy)return;const g=A.gen;
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition,PL=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.SpeechRecognition;
+ if(!A.on||A.busy||A.native)return;const g=A.gen;
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
  const step=steps[airaFirstEmpty()];airaUI('🎙 आयरा सुन रही है…',step?'बोलिए: '+step.h+' ___':'बदलाव या "ऐड टू कार्ट" बोलिए');
  const got=txt=>{if(g!==A.gen||!A.on)return;txt?(A.idle=0,airaHandle(txt)):idleNext()};
  const idleNext=()=>{if(g!==A.gen||!A.on)return;if(++A.idle>=7){airaSay('मैं रुक रही हूँ। जब चाहें माइक दबाइए।',()=>airaStop());return}setTimeout(airaListen,200)};
- if(PL&&!SR){
-  PL.start({language:'hi-IN',maxResults:3,prompt:'नाप बोलिए',partialResults:false,popup:false}).then(r=>got(r&&r.matches&&r.matches[0])).catch(e=>{if(!A.on)return;idleNext()});return}
  if(!SR){airaStop();toast('इस ब्राउज़र में आवाज़ नहीं चलेगी — Chrome में खोलें');return}
  const r=new SR();A.r=r;r.lang='hi-IN';r.interimResults=true;r.maxAlternatives=3;r.continuous=false;let fin='';
  r.onresult=e=>{let t='';for(let i=e.resultIndex;i<e.results.length;i++){t+=e.results[i][0].transcript;if(e.results[i].isFinal)fin=t}$('#airah')&&($('#airah').textContent='सुना: '+t)};
- r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){airaStop();toast('माइक की इजाज़त दीजिए (ऐड्रेस बार के पास 🔒)')}else if(e.error==='network'){airaStop();toast('इंटरनेट चालू करें — आवाज़ पहचान के लिए ज़रूरी')}};
+ r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'){airaStop();toast('माइक की इजाज़त दीजिए (ऐड्रेस बार के पास 🔒)')}else if(e.error==='network'){airaStop();toast('इंटरनेट चालू करें — ब्राउज़र की आवाज़ पहचान के लिए ज़रूरी')}};
  r.onend=()=>{A.r=null;if(g!==A.gen||!A.on)return;fin?got(fin):idleNext()};
  try{r.start()}catch(_){setTimeout(airaListen,500)}}
+function airaAfter(){A.busy=0;if(A.q.length)return airaHandle(A.q.shift());airaListen()}
+function airaIn(t){A.busy?A.q.push(t):airaHandle(t)}
 function airaHandle(text){
  A.busy=1;const T=_nz(text).replace(/(आयरा|आइरा|ऐरा|एरा|आईरा|aira|ira)[,\s]*/g,' ').trim();
  airaUI(null,'सुना: '+text);
- const done=(msg,next)=>airaSay(msg,()=>{A.busy=0;next?next():airaListen()});
- if(_rx('रुको|रुक जाओ|रुक जा|बंद कर|बंद करो|बस करो|बस रहने|स्टॉप|stop|रहने दो').test(T))return done('ठीक है, मैं रुक रही हूँ।',()=>{A.busy=0;airaStop()});
- if(_rx('ऐड टू कार्ट|एड टू कार्ट|add to cart|कार्ट में|कार्ट').test(T)){
-  if(airaFirstEmpty()>=0)return done('अभी '+steps.filter(s=>!vals[s.id]).length+' नाप बाकी हैं। '+steps[airaFirstEmpty()].h+' बताइए।');
-  return done('ठीक है, कार्ट में डाल रही हूँ।',()=>{A.busy=0;airaStop();addToCart()})}
- if(_rx('दोहराओ|फिर से बोलो|क्या बोला|repeat').test(T)){const i=airaFirstEmpty();return done(i>=0?steps[i].h+' बताइए।':'सारे नाप भर चुके हैं।')}
- if(_rx('गलत|सुधार|पीछे|वापस|हटाओ|मिटाओ|undo').test(T)&&!/\d/.test(toDig(T))){
-  const last=[...steps].reverse().find(s=>vals[s.id]);if(!last)return done('अभी कोई नाप नहीं भरी है।');
-  delete vals[last.id];refresh();const i=steps.indexOf(last);airaPaint(i);return done(last.h+' हटा दी। दोबारा बताइए।')}
+ const done=(msg,next)=>airaSay(msg,()=>{if(next){A.busy=0;next()}else airaAfter()});
+ if(_rx('रुको|रुक जाओ|रुक जा|बंद कर|बंद करो|बस करो|बस रहने|स्टॉप|stop|रहने दो').test(T))return done('ठीक है, मैं रुक रही हूँ।',()=>airaStop());
  const items=airaParse(T);
+ const hasVal=items.some(x=>x.v!=null);
+ if(!hasVal){
+  if(_rx('ऐड टू कार्ट|एड टू कार्ट|add to cart|कार्ट').test(T)){
+   if(airaFirstEmpty()>=0)return done('अभी '+steps.filter(s=>!vals[s.id]).length+' नाप बाकी हैं। '+steps[airaFirstEmpty()].h+' बताइए।');
+   return done('ठीक है, कार्ट में डाल रही हूँ।',()=>{airaStop();addToCart()})}
+  if(_rx('दोहराओ|फिर से बोलो|क्या बोला|repeat').test(T)){const i=airaFirstEmpty();return done(i>=0?steps[i].h+' बताइए।':'सारे नाप भर चुके हैं।')}
+  if(_rx('गलत|सुधार|पीछे|वापस|हटाओ|मिटाओ|undo').test(T)){
+   const last=[...steps].reverse().find(s=>vals[s.id]);if(!last)return done('अभी कोई नाप नहीं भरी है।');
+   delete vals[last.id];refresh();airaPaint(steps.indexOf(last));return done(last.h+' हटा दी। दोबारा बताइए।')}}
  if(!items.length)return done('समझ नहीं आया। जैसे बोलिए: '+(steps[airaFirstEmpty()]||steps[0]).h+' छत्तीस।');
  const said=[];let want=null,bad=0,lock=0;
  for(const it of items){
@@ -1322,24 +1332,53 @@ function airaHandle(text){
  else if(nx>=0&&!bad)msg+='अगली: '+steps[nx].h+', बताइए।';
  else if(nx<0&&said.length)msg+='सारे नाप भर गए! एक बार देख लीजिए, फिर ऐड टू कार्ट बोलिए।';
  done(msg||'ठीक है।')}
-function airaStart(){
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition,PL=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.SpeechRecognition;
- if(!SR&&!PL)return toast('इस ब्राउज़र में आवाज़ नहीं चलेगी — Chrome में खोलें');
- const go=()=>{A.on=1;A.busy=1;A.idle=0;A.gen++;airaUI('🎙 आयरा तैयार…','');
-  try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>A.wl=w).catch(()=>{})}catch(_){}
-  const i=airaFirstEmpty();airaPaint(i<0?0:i);
-  const hi=A.said?'':'नमस्ते, मैं आयरा हूँ। फोन दूर रखकर बोलिए, मैं नाप लिखती जाऊँगी। ';A.said=1;
-  airaSay(hi+(i>=0?'पहली नाप: '+steps[i].h+' बताइए।':'सारे नाप भरे हैं। बदलाव बोलिए, या ऐड टू कार्ट कहिए।'),()=>{A.busy=0;airaListen()})};
- if(PL&&!SR)PL.requestPermissions().then(r=>{if(r&&(r.speechRecognition==='granted'))go();else toast('माइक की इजाज़त दीजिए')}).catch(go);else go()}
+function airaGreet(){
+ if(!A.on)return;const i=airaFirstEmpty();airaPaint(i<0?0:i);
+ const hi=A.said?'':'नमस्ते, मैं आयरा हूँ। फोन दूर रखकर बोलिए, मैं नाप लिखती जाऊँगी। ';A.said=1;
+ airaSay(hi+(i>=0?'पहली नाप: '+steps[i].h+' बताइए।':'सारे नाप भरे हैं। बदलाव बोलिए, या ऐड टू कार्ट कहिए।'),airaAfter)}
+function airaNativeIn(d){if(!d||d.seq<=A.seq)return;A.seq=d.seq;try{NP().ack({seq:d.seq})}catch(_){}airaIn(d.text)}
+function airaOn(N,ev,cb){try{if(typeof N.addListener==='function')N.addListener(ev,cb);else if(window.Capacitor&&Capacitor.addListener)Capacitor.addListener('Aira',ev,cb)}catch(_){}}
+async function airaStartNative(N){
+ const st=await N.status();
+ if(!st.model){toast('इस APK में ऑफ़लाइन आवाज़ मॉडल नहीं है — नया APK लें');return true}
+ if(!st.mic){const r=await N.requestMic();if(!r.mic){toast('माइक की इजाज़त दीजिए');return true}}
+ let asked=0;try{asked=+localStorage.getItem('aira_ov')||0}catch(_){}
+ if(!st.overlay&&asked<2){
+  try{localStorage.setItem('aira_ov',asked+1)}catch(_){}
+  const o=sheet(`<h3 style="letter-spacing:0">🫧 फ़्लोटिंग बबल</h3><p class="sub">WhatsApp या दूसरे ऐप में रहकर भी बोलने के लिए "दूसरे ऐप के ऊपर दिखाएँ" की इजाज़त चाहिए।</p><div class="sc"><button class="btn gold press" id="ov1">इजाज़त दें</button><button class="btn ghost press" id="ov2" style="margin-top:10px">अभी नहीं — बिना बबल के चलाएँ</button></div>`,{h:'46%'});
+  $('#ov1',o).onclick=()=>{o.close();N.requestOverlay();toast('इजाज़त देकर ऐप में वापस आएँ और 🎙 दबाएँ')};
+  $('#ov2',o).onclick=()=>{o.close();airaBeginNative(N)};
+  return true}
+ return airaBeginNative(N)}
+async function airaBeginNative(N){
+ if(!A.lis){A.lis=1;
+  airaOn(N,'airaText',airaNativeIn);
+  airaOn(N,'airaPartial',d=>{const h=$('#airah');if(h&&A.on&&!A.busy&&d)h.textContent='… '+d.text});
+  airaOn(N,'airaReady',()=>airaGreet());
+  airaOn(N,'airaStopped',()=>{if(A.on)airaStop(true)});
+  airaOn(N,'airaTts',()=>toast('फोन में हिंदी आवाज़ (Google TTS) डाउनलोड करें, तब आयरा बोलेगी'));
+  airaOn(N,'airaError',d=>toast('आयरा: '+((d&&d.msg)||'त्रुटि')))}
+ A.on=1;A.busy=1;A.gen++;A.native=1;A.q=[];
+ airaUI('⏳ आयरा तैयार हो रही है…','पहली बार कुछ सेकंड लगते हैं');
+ await N.start({});return true}
+async function airaStart(){
+ const N=NP();
+ if(N){try{await airaStartNative(N);return}catch(e){const m=String((e&&e.message)||e);if(!/unimplemented|not implemented|not available/i.test(m)){A.on=0;A.native=0;toast('आयरा शुरू नहीं हुई: '+m);return}}}
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR)return toast('इस ब्राउज़र में आवाज़ नहीं चलेगी — Chrome में खोलें');
+ A.on=1;A.busy=1;A.idle=0;A.gen++;A.native=0;airaUI('🎙 आयरा तैयार…','');
+ try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>A.wl=w).catch(()=>{})}catch(_){}
+ airaGreet()}
 function airaStop(quiet){
- if(!A.on&&!A.r)return;A.on=0;A.busy=0;A.gen++;
+ if(!A.on&&!A.r)return;A.on=0;A.busy=0;A.gen++;A.q=[];
  try{A.r&&A.r.abort()}catch(_){}A.r=null;
- try{const PL=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.SpeechRecognition;PL&&PL.stop()}catch(_){}
+ if(A.native){try{NP().stop()}catch(_){}A.native=0}
  try{speechSynthesis.cancel()}catch(_){}
  try{A.wl&&A.wl.release()}catch(_){}
  document.querySelectorAll('.row.airon').forEach(r=>r.classList.remove('airon'));
  airaUI('',''); if(!quiet)toast('आयरा बंद')}
 function airaToggle(){A.on?airaStop():airaStart()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&A.on&&A.native){const N=NP();N&&N.flush().then(r=>(r.items||[]).filter(x=>x.seq>A.seq).forEach(airaNativeIn)).catch(()=>{})}});
 function buyNow(){
  if(steps.length&&filled()===steps.length)return addToCart(true);
  if(filled()>0)return toast(`${steps.length-filled()} नाप बाकी — पूरी करें`);
@@ -2454,11 +2493,12 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-12.1';
+const APP_VER='2026-11-12.2';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
  fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(!j||!j.v||j.v===APP_VER||window._updShown===j.v)return;window._updShown=j.v;showUpd(j)}).catch(()=>{})}
+if('serviceWorker' in navigator&&/github\.io$/.test(location.hostname))navigator.serviceWorker.register('sw.js').catch(()=>{});
 setTimeout(checkUpdate,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});setInterval(checkUpdate,300000);
 </script>
 </body>

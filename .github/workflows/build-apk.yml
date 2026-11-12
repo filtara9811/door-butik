@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/build-apk.yml'
       - 'icon.png'
+      - 'android-src/**'
   workflow_dispatch:
 
 permissions:
@@ -56,13 +57,42 @@ jobs:
       - name: Install Capacitor
         run: |
           npm install
-          npm install @capacitor-community/speech-recognition@^6 || echo "speech plugin skipped"
 
       - name: Add Android project
         run: |
           npx cap add android
           npx cap sync android
           sed -i 's#</manifest>#    <uses-permission android:name="android.permission.CAMERA" />\n</manifest>#' android/app/src/main/AndroidManifest.xml
+
+      - name: Aira native (offline Hindi voice + floating bubble)
+        run: |
+          PKG=android/app/src/main/java/com/doorbutik/app
+          mkdir -p $PKG
+          cp android-src/*.java $PKG/
+          python3 - <<'PY'
+          p = 'android/app/src/main/AndroidManifest.xml'
+          s = open(p, encoding='utf-8').read()
+          perms = ''.join('    <uses-permission android:name="%s" />\n' % x for x in [
+              'android.permission.RECORD_AUDIO',
+              'android.permission.FOREGROUND_SERVICE',
+              'android.permission.FOREGROUND_SERVICE_MICROPHONE',
+              'android.permission.POST_NOTIFICATIONS',
+              'android.permission.SYSTEM_ALERT_WINDOW'])
+          s = s.replace('</manifest>', perms + '</manifest>', 1)
+          svc = '    <service android:name=".AiraService" android:exported="false" android:foregroundServiceType="microphone" />\n'
+          s = s.replace('</application>', svc + '</application>', 1)
+          open(p, 'w', encoding='utf-8').write(s)
+          g = 'android/app/build.gradle'
+          t = open(g, encoding='utf-8').read()
+          t = t.replace('dependencies {', 'dependencies {\n    implementation "net.java.dev.jna:jna:5.13.0@aar"\n    implementation "com.alphacephei:vosk-android:0.3.47"', 1)
+          open(g, 'w', encoding='utf-8').write(t)
+          PY
+          mkdir -p android/app/src/main/assets
+          curl -fL --retry 4 --retry-delay 5 -o model.zip https://alphacephei.com/vosk/models/vosk-model-small-hi-0.22.zip
+          unzip -q model.zip
+          mv vosk-model-small-hi-0.22 android/app/src/main/assets/model-hi
+          ls android/app/src/main/assets/model-hi
+          du -sh android/app/src/main/assets/model-hi
 
       - name: App icon
         run: |
