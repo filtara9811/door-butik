@@ -54,7 +54,9 @@ jobs:
           JSON
 
       - name: Install Capacitor
-        run: npm install
+        run: |
+          npm install
+          npm install @capacitor-community/speech-recognition@^6 || echo "speech plugin skipped"
 
       - name: Add Android project
         run: |
