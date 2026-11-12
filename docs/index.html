@@ -815,6 +815,14 @@ html[data-theme=dark] .paybar{background:linear-gradient(rgba(27,18,32,0),#1b122
 .airas b{display:block;font:800 13px 'Noto Sans Devanagari',sans-serif;color:#FFB800}
 .airas small{display:block;font:600 11px 'Noto Sans Devanagari',sans-serif;opacity:.9;min-height:14px;margin-top:2px}
 .row.airon{box-shadow:0 0 0 3px #FFB800,0 8px 22px rgba(90,17,87,.28)!important}
+
+/* v32 राजा/रानी */
+.airag{position:absolute;right:50px;top:8px;width:32px;height:32px;border-radius:50%;background:#fff;color:var(--p);font-size:15px;box-shadow:0 2px 8px rgba(0,0,0,.18);display:grid;place-items:center;z-index:3}
+#airaFab{position:absolute;right:14px;bottom:118px;z-index:30;display:none;align-items:center;gap:8px;pointer-events:none}
+#airaFab button{pointer-events:auto;width:50px;height:50px;border-radius:50%;background:var(--p);color:#fff;font-size:22px;border:3px solid #FFB800;box-shadow:0 6px 18px rgba(90,17,87,.4)}
+#airaFab button.on{animation:airap 1.2s infinite}
+#airaTip{max-width:190px;background:rgba(90,17,87,.92);color:#fff;font:700 11px 'Noto Sans Devanagari',sans-serif;padding:6px 10px;border-radius:14px}
+#airaTip:empty{display:none}
 </style>
 </head>
 <body>
@@ -1179,10 +1187,10 @@ function mountDrop(html){
  d.innerHTML=html;hm.classList.add('mopen');
  [60,450].forEach(t=>setTimeout(()=>{typeof fitWrap==='function'&&fitWrap()},t));
 }
-function closeDrop(){const d=$('#mdrop');if(!d)return;airaStop(true);if($('#seli'))saveCur();d.remove();const hm=$('.home');hm&&hm.classList.remove('mopen');[60,450].forEach(t=>setTimeout(()=>{typeof fitWrap==='function'&&fitWrap()},t));try{homeNavRefresh()}catch(e){}}
+function closeDrop(){const d=$('#mdrop');if(!d)return;if(!A.keep)airaStop(true);if($('#seli'))saveCur();d.remove();const hm=$('.home');hm&&hm.classList.remove('mopen');[60,450].forEach(t=>setTimeout(()=>{typeof fitWrap==='function'&&fitWrap()},t));try{homeNavRefresh()}catch(e){}}
 function showForm(){
  mountDrop(`<div class="page" id="seli">
- <div class="mh"><button class="mdx press" id="mdx" aria-label="नाप बंद करें">⌄</button><button class="airab press" id="airab" aria-label="आयरा से बोलकर नाप भरें">🎙</button><h2>नाप</h2><span id="pct" hidden></span><div class="mline"><i id="fill"></i></div></div>
+ <div class="mh"><button class="mdx press" id="mdx" aria-label="नाप बंद करें">⌄</button><button class="airab press" id="airab" aria-label="बोलकर नाप भरें">🎙</button><button class="airag press" id="airag" aria-label="आवाज़ सेटिंग">⚙</button><h2>नाप</h2><span id="pct" hidden></span><div class="mline"><i id="fill"></i></div></div>
  <div class="airas" id="airas"><b id="airat">🎙 आयरा सुन रही है…</b><small id="airah"></small></div>
  <div class="chips3"><button class="cchip press" id="pf" aria-label="ग्राहक"></button><button class="pchip press" id="pc" aria-label="प्रोडक्ट बदलें"></button></div>
  <div class="list"><div class="inner"><div class="tl"><div class="vline" id="vl"></div></div><div id="rows"></div>
@@ -1194,7 +1202,7 @@ function showForm(){
   </div>
   <div class="nb3"><div class="t" id="nt">Notes...</div><button class="press" id="clip" aria-label="अटैच">📎</button><button class="press mic" id="mic" aria-label="वॉइस नोट">🎤</button></div></div></div>
  <div class="bbar"><div class="bth" id="bth"></div><div class="bin" id="bin"></div><button class="bn press" id="bn">Buy now</button><button class="bcart press" id="fc">＋ Add to cart</button></div></div>`);
- buildRows();$('#mdx').onclick=closeDrop;$('#airab').onclick=airaToggle;
+ buildRows();$('#mdx').onclick=closeDrop;$('#airab').onclick=airaToggle;$('#airag').onclick=airaSettings;
  $('#rows').onclick=e=>{const a=e.target.closest('[data-act]');if(!a)return;const rw=a.closest('.row'),id=rw.dataset.id;cur=id;if(a.dataset.act==='tape')return rw.classList.contains('lock')?toast('पहले ऊपर की नाप भरें 🔒'):openTape();a.dataset.act==='guide'?openGuide():openVar()};
  $('#rows').oninput=e=>{const id=e.target.closest('.row').dataset.id;vals[id]=e.target.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');refresh()};
  $('#pf').onclick=openCust;$('#pc').onclick=openLooks;$('#addc').onclick=openAdd;$('#clip').onclick=openAttach;$('#nt').onclick=openMedia;$('#mic').onclick=openMedia;
@@ -1220,7 +1228,7 @@ function paintTray(){
 }
 
 /* ---------- आयरा : आवाज़ से नाप (ऑफ़लाइन + फ़्लोटिंग बबल) ---------- */
-const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0,target:null,lastIdx:null,exp:null};
+const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0,target:null,lastIdx:null,exp:null,keep:0,skipCust:0,lastAct:0,pendAdv:null,unk:0};
 const NP=()=>{const C=window.Capacitor;return(C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Aira)||null};
 const _nz=t=>String(t||'').normalize('NFD').replace(/[़]/g,'').replace(/ँ/g,'ं').normalize('NFC').toLowerCase();
 const _sk=t=>_nz(t).normalize('NFD').replace(/[ऀ-ःऺ-़ा-ॏ]/g,'').replace(/ई/g,'इ').replace(/ऊ/g,'उ').replace(/ऐ/g,'ए').replace(/औ/g,'ओ').replace(/(.)\1+/g,'$1');
@@ -1272,23 +1280,24 @@ function airaPaint(i){
  if(r){r.classList.add('airon');try{r.scrollIntoView({block:'center',behavior:'smooth'})}catch(_){}}}
 function airaUI(t,h){
  if(A.native){const N=NP();try{N&&N.bubble({t:t==null?undefined:String(t).replace(/^[🎙🔊⏳]\s*/u,''),h:h==null?undefined:h})}catch(_){}}
+ const tp=$('#airaTip');if(tp&&A.on&&(t!=null||h!=null)){const x=(h&&h.length?h:t)||'';tp.textContent=String(x).slice(0,60)}
  const b=$('#airas');if(!b)return;b.classList.toggle('on',!!A.on);const bt=$('#airab');bt&&bt.classList.toggle('on',!!A.on);
  if(t!=null)$('#airat').textContent=t;if(h!=null)$('#airah').textContent=h}
-function airaVoice(){const vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang));return vs.find(v=>/female|महिला|hima|swara/i.test(v.name))||vs[0]||null}
+function airaVoice(){const vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang)),nm=LS('aira_v_'+persK());return vs.find(v=>v.name===nm)||vs.find(v=>PR().hint.test(v.name))||vs[0]||null}
 function airaSay(text,cb){
  let d=0;const done=()=>{if(d)return;d=1;clearTimeout(tm);cb&&cb()};
  const tm=setTimeout(done,Math.max(5000,text.length*300));
- airaUI('🔊 आयरा: '+text);
+ airaUI('🔊 '+PR().n+': '+text);
  const N=A.native&&NP();
- if(N){try{N.say({text}).then(done).catch(done);return}catch(_){done();return}}
+ if(N){try{N.say({text,pitch:PR().pitch,rate:PR().rate,voice:LS('aira_v_'+persK())||''}).then(done).catch(done);return}catch(_){done();return}}
  try{
-  if(window.speechSynthesis){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.rate=.95;u.pitch=1.15;const v=airaVoice();if(v)u.voice=v;u.onend=done;u.onerror=done;speechSynthesis.speak(u);return}
+  if(window.speechSynthesis){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.rate=PR().rate;u.pitch=PR().pitch;const v=airaVoice();if(v)u.voice=v;u.onend=done;u.onerror=done;speechSynthesis.speak(u);return}
  }catch(_){}
  setTimeout(done,1200)}
 function airaListen(){
  if(!A.on||A.busy||A.native)return;const g=A.gen;
  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- const step=steps[airaFirstEmpty()];airaUI('🎙 आयरा सुन रही है…',step?'बोलिए: '+step.h+' ___':'बदलाव या "ऐड टू कार्ट" बोलिए');
+ const step=steps[airaFirstEmpty()];airaUI('🎙 '+PR().n+' सुन '+(persK()==='raja'?'रहा':'रही')+' है…',step?'बोलिए: '+step.h+' ___':'बदलाव या "ऐड टू कार्ट" बोलिए');
  const got=txt=>{if(g!==A.gen||!A.on)return;txt?(A.idle=0,airaHandle(txt)):idleNext()};
  const idleNext=()=>{if(g!==A.gen||!A.on)return;if(++A.idle>=7){airaSay('मैं रुक रही हूँ। जब चाहें माइक दबाइए।',()=>airaStop());return}setTimeout(airaListen,200)};
  if(!SR){airaStop();toast('इस ब्राउज़र में आवाज़ नहीं चलेगी — Chrome में खोलें');return}
@@ -1300,13 +1309,94 @@ function airaListen(){
 function airaAfter(){A.busy=0;if(A.q.length)return airaHandle(A.q.shift());airaListen()}
 function airaIn(t){A.busy?A.q.push(t):airaHandle(t)}
 const fmtV=v=>Number.isInteger(v)?String(v):v.toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
+const PERS={raja:{n:'राजा',em:'🧔',pitch:.78,rate:.93,hint:/hic|hid|male|rjs/i},rani:{n:'रानी',em:'👩',pitch:1.15,rate:.97,hint:/hia|hie|female|aaa/i}};
+const persK=()=>LS('aira_p')||'rani',PR=()=>PERS[persK()]||PERS.rani,amode=()=>LS('aira_mode')||'always';
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+const ACK=['हाँ जी','जी','हूँ','ठीक है','अच्छा','जी, लिख लिया','हाँ','जी बिल्कुल'];
 const R_STOP="रुको|रुक जाओ|रुक जा|बंद कर|बंद करो|बस करो|बस रहने|स्टॉप|stop listening|stop|रहने दो|that's all|बस इतना";
-const R_CART='ऐड टू कार्ट|एड टू कार्ट|add to cart|ऐड टु कार्ट';
+const R_CART='ऐड टू कार्ट|एड टू कार्ट|add to cart|ऐड टु कार्ट|कार्ट में डाल|कार्ट में डालो';
 const R_REP='दोहराओ|फिर से बोलो|क्या बोला|repeat|say again|once again';
 const R_CORR='सही कर|ठीक कर|सही कीजिए|ठीक कीजिए|बदल|सुधार|गलत|wrong|correct|change|fix|update|undo|वापस|हटाओ|मिटाओ|क्लियर|clear|redo';
 const R_PREV='ऊपर वाली|ऊपर वाला|ऊपर वाले|ऊपर की|पिछली|पिछला|पिछले|पहले वाली|previous one|the previous one|previous|last one|the last one|the last|above one|the one above';
 const R_ADD='नई नाप|नया नाप|नई फील्ड|नया फील्ड|नई फ़ील्ड|नाप जोड़|जोड़ो|जोड़ दो|जोड़िए|जोड़ें|ऐड|एड |add |new field|new measurement';
 const FILL=new Set('की का के नाम नाप नई नया new field measurement called named भी और कर करो दो दीजिए जोड़ो जोड़ जोड़िए जोड़ें ऐड एड add एक a the फील्ड से ये वाली इसमें इसकी please प्लीज़ प्लीज'.split(' ').map(_nz));
+const CUSTFILL=new Set('नाम है मेरा ग्राहक का कस्टमर customer name is my की के से ये वो हाँ जी राजा रानी आयरा नंबर मोबाइल'.split(' ').map(_nz));
+const ADDSYN={tassel:'लटकन टैसल tassel',zip:'चैन ज़िप जिप zip ज़िपर',lining:'अस्तर लाइनिंग lining',button:'बटन बटन्स button',dori:'डोरी dori',lace:'लेस lace',hook:'हुक hook',gota:'गोटा गोटा-पट्टी',pipe:'पाइपिंग piping',pad:'पैडिंग padding',fall:'फॉल पिको fall'};
+const dk=t=>{const d=new Date(t);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const ordTot=o=>o.pieces.reduce((x,p)=>x+lineTotal(p),0)-(o.disc||0);
+const hasPhone=()=>/^\d{10}$/.test(cust.mobile||'');
+function airaAmount(T){
+ const tk=toDig(_nz(T)).replace(/[,₹]/g,' ').split(/\s+/).filter(Boolean);let tot=0,cur=0,got=0,half=0;
+ for(let i=0;i<tk.length;i++){const w=tk[i];
+  if(/^\d+(\.\d+)?$/.test(w)){cur+=+w;got=1;continue}
+  if(/^(साढे|साडे|साढ़े|साड़े)$/.test(w)){half=.5;continue}
+  if(w==='डेढ'||w==='डेढ़'){cur+=1.5;got=1;continue}if(w==='ढाई'){cur+=2.5;got=1;continue}
+  if(w==='सौ'||w==='सो'||w==='hundred'){cur=((cur||1)+half)*100;half=0;got=1;continue}
+  if(/^(हज़ार|हजार|thousand|हज़ार)$/.test(w)||w==='हज़ार'){tot+=((cur||1)+half)*1000;cur=0;half=0;got=1;continue}
+  if(w==='लाख'){tot+=((cur||1)+half)*100000;cur=0;half=0;got=1;continue}
+  const v=numv(w);if(v!==undefined){if(cur&&cur%100===0&&v<100&&cur>=100)cur+=v;else if(cur&&cur<100&&v<10&&cur%10===0)cur+=v;else cur+=v;got=1}}
+ return got?Math.round(tot+cur):null}
+function airaPhone(T){let d='';for(const w of toDig(_nz(T)).split(/\s+/)){if(/^\d+$/.test(w))d+=w;else{const v=numv(w);if(v!==undefined&&v<10)d+=v}}if(d.length>=12&&d.startsWith('91'))d=d.slice(-10);return d.length===10?d:null}
+function airaSetCust(p){cust={...cust,...p};
+ if(cust.name&&hasPhone()){const ex=custs.find(c=>c.mobile===cust.mobile&&c.name===cust.name);if(!ex){const rec={id:'u'+Date.now(),name:cust.name,mobile:cust.mobile,photo:'',rel:cust.rel||'स्वयं',addr:cust.addr||''};custs.push(rec);LS('db_custs',custs);cust.id=rec.id}else cust.id=ex.id}
+ try{refresh()}catch(_){}try{paintProfile()}catch(_){}}
+function airaFindCust(name){const q=_sk(name);if(q.length<2)return[];return custs.filter(c=>{const n=_sk(c.name||'');return n&&(n.includes(q)||q.includes(n))})}
+function airaCustBal(name){const q=_sk(name);let t=0,a=0,n=0;orders.forEach(o=>{const c=_sk(o.cust&&o.cust.name||'');if(c&&(c.includes(q)||q.includes(c))){t+=ordTot(o);a+=(o.adv||0);n++}});return{t,a,d:t-a,n}}
+function airaCustSheet(list,title){
+ const o=sheet(`<h3 style="letter-spacing:0">${title}</h3><p class="sub">${list.length} ग्राहक — चुनने के लिए दबाइए</p><div class="sc" id="acl" style="overflow:auto;max-height:62vh">${list.map(c=>{const b=airaCustBal(c.name);return `<div data-id="${c.id}" class="press" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:18px;background:#f7f3f8;margin-bottom:8px"><span style="width:40px;height:40px;border-radius:50%;background:#5A1157;color:#FFB800;display:grid;place-items:center;font-weight:900">${esc((c.name||'?')[0].toUpperCase())}</span><div style="flex:1;text-align:left"><b style="color:#5A1157;font-size:14px">${esc(c.name)}${c.rel&&c.rel!=='स्वयं'?' · '+esc(c.rel):''}</b><div style="font-size:11px;color:#888;font-weight:700">📱 ${esc(c.mobile||'—')}${b.n?` · ${b.n} ऑर्डर · बाकी ₹${b.d}`:''}</div></div></div>`}).join('')}</div>`,{h:'72%',pop:false});
+ $('#acl',o).onclick=e=>{const r=e.target.closest('[data-id]');if(!r)return;const c=custs.find(x=>x.id===r.dataset.id);if(!c)return;airaSetCust({...c,due:cust.due});o.close();A.exp=null;airaSay(`${c.name} चुन लिया।`,()=>airaSay(airaQ(),airaAfter))};
+ return o}
+function airaQ(){
+ const nN=!cust.name,nM=!hasPhone(),i=airaFirstEmpty();
+ if(!$('#seli')&&!looks.length)return 'क्या बनाना है? सूट, साड़ी, लहंगा या गाउन?';
+ if(!A.skipCust&&nN){A.exp='cname';return pickR(['ग्राहक का नाम?','नाम बताइए?'])}
+ if(!A.skipCust&&nM){A.exp='cphone';return 'मोबाइल नंबर?'}
+ if(i>=0){airaPaint(i);return steps[i].h+pickR(['?',' बताइए?','?'])}
+ if(nN){A.exp='cname';return 'नाप पूरी हो गई। ग्राहक का नाम?'}
+ if(nM){A.exp='cphone';return 'मोबाइल नंबर?'}
+ return 'सब भर गया। कुछ जोड़ना-बदलना हो तो बोलिए, वरना ऐड टू कार्ट।'}
+function airaEnsureForm(){if(!$('#seli')){try{goForm()}catch(_){}}}
+async function airaSelectCat(cat,T){
+ if(cat==='blouse'){const tp=tplOf('blouse');curTplId='blouse';steps=stepsFromTpl(tp);vals={};designs={};if($('#seli'))buildRows();else airaEnsureForm();return 'ब्लाउज़'}
+ const ms=modelsOf(cat);if(!ms.length)return null;
+ const pz=/प्लाज़ो|पलाज़ो|प्लाजो|पलाजो|plazo|palazzo/.test(T);
+ const m=(pz&&ms.find(x=>/प्लाज़ो|पलाज़ो|palaz|plaz|पलाजो|प्लाजो/i.test(x.name+(x.pn||[]).join(''))))||ms[0];
+ try{await setModel(m)}catch(_){}
+ if($('#seli')){const l=newLookObj();looks[curLook]=l;loadLook(l);buildRows()}else airaEnsureForm();
+ return catName(cat)}
+function airaReport(T){
+ const t0=new Date();t0.setHours(0,0,0,0);let from=0,to=Infinity,lab='कुल';
+ if(/आज|today/.test(T)){from=t0.getTime();lab='आज'}
+ else if(/कल|yesterday/.test(T)){from=t0.getTime()-864e5;to=t0.getTime();lab='कल'}
+ else if(/हफ्त|सप्ताह|week/.test(T)){from=Date.now()-7*864e5;lab='इस हफ्ते'}
+ else if(/महीन|month/.test(T)){const m=new Date();m.setDate(1);m.setHours(0,0,0,0);from=m.getTime();lab='इस महीने'}
+ let L=orders.filter(o=>{const t=(o.times&&o.times[0])||0;return t>=from&&t<to});
+ let who='';
+ const words=T.split(/\s+/).filter(w=>w.length>=2);
+ const cm=custs.find(c=>_sk(c.name).length>=2&&words.some(w=>_sk(w)===_sk(c.name)||(_sk(c.name).length>=3&&_sk(w).includes(_sk(c.name)))));
+ if(cm){who=cm.name;const q=_sk(cm.name);L=L.filter(o=>_sk(o.cust&&o.cust.name||'').includes(q));lab=who+(lab==='कुल'?'':' · '+lab)}
+ const t=L.reduce((x,o)=>x+ordTot(o),0),a=L.reduce((x,o)=>x+(o.adv||0),0);
+ if(!L.length)return `${lab}: कोई ऑर्डर नहीं मिला।`;
+ return `${lab}: ${L.length} ऑर्डर, कुल बिक्री ${t} रुपये, जमा ${a} रुपये, बाकी ${t-a} रुपये।`}
+function airaDate(T){
+ const n=new Date();n.setHours(0,0,0,0);let d=null;
+ const num=(()=>{const it=airaParse(T).find(x=>x.v!=null);return it?it.v:airaAmount(T)})();
+ if(/परसों/.test(T))d=2;else if(/कल/.test(T))d=1;else if(/आज/.test(T))d=0;
+ else if(/अगले हफ्ते|next week/.test(T))d=7;
+ else if(/दिन|days?/.test(T)&&num)d=num;
+ else if(/तारीख|date/.test(T)&&num){const x=new Date(n);x.setDate(num);if(x<n)x.setMonth(x.getMonth()+1);return x}
+ if(d==null)return null;const x=new Date(n.getTime()+d*864e5);return x}
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function airaSetDue(d){const v=iso(d);cust.due=v;cart.forEach(p=>p.cust={...p.cust,due:v});if(bill)bill.due=v;saveAll();if($('#dys')&&cart.length)showCart();return fmt(v)}
+function airaAdvance(amt){
+ if(!cart.length){A.pendAdv=amt;return `ठीक है, ${amt} रुपये एडवांस याद रखा। कार्ट में डालते ही लग जाएगा।`}
+ if(!bill)billInit();bill.custom=amt;showCart();const c=bill.calc||{now:amt,tot:amt};return `${c.now} रुपये जमा, बाकी ${c.tot-c.now} रुपये।`}
+function airaAddon(T){
+ const tk=T.split(/\s+/).filter(Boolean);let hit=null;
+ for(const a of ADD){const ws=(String(a[1])+' '+(ADDSYN[a[0]]||'')).split(/[\s\-–]+/).filter(w=>_sk(w).length>=2);
+  if(ws.some(w=>tk.some(t=>t.length>=2&&_sk(t)===_sk(w)))){hit=a;break}}
+ return hit}
+const TPLKW=[['suit',/सूट|प्लाज़ो|पलाज़ो|प्लाजो|पलाजो|कुर्ता|सलवार|पंजाबी|कुर्ती|suit|plazo|palazzo|kurta|kurti/],['saree',/साड़ी|साडी|saree|sari/],['lehenga',/लहंगा|लहँगा|लहेंगा|lehenga|lehnga/],['gown',/गाउन|गौन|gown/],['blouse',/ब्लाउज|blouse/]];
 function airaMakeField(name,val){
  const id='c'+Date.now();steps.push({id,h:name,i:'📏'});
  if(val!=null&&val>=1&&val<=150)vals[id]=fmtV(val);
@@ -1319,59 +1409,137 @@ function airaAddPath(text,done){
  const rest=nt.slice(k).join(' ');const it=airaParse(rest).find(x=>x.v!=null);
  const nm=name.join(' ').trim();
  if(!nm){A.exp='name';return done('नई नाप का नाम बोलिए।')}
- if(_nz(nm) in al){ // existing field, just set
-  const i=al[_nz(nm)];if(it){vals[steps[i].id]=fmtV(it.v);refresh();A.lastIdx=i;airaPaint(i);const nx=airaFirstEmpty();return done(steps[i].h+' '+fmtV(it.v)+' लिख दी।'+(nx>=0?' अगली: '+steps[nx].h+', बताइए।':' सारे नाप भर गए!'))}
+ if(_nz(nm) in al){
+  const i=al[_nz(nm)];if(it){vals[steps[i].id]=fmtV(it.v);refresh();A.lastIdx=i;airaPaint(i);return done(it.v+'। '+pickR(ACK)+'। '+airaQ())}
   A.target=i;airaPaint(i);return done(steps[i].h+' बताइए।')}
  const idx=airaMakeField(nm,it?it.v:null);
- if(it){const nx=airaFirstEmpty();return done('"'+nm+'" नाम की नई नाप जोड़कर '+fmtV(it.v)+' लिख दी।'+(nx>=0?' अगली: '+steps[nx].h+', बताइए।':''))}
- A.target=idx;return done('"'+nm+'" नाम की नई नाप जोड़ दी। इसकी नाप बताइए।')}
-function airaHandle(text){
- A.busy=1;let T=_nz(text).replace(/(आयरा|आइरा|ऐरा|एरा|आईरा|aira|ira)[,\s]*/g,' ').trim();
+ if(it)return done(`"${nm}" नई नाप जोड़कर ${fmtV(it.v)} लिख दी। `+airaQ());
+ A.target=idx;return done(`"${nm}" नई नाप जोड़ दी। इसकी नाप बताइए।`)}
+async function airaHandle(text){
+ A.busy=1;let T=_nz(text).trim();
+ const wake=/(राजा|रानी|आयरा|आइरा|ऐरा|एरा|आईरा|raja|rani|aira)/.test(T);
+ T=T.replace(/^(\s*(हे|ओए|ऐ|ओ|hey)?\s*(राजा|रानी|आयरा|आइरा|ऐरा|एरा|आईरा|raja|rani|aira)[,\s]*)+/,' ').replace(/\b(राजा|रानी|आयरा)\b/g,' ').trim();
  airaUI(null,'सुना: '+text);
- const done=(msg,next)=>airaSay(msg,()=>{if(next){A.busy=0;next()}else airaAfter()});
- if(_rx(R_STOP).test(T))return done('ठीक है, मैं रुक रही हूँ।',()=>airaStop());
- if(A.exp==='name'){A.exp=null;return airaAddPath('नई '+text,done)}
- const cartM=_rx(R_CART).test(T);
- if(cartM)T=T.replace(_rx(R_CART),' ');
+ const silent=()=>{A.busy=0;airaAfter()};
+ const done=(msg,next)=>airaSay(msg,()=>{A.lastAct=Date.now();if(next){A.busy=0;next()}else airaAfter()});
+ if(amode()==='name'&&!wake&&Date.now()-(A.lastAct||0)>12000)return silent();
+ if(T.length<2)return silent();
+ if(_rx(R_STOP).test(T))return done('ठीक है, मैं रुक रही हूँ।'.replace('रुक रही','रुक '+(persK()==='raja'?'रहा':'रही')),()=>airaStop());
+ const ex=A.exp;
+ /* ---- pending question states ---- */
+ if(ex==='name'){A.exp=null;return airaAddPath('नई '+text,done)}
+ if(ex==='confirmPay'){A.exp=null;if(/हाँ|हां|जी|ठीक|कर दो|कन्फर्म|yes|ok/.test(T)){const b=$('#pay');if(b){return done('ठीक है, कन्फर्म कर रही हूँ।',()=>{A.busy=0;b.click();airaAfter()})}}return done('ठीक है, रुक गई।')}
+ if(ex==='confirmNew'){A.exp=null;if(/हाँ|हां|जी|ठीक|बना|yes|ok/.test(T)){airaSetCust({name:A.tmp,mobile:'',id:undefined});return done(`${A.tmp} बना दिया। `+airaQ())}return done('ठीक है। '+airaQ())}
+ if(ex==='cphone'){const ph0=airaPhone(T);if(ph0){A.exp=null;airaSetCust({mobile:ph0});return done(pickR(ACK)+'। '+airaQ())}
+  if(!airaParse(T).some(x=>x.v!=null&&x.f!==null)){return done('नंबर पूरा नहीं सुन पाई, 10 अंक फिर बोलिए।')}A.exp=null}
+ if(ex==='cname'||ex==='cpick'){
+  const toks=text.replace(/[,।?!.]/g,' ').split(/\s+/).filter(Boolean).filter(w=>!CUSTFILL.has(_nz(w)));
+  const nm=toks.join(' ').trim();
+  const meas=airaParse(T).some(x=>x.v!=null&&x.f!==null);
+  if(!meas&&nm){
+   if(ex==='cpick'&&A.cands){const ord={'पहला':0,'पहले':0,'1':0,'एक':0,'दूसरा':1,'दूसरे':1,'2':1,'दो':1,'तीसरा':2,'3':2,'तीन':2};const k=toks.map(w=>ord[w]).find(x=>x!==undefined);let c=k!==undefined?A.cands[k]:A.cands.find(x=>airaFindCust(nm).includes(x));
+    if(c){A.exp=null;airaSetCust({...c,due:cust.due});return done(`${c.name}, जी। `+airaQ())}}
+   A.exp=null;const m=airaFindCust(nm);
+   if(m.length===1){const c=m[0];airaSetCust({...c,due:cust.due});const b=airaCustBal(c.name);return done(`${pickR(['हाँ जी','जी'])}, ${c.name} मिल गए${b.d>0?', इनका '+b.d+' रुपये बाकी है':''}। `+airaQ())}
+   if(m.length>1){A.exp='cpick';A.cands=m;airaCustSheet(m,'कौन सा ग्राहक?');return done(`इस नाम के ${m.length} ग्राहक हैं: ${m.slice(0,3).map(c=>c.name+' '+String(c.mobile||'').slice(-4)).join(', ')}। कौन सा?`)}
+   airaSetCust({name:nm,mobile:'',id:undefined});return done(`${pickR(['हाँ जी','जी','ठीक है'])}, ${nm}। `+airaQ())}
+  A.exp=null}
+ /* ---- strip cart phrase / previous-phrase ---- */
+ const cartM=_rx(R_CART).test(T);if(cartM)T=T.replace(_rx(R_CART),' ');
  const prev=_rx(R_PREV).test(T);if(prev)T=T.replace(new RegExp(_nz(R_PREV).split('|').sort((a,b)=>b.length-a.length).join('|'),'g'),' ');
+ const amt=airaAmount(T),hasNumTok=amt!=null;
+ /* ---- reports ---- */
+ if(/कितन|रिपोर्ट|हिसाब|report|how much|कुल मिलाकर|total/.test(T)&&/जमा|सेल|बिक्री|बाकी|बकाया|ऑर्डर|आमदनी|कमाई|कलेक्शन|हिसाब|collection|sales|due|balance|pending|रिपोर्ट|report|total/.test(T)){
+  return done(airaReport(T))}
+ /* ---- customer list / lookup ---- */
+ if(/(ग्राहक|कस्टमर|customer)/.test(T)&&/(सूची|लिस्ट|list|सारे|सब|निकाल|दिखा)/.test(T)){
+  if(!custs.length)return done('अभी कोई ग्राहक सेव नहीं है।');
+  airaCustSheet(custs,'ग्राहक सूची');return done(`${custs.length} ग्राहक हैं${custs.length?': '+custs.slice(-3).reverse().map(c=>c.name).join(', ')+' वगैरह':''}।`)}
+ const cl=T.match(/(?:ग्राहक|कस्टमर|customer)\s+(.+)/);
+ if(cl&&!airaParse(T).some(x=>x.v!=null)&&!/नाम\s/.test(T.slice(0,3))){
+  const toks=text.replace(/[,।?!.]/g,' ').split(/\s+/).filter(Boolean).filter(w=>!CUSTFILL.has(_nz(w))&&!/^(ग्राहक|कस्टमर|customer|खोलो|निकालो|दिखाओ|बताओ|चुनो|सेलेक्ट)$/i.test(w));const nm=toks.join(' ');
+  if(nm){const m=airaFindCust(nm);
+   if(m.length===1){const c=m[0];airaSetCust({...c,due:cust.due});const b=airaCustBal(c.name);return done(`${c.name} मिल गए। ${b.n?b.n+' ऑर्डर, कुल '+b.t+', जमा '+b.a+', बाकी '+b.d+' रुपये।':'अभी कोई ऑर्डर नहीं।'}`)}
+   if(m.length>1){A.exp='cpick';A.cands=m;airaCustSheet(m,'मिले हुए ग्राहक');return done(`${m.length} ग्राहक मिले: ${m.slice(0,3).map(c=>c.name).join(', ')}। कौन सा?`)}
+   A.exp='confirmNew';A.tmp=nm;return done(`${nm} नाम का ग्राहक नहीं मिला। नया बना दूँ?`)}}
+ /* ---- customer name / phone set directly ---- */
+ if(/(नंबर|मोबाइल|फोन|mobile|phone)/.test(T)){const p=airaPhone(T);if(p){airaSetCust({mobile:p});return done(pickR(ACK)+'। '+airaQ())}}
+ /* ---- advance / payment ---- */
+ if(hasNumTok&&amt>=10&&/एडवांस|advance|जमा|पेमेंट|payment|दे दिए|दिए|लिए|अग्रिम/.test(T)&&!airaParse(T).some(x=>x.f!==null)){return done(airaAdvance(amt))}
+ if(/फुल पेमेंट|पूरा पेमेंट|full payment|पूरा जमा/.test(T)){if(!bill)billInit();bill.custom=null;bill.kind='full';if(cart.length)showCart();return done('पूरा पेमेंट सेट कर दिया।')}
+ if(/हाफ पेमेंट|आधा पेमेंट|half payment/.test(T)){if(!bill)billInit();bill.custom=null;bill.kind='half';if(cart.length)showCart();return done('हाफ पेमेंट सेट कर दिया।')}
+ if(/पेमेंट कन्फर्म|ऑर्डर कन्फर्म|कन्फर्म कर|confirm order|confirm payment/.test(T)){if(!$('#pay'))return done('पहले बिल खोलना होगा।');A.exp='confirmPay';return done('पक्का कन्फर्म कर दूँ?')}
+ /* ---- delivery date ---- */
+ if(/डिलीवरी|delivery|कब चाहिए|तारीख|due date/.test(T)){const d=airaDate(T);if(d)return done('डिलीवरी '+airaSetDue(d)+' रख दी।')}
+ /* ---- screens ---- */
+ if(/बास्केट|बिलिंग|बिल खोल|बिल दिखा|कार्ट खोल|कार्ट दिखा/.test(T)&&!cartM){A.keep=1;closeDrop();showCart();setTimeout(()=>{A.keep=0},1500);return done('बिल खोल दिया।')}
+ if(/ऑर्डर(?:\s*)(?:देखो|खोलो|दिखाओ|लिस्ट)|my order/.test(T)){A.keep=1;closeDrop();showOrders();setTimeout(()=>{A.keep=0},1500);return done('ऑर्डर खोल दिए।')}
+ /* ---- notes ---- */
+ const nt=T.match(/(?:नोट|note)(?:\s*(?:लिखो|करो|कर लो|है))?[\s:,-]+(.+)/);
+ if(nt){notes=(notes?notes+'; ':'')+text.replace(/^.*?(नोट|note)[^ ]*\s*(लिखो|करो)?[\s:,-]*/i,'').trim();try{refresh()}catch(_){}return done(pickR(ACK)+', नोट लिख लिया।')}
+ /* ---- add-ons ---- */
+ const adn=airaAddon(T);
+ if(adn&&/जोड|जोड़|ऐड|एड |add|लगा|चाहिए|डाल|हटा|निकाल|remove|delete|मत|कैंसल/.test(T)&&!airaParse(T).some(x=>x.f!==null)){
+  const rm=/हटा|निकाल|remove|delete|मत|कैंसल/.test(T);const q=amt!=null&&amt<50?amt:1;
+  const had=addons[adn[0]]||0;addons[adn[0]]=rm?0:(amt!=null&&amt<50?q:had+1);try{paintMat()}catch(_){}try{refresh()}catch(_){}
+  return done(rm?`${adn[1]} हटा दी।`:`${pickR(ACK)}, ${adn[1]} ${addons[adn[0]]} जोड़ दी, ${adn[3]*addons[adn[0]]} रुपये।`)}
+ /* ---- template / category ---- */
+ const items0=airaParse(T);
+ if(!items0.some(x=>x.v!=null)){
+  const kw=TPLKW.find(([k,r])=>r.test(T));
+  if(kw&&!(items0.length&&items0[0].f!==null&&!/चुन|सेलेक्ट|select|बना|चाहिए/.test(T))){
+   const nmc=await airaSelectCat(kw[0],T);
+   if(nmc){A.skipCust=0;return done(`${pickR(['हाँ जी','जी','ठीक है'])}, ${nmc} चुन लिया। `+airaQ())}}}
+ /* ---- measurements ---- */
+ if(!$('#seli')&&(items0.some(x=>x.v!=null))){airaEnsureForm()}
  if(!cartM&&_rx(R_ADD).test(T)&&!_rx('^(ऐड|एड|add)\\s*(कर|करो)?$').test(T.trim()))return airaAddPath(text,done);
- const items=airaParse(T);
+ const items=items0;
  const hasVal=items.some(x=>x.v!=null);
  const corr=_rx(R_CORR).test(T)||prev;
  if(cartM&&!hasVal){
   if(airaFirstEmpty()>=0)return done('अभी '+steps.filter(s=>!vals[s.id]).length+' नाप बाकी हैं। '+steps[airaFirstEmpty()].h+' बताइए।');
-  return done('ठीक है, कार्ट में डाल रही हूँ।',()=>{airaStop();addToCart()})}
- if(!hasVal&&_rx(R_REP).test(T)){const i=airaFirstEmpty();return done(i>=0?steps[i].h+' बताइए।':'सारे नाप भर चुके हैं।')}
+  if(!custOK()){return done('पहले '+(cust.name?'मोबाइल नंबर':'ग्राहक का नाम')+' चाहिए। '+airaQ())}
+  return done(pickR(['ठीक है','हाँ जी'])+', कार्ट में डाल रही हूँ।',()=>{A.keep=1;A.busy=0;try{addToCart(true)}catch(e){}
+   setTimeout(()=>{A.keep=0;const c=bill&&bill.calc;if(A.on)airaSay(c?`कार्ट में आ गया। कुल ${c.tot} रुपये। एडवांस कितना लेना है?`:'कार्ट में आ गया।',()=>{A.busy=0;airaListen()})},2600)})}
+ if(!hasVal&&_rx(R_REP).test(T)){return done(airaQ())}
  if(!hasVal&&corr){
   let i=items.find(x=>x.f!==null);i=i?i.f:(A.lastIdx!=null&&steps[A.lastIdx]?A.lastIdx:steps.map((s,j)=>vals[s.id]?j:-1).filter(j=>j>=0).pop());
   if(i==null||i<0||!steps[i])return done('अभी कोई नाप नहीं भरी है।');
   const old=vals[steps[i].id];delete vals[steps[i].id];refresh();A.target=i;airaPaint(i);
   return done(steps[i].h+(old?' ('+old+') हटा दी। सही नाप बताइए।':' बताइए।'))}
- if(!items.length)return done('समझ नहीं आया। हिंदी या English में बोलिए, जैसे: '+(steps[airaFirstEmpty()]||steps[0]).h+' 36।');
- const said=[];let want=null,bad=0;
+ if(!items.length){
+  A.unk=(A.unk||0)+1;
+  if(A.unk>=2||wake){A.unk=0;return done(pickR(['हूँ? फिर से बोलिए।','समझ नहीं आया, दोबारा बोलिए।','जी? एक बार और।']))}
+  return silent()}
+ A.unk=0;
+ const said=[];let want=null,bad=0,chg=0;
  for(const it of items){
   let i;
   if(it.f!==null)i=it.f;else if(corr&&A.lastIdx!=null&&steps[A.lastIdx])i=A.lastIdx;else if(A.target!=null&&steps[A.target])i=A.target;else{i=airaFirstEmpty();if(i<0)i=steps.length-1}
   if(it.v==null){want=i;A.target=i;continue}
   if(!(it.v>=1&&it.v<=150)){bad=1;continue}
-  const had=!!vals[steps[i].id];
+  const had=!!vals[steps[i].id];if(had)chg=1;
   vals[steps[i].id]=fmtV(it.v);A.lastIdx=i;if(A.target===i)A.target=null;
-  said.push(`${steps[i].h} ${had?'बदलकर ':''}${fmtV(it.v)}`)}
+  said.push({h:steps[i].h,v:fmtV(it.v),had})}
+ if(said.length&&!cust.name)A.skipCust=1;
  refresh();
  const nx=airaFirstEmpty();airaPaint(want!=null&&nx<0?want:nx>=0?(want!=null?want:nx):A.lastIdx!=null?A.lastIdx:0);
  let msg='';
- if(said.length)msg=said.join(', ')+(said.length>1?' लिख दीं। ':' लिख दी। ');
+ if(said.length===1&&!chg)msg=said[0].v+'। '+pickR(ACK)+'। ';
+ else if(said.length)msg=said.map(x=>`${x.h} ${x.had?'बदलकर ':''}${x.v}`).join(', ')+'। '+pickR(ACK)+'। ';
  if(bad)msg+='ये नाप सही नहीं लग रही, दोबारा बताइए। ';
  if(!said.length&&want!=null&&!bad)msg+=steps[want].h+' बताइए।';
- else if(nx>=0&&!bad)msg+='अगली: '+steps[nx].h+', बताइए।';
- else if(nx<0&&said.length)msg+='सारे नाप भर गए! एक बार देख लीजिए, फिर ऐड टू कार्ट बोलिए।';
+ else if(!bad)msg+=airaQ();
  done(msg||'ठीक है।')}
 function airaScore(t){const T=_nz(t);if(!T)return -1;let sc=0;airaParse(T).forEach(x=>{if(x.v!=null)sc+=3;if(x.f!==null)sc+=1});if(_rx(R_STOP+'|'+R_CART+'|'+R_CORR+'|'+R_ADD+'|'+R_REP).test(T))sc+=2;return sc}
 function airaPick(c){let best=null,bs=-1;c.filter(Boolean).forEach(t=>{const s=airaScore(t);if(s>bs){bs=s;best=t}});return best}
-function airaGreet(){
+function airaGreet0(){
  if(!A.on)return;const i=airaFirstEmpty();airaPaint(i<0?0:i);
  const hi=A.said?'':'नमस्ते, मैं आयरा हूँ। फोन दूर रखकर बोलिए, मैं नाप लिखती जाऊँगी। ';A.said=1;
  airaSay(hi+(i>=0?'पहली नाप: '+steps[i].h+' बताइए।':'सारे नाप भरे हैं। बदलाव बोलिए, या ऐड टू कार्ट कहिए।'),airaAfter)}
+function airaGreet(){
+ if(!A.on)return;A.skipCust=0;const hi=A.said?'':`नमस्ते, मैं ${PR().n} हूँ। `;A.said=1;
+ airaSay(hi+airaQ(),airaAfter)}
 function airaNativeIn(d){if(!d||d.seq<=A.seq)return;A.seq=d.seq;try{NP().ack({seq:d.seq})}catch(_){}const t=A.exp?(d.text||d.alt):(airaPick([d.text,d.alt])||d.text||d.alt);if(t)airaIn(t)}
 function airaOn(N,ev,cb){try{if(typeof N.addListener==='function')N.addListener(ev,cb);else if(window.Capacitor&&Capacitor.addListener)Capacitor.addListener('Aira',ev,cb)}catch(_){}}
 function permOK(st){return st.mic&&st.camera&&st.notif&&st.media&&st.overlay&&st.battery}
@@ -1415,14 +1583,14 @@ async function airaBeginNative(N){
   airaOn(N,'airaTts',()=>toast('फोन में हिंदी आवाज़ (Google TTS) डाउनलोड करें, तब आयरा बोलेगी'));
   airaOn(N,'airaError',d=>toast('आयरा: '+((d&&d.msg)||'त्रुटि')))}
  A.on=1;A.busy=1;A.gen++;A.native=1;A.q=[];
- airaUI('⏳ आयरा तैयार हो रही है…','पहली बार कुछ सेकंड लगते हैं');
+ airaUI('⏳ '+PR().n+' तैयार हो रही है…','पहली बार कुछ सेकंड लगते हैं');
  await N.start({});return true}
 async function airaStart(){
  const N=NP();
  if(N){try{await airaStartNative(N);return}catch(e){const m=String((e&&e.message)||e);if(!/unimplemented|not implemented|not available/i.test(m)){A.on=0;A.native=0;toast('आयरा शुरू नहीं हुई: '+m);return}}}
  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
  if(!SR)return toast('इस ब्राउज़र में आवाज़ नहीं चलेगी — Chrome में खोलें');
- A.on=1;A.busy=1;A.idle=0;A.gen++;A.native=0;airaUI('🎙 आयरा तैयार…','');
+ A.on=1;A.busy=1;A.idle=0;A.gen++;A.native=0;airaUI('🎙 '+PR().n+' तैयार…','');
  try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>A.wl=w).catch(()=>{})}catch(_){}
  airaGreet()}
 function airaStop(quiet){
@@ -1434,6 +1602,34 @@ function airaStop(quiet){
  document.querySelectorAll('.row.airon').forEach(r=>r.classList.remove('airon'));
  airaUI('',''); if(!quiet)toast('आयरा बंद')}
 function airaToggle(){A.on?airaStop():airaStart()}
+async function airaSettings(){
+ const N=NP();let vs=[];
+ try{if(N&&N.voices)vs=((await N.voices())||{}).voices||[]}catch(_){}
+ if(!vs.length&&window.speechSynthesis)vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang)).map(v=>({name:v.name,offline:v.localService}));
+ const o=sheet('<div id="aset"></div>',{h:'84%',pop:false});
+ const draw=()=>{const pk=persK(),sel=LS('aira_v_'+pk)||'';
+  $('#aset',o).innerHTML=`<h3 style="letter-spacing:0;text-align:center">🎙 आवाज़ सेटिंग</h3><div class="sc" style="overflow:auto;max-height:66vh">
+  <div class="lbl">किसकी आवाज़?</div><div style="display:flex;gap:10px;margin-bottom:12px">${Object.entries(PERS).map(([k,p])=>`<button class="chip ${k===pk?'sel':''}" data-p="${k}" style="flex:1;padding:14px;font-size:15px">${p.em} ${p.n}${k==='raja'?' (मेल)':' (फीमेल)'}</button>`).join('')}</div>
+  <div class="lbl">सुनने का तरीका</div><div style="display:flex;gap:10px;margin-bottom:12px"><button class="chip ${amode()==='always'?'sel':''}" data-m="always" style="flex:1;padding:12px">हमेशा सुनो</button><button class="chip ${amode()==='name'?'sel':''}" data-m="name" style="flex:1;padding:12px">नाम लेकर बुलाओ</button></div>
+  <p class="sub" style="margin:0 0 12px">"नाम लेकर बुलाओ" में ${PERS.raja.n}/${PERS.rani.n} का नाम लेने पर ही सुनेगी — आसपास की बातें अनदेखी करेगी।</p>
+  <div class="lbl">${PR().n} की आवाज़ चुनें (दबाकर सुनिए)</div>${vs.length?vs.map(v=>`<button class="chip ${v.name===sel?'sel':''}" data-v="${esc(v.name)}" style="display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px">🔊 ${esc(v.name)}${v.offline===false?' · ऑनलाइन':''}</button>`).join(''):'<p class="sub">इस फोन में हिंदी आवाज़ नहीं मिली — सेटिंग → Text-to-speech में हिंदी डाउनलोड करें।</p>'}
+  <button class="chip ${sel===''?'sel':''}" data-v="" style="display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px">🔊 फोन की डिफ़ॉल्ट</button></div>`};
+ draw();
+ const test=()=>{const N2=NP();const t=`नमस्ते, मैं ${PR().n} हूँ। बताइए, क्या बनाना है?`;if(N2&&N2.say)N2.say({text:t,pitch:PR().pitch,rate:PR().rate,voice:LS('aira_v_'+persK())||''}).catch(()=>{});else try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';u.pitch=PR().pitch;u.rate=PR().rate;const v=airaVoice();if(v)u.voice=v;speechSynthesis.speak(u)}catch(_){}};
+ o.addEventListener('click',e=>{const b=e.target.closest('[data-p],[data-m],[data-v]');if(!b)return;
+  if(b.dataset.p){LS('aira_p',b.dataset.p);draw();test()}
+  else if(b.dataset.m){LS('aira_mode',b.dataset.m);draw()}
+  else if(b.dataset.v!==undefined){LS('aira_v_'+persK(),b.dataset.v);draw();test()}})}
+function airaFabSync(){
+ let f=$('#airaFab');
+ const show=!!$('.home')&&!$('#seli');
+ if(!f){f=document.createElement('div');f.id='airaFab';f.innerHTML='<span id="airaTip"></span><button class="press" id="airaFb" aria-label="बोलकर काम करें">🎙</button>';ph.append(f);
+  $('#airaFb').onclick=()=>A.on?airaStop():airaStart();
+  let lp;$('#airaFb').addEventListener('touchstart',()=>{lp=setTimeout(airaSettings,650)},{passive:true});['touchend','touchmove','touchcancel'].forEach(ev=>$('#airaFb').addEventListener(ev,()=>clearTimeout(lp),{passive:true}))}
+ f.style.display=show?'flex':'none';$('#airaFb').classList.toggle('on',!!A.on);
+ const tip=$('#airaTip');if(tip&&!A.on)tip.textContent=''}
+setInterval(airaFabSync,900);
+
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&A.on&&A.native){const N=NP();N&&N.flush().then(r=>(r.items||[]).filter(x=>x.seq>A.seq).forEach(airaNativeIn)).catch(()=>{})}});
 function buyNow(){
  if(steps.length&&filled()===steps.length)return addToCart(true);
@@ -1740,7 +1936,7 @@ function openCust(){
 /* ---------- BASKET + BILLING (one screen) ---------- */
 const COUPONS={DOOR10:['pct',10,200,'10% छूट (अधिकतम ₹200)'],WELCOME50:['flat',50,0,'₹50 की छूट'],FESTIVE15:['pct',15,300,'15% छूट (अधिकतम ₹300)']};
 let bill=null;
-function billInit(){bill={due:(cart[0]&&cart[0].cust.due)||new Date(Date.now()+7*864e5).toISOString().slice(0,10),coupon:'',extra:0,kind:'half',mode:'UPI',open:new Set()}}
+function billInit(){const pa=A.pendAdv;A.pendAdv=null;bill={custom:pa!=null?pa:null,due:(cart[0]&&cart[0].cust.due)||new Date(Date.now()+7*864e5).toISOString().slice(0,10),coupon:'',extra:0,kind:'half',mode:'UPI',open:new Set()}}
 function showCart(){
  if(!cart.length){screen('🛍️ बास्केट',`<div class="empty">🛍️<p>बास्केट खाली है</p><button class="btn gold press" id="mo">कपड़ा चुनें</button></div>`,true);$('#mo').onclick=showHome;return}
  if(!bill)billInit();if(!custOK())cust={...cart[0].cust};
@@ -1764,7 +1960,7 @@ function showCart(){
  const cmsg=()=>{$('#cmg').innerHTML=bill.coupon?`✓ <b>${bill.coupon}</b> लग गया — ${COUPONS[bill.coupon][3]} <u id="cr">हटाएँ</u>`:'उपलब्ध (डेमो): DOOR10 · WELCOME50 · FESTIVE15'};
  const recalc=()=>{let sub=0;cart.forEach((p,i)=>{const t=lineTotal(p);sub+=t;$('#lt'+i).textContent=t;$('#q'+i).textContent=p.qty||1});
   let cp=0;if(bill.coupon){const[ty,v,cap]=COUPONS[bill.coupon];cp=ty==='pct'?Math.min(Math.round(sub*v/100),cap):Math.min(v,sub)}
-  const ex=Math.min(+bill.extra||0,sub-cp),tot=sub-cp-ex,now=bill.kind==='full'?tot:Math.round(tot/2);
+  const ex=Math.min(+bill.extra||0,sub-cp),tot=sub-cp-ex,now=bill.custom!=null?Math.min(bill.custom,tot):(bill.kind==='full'?tot:Math.round(tot/2));
   $('#sub').textContent='₹'+sub;$('#cpa').textContent='− ₹'+cp;$('#exa').textContent='− ₹'+ex;$('#gt').textContent='₹'+tot;$('#hf').textContent='₹'+Math.round(tot/2);$('#fl').textContent='₹'+tot;$('#pn').textContent='₹'+now;$('#bl').textContent='₹'+(tot-now);
   bill.calc={sub,cp,ex,tot,now};$('#pay').textContent=`₹${now} पेमेंट करके ऑर्डर कन्फर्म करें ✓`;saveAll()};
  cmsg();recalc();const on=$('.dy.on');if(on){const s=$('#dys');s.scrollLeft=on.offsetLeft-s.clientWidth/2+on.offsetWidth/2}
@@ -1774,7 +1970,7 @@ function showCart(){
  sb.onclick=e=>{const t=e.target,d=t.dataset;
   const pv=t.closest('[data-pv]');if(pv){openSlip(+pv.dataset.pv);return}
   if(t.closest('.dy')){setDue(t.closest('.dy').dataset.d);return}
-  const pk=t.closest('.pk');if(pk){bill.kind=pk.dataset.k;document.querySelectorAll('.pk').forEach(x=>x.classList.toggle('on',x===pk));return recalc()}
+  const pk=t.closest('.pk');if(pk){bill.custom=null;bill.kind=pk.dataset.k;document.querySelectorAll('.pk').forEach(x=>x.classList.toggle('on',x===pk));return recalc()}
   const md=t.closest('.md');if(md){bill.mode=md.dataset.m;document.querySelectorAll('.md').forEach(x=>x.classList.toggle('on',x===md));return}
   if(t.id==='cr'){bill.coupon='';cmsg();return recalc()}
   if(t.id==='ca'){const k=$('#cc').value.trim().toUpperCase();if(!COUPONS[k])return toast('कूपन कोड सही नहीं है');bill.coupon=k;cmsg();recalc();toast('कूपन लग गया ✓');return}
@@ -2549,7 +2745,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-13.1';
+const APP_VER='2026-11-13.2';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;

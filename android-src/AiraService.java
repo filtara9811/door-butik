@@ -21,6 +21,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
+import android.speech.tts.Voice;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -187,7 +188,7 @@ public class AiraService extends Service {
         });
     }
 
-    void say(final String text, final Runnable done) {
+    void say(final String text, final float pitch, final float rate, final String voiceName, final Runnable done) {
         ui.post(new Runnable() {
             @Override
             public void run() {
@@ -198,6 +199,18 @@ public class AiraService extends Service {
                 }
                 curDone = done;
                 paused = true;
+                try {
+                    tts.setPitch(pitch > 0 ? pitch : 1.1f);
+                    tts.setSpeechRate(rate > 0 ? rate : 0.95f);
+                    if (voiceName != null && !voiceName.isEmpty()) {
+                        for (Voice v : tts.getVoices()) {
+                            if (v.getName().equals(voiceName)) {
+                                tts.setVoice(v);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {}
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "u" + System.nanoTime());
                 safety = new Runnable() {
                     @Override

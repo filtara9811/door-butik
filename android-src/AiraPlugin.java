@@ -127,18 +127,108 @@ public class AiraPlugin extends Plugin {
         call.resolve();
     }
 
+    private android.speech.tts.TextToSpeech tts2;
+    private boolean tts2Ready = false;
+    private Runnable tts2Done;
+
+    private void ensureTts(final Runnable onReady) {
+        if (tts2Ready) {
+            onReady.run();
+            return;
+        }
+        tts2 = new android.speech.tts.TextToSpeech(getContext(), new android.speech.tts.TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == android.speech.tts.TextToSpeech.SUCCESS) {
+                    tts2.setLanguage(new java.util.Locale("hi", "IN"));
+                    tts2.setOnUtteranceProgressListener(new android.speech.tts.UtteranceProgressListener() {
+                        @Override
+                        public void onStart(String id) {}
+
+                        @Override
+                        public void onDone(String id) {
+                            Runnable d = tts2Done;
+                            tts2Done = null;
+                            if (d != null) d.run();
+                        }
+
+                        @Override
+                        public void onError(String id) {
+                            onDone(id);
+                        }
+                    });
+                    tts2Ready = true;
+                    onReady.run();
+                }
+            }
+        });
+    }
+
+    @PluginMethod
+    public void voices(final PluginCall call) {
+        ensureTts(new Runnable() {
+            @Override
+            public void run() {
+                JSArray arr = new JSArray();
+                try {
+                    for (android.speech.tts.Voice v : tts2.getVoices()) {
+                        if ("hi".equals(v.getLocale().getLanguage())) {
+                            JSObject o = new JSObject();
+                            o.put("name", v.getName());
+                            o.put("offline", !v.isNetworkConnectionRequired());
+                            arr.put(o);
+                        }
+                    }
+                } catch (Exception e) {}
+                JSObject r = new JSObject();
+                r.put("voices", arr);
+                call.resolve(r);
+            }
+        });
+    }
+
     @PluginMethod
     public void say(final PluginCall call) {
-        AiraService s = AiraService.I;
-        String text = call.getString("text", "");
-        if (s == null || text.isEmpty()) {
+        final String text = call.getString("text", "");
+        final float pitch = call.getFloat("pitch", 0f);
+        final float rate = call.getFloat("rate", 0f);
+        final String voice = call.getString("voice", "");
+        if (text.isEmpty()) {
             call.resolve();
             return;
         }
-        s.say(text, new Runnable() {
+        AiraService s = AiraService.I;
+        if (s != null) {
+            s.say(text, pitch, rate, voice, new Runnable() {
+                @Override
+                public void run() {
+                    call.resolve();
+                }
+            });
+            return;
+        }
+        ensureTts(new Runnable() {
             @Override
             public void run() {
-                call.resolve();
+                try {
+                    tts2.setPitch(pitch > 0 ? pitch : 1.1f);
+                    tts2.setSpeechRate(rate > 0 ? rate : 0.95f);
+                    if (!voice.isEmpty()) {
+                        for (android.speech.tts.Voice v : tts2.getVoices()) {
+                            if (v.getName().equals(voice)) {
+                                tts2.setVoice(v);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {}
+                tts2Done = new Runnable() {
+                    @Override
+                    public void run() {
+                        call.resolve();
+                    }
+                };
+                tts2.speak(text, android.speech.tts.TextToSpeech.QUEUE_FLUSH, null, "t" + System.nanoTime());
             }
         });
     }
