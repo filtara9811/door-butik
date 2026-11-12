@@ -165,6 +165,22 @@ public class AiraPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void ttsSettings(final PluginCall call) {
+        try {
+            android.content.Intent i = new android.content.Intent("com.android.settings.TTS_SETTINGS");
+            i.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(i);
+        } catch (Exception e) {
+            try {
+                android.content.Intent i2 = new android.content.Intent(android.provider.Settings.ACTION_SETTINGS);
+                i2.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(i2);
+            } catch (Exception e2) { }
+        }
+        call.resolve();
+    }
+
+    @PluginMethod
     public void voices(final PluginCall call) {
         ensureTts(new Runnable() {
             @Override

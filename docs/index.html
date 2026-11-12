@@ -823,6 +823,11 @@ html[data-theme=dark] .paybar{background:linear-gradient(rgba(27,18,32,0),#1b122
 #airaFab button.on{animation:airap 1.2s infinite}
 #airaTip{max-width:190px;background:rgba(90,17,87,.92);color:#fff;font:700 11px 'Noto Sans Devanagari',sans-serif;padding:6px 10px;border-radius:14px}
 #airaTip:empty{display:none}
+
+#airaTB{position:absolute;left:10px;right:10px;bottom:96px;z-index:60;background:#fff;border-radius:18px;padding:10px;box-shadow:0 8px 28px rgba(0,0,0,.35);border:2px solid #FFB800}
+#airaTB .tbl{font:800 12px 'Noto Sans Devanagari',sans-serif;color:#5A1157;margin:0 4px 6px}
+#airaTB .tbr{display:flex;gap:6px}#airaTB input{flex:1;min-width:0;border:2px solid #e5d5e6;border-radius:12px;padding:10px;font-size:16px}
+#airaTB button{border-radius:12px;padding:0 12px;font-weight:800;background:#5A1157;color:#fff}#airaTB #airaTsk{background:#FFB800;color:#5A1157}#airaTB #airaTx{background:#eee;color:#555}
 </style>
 </head>
 <body>
@@ -1228,7 +1233,7 @@ function paintTray(){
 }
 
 /* ---------- आयरा : आवाज़ से नाप (ऑफ़लाइन + फ़्लोटिंग बबल) ---------- */
-const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0,target:null,lastIdx:null,exp:null,keep:0,skipCust:0,lastAct:0,pendAdv:null,unk:0};
+const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0,target:null,lastIdx:null,exp:null,keep:0,skipName:0,skipPhone:0,skipped:new Set(),fail:0,ph:'',vs:[],skipCust:0,lastAct:0,pendAdv:null,unk:0};
 const NP=()=>{const C=window.Capacitor;return(C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Aira)||null};
 const _nz=t=>String(t||'').normalize('NFD').replace(/[़]/g,'').replace(/ँ/g,'ं').normalize('NFC').toLowerCase();
 const _sk=t=>_nz(t).normalize('NFD').replace(/[ऀ-ःऺ-़ा-ॏ]/g,'').replace(/ई/g,'इ').replace(/ऊ/g,'उ').replace(/ऐ/g,'ए').replace(/औ/g,'ओ').replace(/(.)\1+/g,'$1');
@@ -1273,7 +1278,7 @@ function airaParse(text){
   i++}
  if(!out.length&&f!==null)out.push({f,v:null});
  return out}
-function airaFirstEmpty(){return steps.findIndex(s=>!vals[s.id])}
+function airaFirstEmpty(){return steps.findIndex(s=>!vals[s.id]&&!(A.skipped&&A.skipped.has(s.id)))}
 function airaPaint(i){
  document.querySelectorAll('.row.airon').forEach(r=>r.classList.remove('airon'));
  const st=steps[i];if(!st)return;const r=document.querySelector(`.row[data-id="${CSS.escape(st.id)}"]`);
@@ -1283,13 +1288,13 @@ function airaUI(t,h){
  const tp=$('#airaTip');if(tp&&A.on&&(t!=null||h!=null)){const x=(h&&h.length?h:t)||'';tp.textContent=String(x).slice(0,60)}
  const b=$('#airas');if(!b)return;b.classList.toggle('on',!!A.on);const bt=$('#airab');bt&&bt.classList.toggle('on',!!A.on);
  if(t!=null)$('#airat').textContent=t;if(h!=null)$('#airah').textContent=h}
-function airaVoice(){const vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang)),nm=LS('aira_v_'+persK());return vs.find(v=>v.name===nm)||vs.find(v=>PR().hint.test(v.name))||vs[0]||null}
+function airaVoice(){const vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang)),nm=voiceNm();return vs.find(v=>v.name===nm)||vs.find(v=>PR().hint.test(v.name))||vs[0]||null}
 function airaSay(text,cb){
  let d=0;const done=()=>{if(d)return;d=1;clearTimeout(tm);cb&&cb()};
  const tm=setTimeout(done,Math.max(5000,text.length*300));
  airaUI('🔊 '+PR().n+': '+text);
  const N=A.native&&NP();
- if(N){try{N.say({text,pitch:PR().pitch,rate:PR().rate,voice:LS('aira_v_'+persK())||''}).then(done).catch(done);return}catch(_){done();return}}
+ if(N){try{N.say({text,pitch:PR().pitch,rate:PR().rate,voice:voiceNm()}).then(done).catch(done);return}catch(_){done();return}}
  try{
   if(window.speechSynthesis){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';u.rate=PR().rate;u.pitch=PR().pitch;const v=airaVoice();if(v)u.voice=v;u.onend=done;u.onerror=done;speechSynthesis.speak(u);return}
  }catch(_){}
@@ -1309,11 +1314,13 @@ function airaListen(){
 function airaAfter(){A.busy=0;if(A.q.length)return airaHandle(A.q.shift());airaListen()}
 function airaIn(t){A.busy?A.q.push(t):airaHandle(t)}
 const fmtV=v=>Number.isInteger(v)?String(v):v.toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
-const PERS={raja:{n:'राजा',em:'🧔',pitch:.78,rate:.93,hint:/hic|hid|male|rjs/i},rani:{n:'रानी',em:'👩',pitch:1.15,rate:.97,hint:/hia|hie|female|aaa/i}};
+const PERS={raja:{n:'राजा',em:'🧔',pitch:.62,rate:.9,hint:/hic|hid|(^|[^fe])male|rjs/i},rani:{n:'रानी',em:'👩',pitch:1.15,rate:.97,hint:/hia|hie|female|aaa/i}};
 const persK=()=>LS('aira_p')||'rani',PR=()=>PERS[persK()]||PERS.rani,amode=()=>LS('aira_mode')||'always';
 const pickR=a=>a[Math.floor(Math.random()*a.length)];
 const ACK=['हाँ जी','जी','हूँ','ठीक है','अच्छा','जी, लिख लिया','हाँ','जी बिल्कुल'];
 const R_STOP="रुको|रुक जाओ|रुक जा|बंद कर|बंद करो|बस करो|बस रहने|स्टॉप|stop listening|stop|रहने दो|that's all|बस इतना";
+const R_SKIP='आगे चलो|आगे बढ़ो|आगे बढ़|आगे बढो|नेक्स्ट|next|छोड़ो|छोड़ दो|छोड़ दीजिए|छोड़ें|स्किप|skip|अगला|अगली|बाद में|रहने दो इसे|इसे छोड़';
+const R_TYPE='टाइप|type|कीबोर्ड|keyboard|लिखकर';
 const R_CART='ऐड टू कार्ट|एड टू कार्ट|add to cart|ऐड टु कार्ट|कार्ट में डाल|कार्ट में डालो';
 const R_REP='दोहराओ|फिर से बोलो|क्या बोला|repeat|say again|once again';
 const R_CORR='सही कर|ठीक कर|सही कीजिए|ठीक कीजिए|बदल|सुधार|गलत|wrong|correct|change|fix|update|undo|वापस|हटाओ|मिटाओ|क्लियर|clear|redo';
@@ -1336,6 +1343,10 @@ function airaAmount(T){
   if(w==='लाख'){tot+=((cur||1)+half)*100000;cur=0;half=0;got=1;continue}
   const v=numv(w);if(v!==undefined){if(cur&&cur%100===0&&v<100&&cur>=100)cur+=v;else if(cur&&cur<100&&v<10&&cur%10===0)cur+=v;else cur+=v;got=1}}
  return got?Math.round(tot+cur):null}
+function airaDigits(T){let d='',rep=1;for(const w of toDig(_nz(T)).split(/\s+/)){
+ if(/^(डबल|double)$/.test(w)){rep=2;continue}if(/^(ट्रिपल|triple|तीनबार)$/.test(w)){rep=3;continue}
+ if(/^\d+$/.test(w)){d+=rep>1&&w.length===1?w.repeat(rep):w;rep=1;continue}
+ const v=numv(w);if(v!==undefined&&v<10){d+=String(v).repeat(rep);rep=1}}return d}
 function airaPhone(T){let d='';for(const w of toDig(_nz(T)).split(/\s+/)){if(/^\d+$/.test(w))d+=w;else{const v=numv(w);if(v!==undefined&&v<10)d+=v}}if(d.length>=12&&d.startsWith('91'))d=d.slice(-10);return d.length===10?d:null}
 function airaSetCust(p){cust={...cust,...p};
  if(cust.name&&hasPhone()){const ex=custs.find(c=>c.mobile===cust.mobile&&c.name===cust.name);if(!ex){const rec={id:'u'+Date.now(),name:cust.name,mobile:cust.mobile,photo:'',rel:cust.rel||'स्वयं',addr:cust.addr||''};custs.push(rec);LS('db_custs',custs);cust.id=rec.id}else cust.id=ex.id}
@@ -1349,11 +1360,11 @@ function airaCustSheet(list,title){
 function airaQ(){
  const nN=!cust.name,nM=!hasPhone(),i=airaFirstEmpty();
  if(!$('#seli')&&!looks.length)return 'क्या बनाना है? सूट, साड़ी, लहंगा या गाउन?';
- if(!A.skipCust&&nN){A.exp='cname';return pickR(['ग्राहक का नाम?','नाम बताइए?'])}
- if(!A.skipCust&&nM){A.exp='cphone';return 'मोबाइल नंबर?'}
+ if(!A.skipCust&&!A.skipName&&nN){A.exp='cname';return pickR(['ग्राहक का नाम?','नाम बताइए?'])}
+ if(!A.skipCust&&!A.skipPhone&&nM){A.exp='cphone';return 'मोबाइल नंबर?'}
  if(i>=0){airaPaint(i);return steps[i].h+pickR(['?',' बताइए?','?'])}
- if(nN){A.exp='cname';return 'नाप पूरी हो गई। ग्राहक का नाम?'}
- if(nM){A.exp='cphone';return 'मोबाइल नंबर?'}
+ if(nN&&!A.skipName){A.exp='cname';return 'नाप पूरी हो गई। ग्राहक का नाम?'}
+ if(nM&&!A.skipPhone){A.exp='cphone';return 'मोबाइल नंबर?'}
  return 'सब भर गया। कुछ जोड़ना-बदलना हो तो बोलिए, वरना ऐड टू कार्ट।'}
 function airaEnsureForm(){if(!$('#seli')){try{goForm()}catch(_){}}}
 async function airaSelectCat(cat,T){
@@ -1425,13 +1436,29 @@ async function airaHandle(text){
  if(amode()==='name'&&!wake&&Date.now()-(A.lastAct||0)>12000)return silent();
  if(T.length<2)return silent();
  if(_rx(R_STOP).test(T))return done('ठीक है, मैं रुक रही हूँ।'.replace('रुक रही','रुक '+(persK()==='raja'?'रहा':'रही')),()=>airaStop());
- const ex=A.exp;
+ let ex=A.exp;
+ const isSkip=_rx(R_SKIP).test(T)&&!airaParse(T).some(x=>x.v!=null);
+ if(isSkip){A.exp=null;A.ph='';A.fail=0;A.unk=0;
+  if(ex==='cname'){A.skipName=1;return done('ठीक है, नाम बाद में। '+airaQ())}
+  if(ex==='cphone'){A.skipPhone=1;return done('ठीक है, मोबाइल बाद में। '+airaQ())}
+  if(ex==='cpick'||ex==='confirmNew'||ex==='confirmPay'||ex==='name')return done('ठीक है। '+airaQ());
+  const i=A.target!=null&&steps[A.target]?A.target:airaFirstEmpty();
+  if(i>=0&&steps[i]){A.skipped.add(steps[i].id);A.target=null;return done('ठीक है, '+steps[i].h+' छोड़ दी। '+airaQ())}
+  return done('सब आगे बढ़ चुका है। '+airaQ())}
+ if(_rx(R_TYPE).test(T)&&(ex==='cname'||ex==='cphone'||ex==null)){const k=ex==='cname'||ex==='cphone'?ex:'field';return done('जी, नीचे टाइप कर दीजिए।',()=>{A.busy=0;airaTypeBox(k,k==='cphone'?'मोबाइल नंबर टाइप करें':k==='cname'?'ग्राहक का नाम टाइप करें':'नाप टाइप करें');airaAfter()})}
+ if((ex==='cname'||ex==='cphone')&&(_rx(R_ADD).test(T)||_rx(R_CART).test(T)||airaParse(T).some(x=>x.f!==null))){A.exp=null;ex=null}
  /* ---- pending question states ---- */
  if(ex==='name'){A.exp=null;return airaAddPath('नई '+text,done)}
  if(ex==='confirmPay'){A.exp=null;if(/हाँ|हां|जी|ठीक|कर दो|कन्फर्म|yes|ok/.test(T)){const b=$('#pay');if(b){return done('ठीक है, कन्फर्म कर रही हूँ।',()=>{A.busy=0;b.click();airaAfter()})}}return done('ठीक है, रुक गई।')}
  if(ex==='confirmNew'){A.exp=null;if(/हाँ|हां|जी|ठीक|बना|yes|ok/.test(T)){airaSetCust({name:A.tmp,mobile:'',id:undefined});return done(`${A.tmp} बना दिया। `+airaQ())}return done('ठीक है। '+airaQ())}
- if(ex==='cphone'){const ph0=airaPhone(T);if(ph0){A.exp=null;airaSetCust({mobile:ph0});return done(pickR(ACK)+'। '+airaQ())}
-  if(!airaParse(T).some(x=>x.v!=null&&x.f!==null)){return done('नंबर पूरा नहीं सुन पाई, 10 अंक फिर बोलिए।')}A.exp=null}
+ if(ex==='cphone'){
+  if(/फिर से|दोबारा|गलत|रीसेट|reset|clear/.test(T)&&!/\d/.test(toDig(T))){A.ph='';return done('ठीक है, पूरा नंबर फिर से बोलिए।')}
+  const dg=airaDigits(T);
+  if(dg.length){A.fail=0;A.ph=(A.ph||'')+dg;let n=A.ph;if(n.length>10&&n.startsWith('91'))n=n.slice(2);
+   if(n.length>=10){const p=n.slice(0,10);A.ph='';A.exp=null;airaSetCust({mobile:p});return done(pickR(ACK)+', '+p.split('').join(' ')+'। '+airaQ())}
+   return done(n.length+' अंक हुए, बाकी '+(10-n.length)+' बोलिए।')}
+  A.fail=(A.fail||0)+1;if(A.fail>=2)return airaTypeAsk('cphone',done);
+  return done('नंबर सुनाई नहीं दिया, अंक एक-एक करके फिर बोलिए।')}
  if(ex==='cname'||ex==='cpick'){
   const toks=text.replace(/[,।?!.]/g,' ').split(/\s+/).filter(Boolean).filter(w=>!CUSTFILL.has(_nz(w)));
   const nm=toks.join(' ').trim();
@@ -1442,7 +1469,8 @@ async function airaHandle(text){
    A.exp=null;const m=airaFindCust(nm);
    if(m.length===1){const c=m[0];airaSetCust({...c,due:cust.due});const b=airaCustBal(c.name);return done(`${pickR(['हाँ जी','जी'])}, ${c.name} मिल गए${b.d>0?', इनका '+b.d+' रुपये बाकी है':''}। `+airaQ())}
    if(m.length>1){A.exp='cpick';A.cands=m;airaCustSheet(m,'कौन सा ग्राहक?');return done(`इस नाम के ${m.length} ग्राहक हैं: ${m.slice(0,3).map(c=>c.name+' '+String(c.mobile||'').slice(-4)).join(', ')}। कौन सा?`)}
-   airaSetCust({name:nm,mobile:'',id:undefined});return done(`${pickR(['हाँ जी','जी','ठीक है'])}, ${nm}। `+airaQ())}
+   A.fail=0;airaSetCust({name:nm,mobile:'',id:undefined});return done(`${pickR(['हाँ जी','जी','ठीक है'])}, ${nm}। `+airaQ())}
+  if(ex==='cname'&&!meas){A.fail=(A.fail||0)+1;if(A.fail>=2)return airaTypeAsk('cname',done);return done('नाम सुनाई नहीं दिया, फिर बोलिए।')}
   A.exp=null}
  /* ---- strip cart phrase / previous-phrase ---- */
  const cartM=_rx(R_CART).test(T);if(cartM)T=T.replace(_rx(R_CART),' ');
@@ -1498,7 +1526,7 @@ async function airaHandle(text){
  const corr=_rx(R_CORR).test(T)||prev;
  if(cartM&&!hasVal){
   if(airaFirstEmpty()>=0)return done('अभी '+steps.filter(s=>!vals[s.id]).length+' नाप बाकी हैं। '+steps[airaFirstEmpty()].h+' बताइए।');
-  if(!custOK()){return done('पहले '+(cust.name?'मोबाइल नंबर':'ग्राहक का नाम')+' चाहिए। '+airaQ())}
+  if(!custOK()){const k=cust.name?'cphone':'cname';A.skipName=0;A.skipPhone=0;A.exp=k;airaTypeBox(k,k==='cphone'?'मोबाइल नंबर टाइप करें':'ग्राहक का नाम टाइप करें');return done('कार्ट के लिए '+(cust.name?'मोबाइल नंबर':'ग्राहक का नाम')+' चाहिए। बोलिए या नीचे टाइप कर दीजिए।')}
   return done(pickR(['ठीक है','हाँ जी'])+', कार्ट में डाल रही हूँ।',()=>{A.keep=1;A.busy=0;try{addToCart(true)}catch(e){}
    setTimeout(()=>{A.keep=0;const c=bill&&bill.calc;if(A.on)airaSay(c?`कार्ट में आ गया। कुल ${c.tot} रुपये। एडवांस कितना लेना है?`:'कार्ट में आ गया।',()=>{A.busy=0;airaListen()})},2600)})}
  if(!hasVal&&_rx(R_REP).test(T)){return done(airaQ())}
@@ -1509,7 +1537,8 @@ async function airaHandle(text){
   return done(steps[i].h+(old?' ('+old+') हटा दी। सही नाप बताइए।':' बताइए।'))}
  if(!items.length){
   A.unk=(A.unk||0)+1;
-  if(A.unk>=2||wake){A.unk=0;return done(pickR(['हूँ? फिर से बोलिए।','समझ नहीं आया, दोबारा बोलिए।','जी? एक बार और।']))}
+  if(A.unk>=3&&airaFirstEmpty()>=0){A.unk=0;A.target=airaFirstEmpty();return airaTypeAsk('field',done)}
+  if(A.unk>=2||wake){return done(pickR(['हूँ? फिर से बोलिए।','समझ नहीं आया, दोबारा बोलिए।','जी? एक बार और।']))}
   return silent()}
  A.unk=0;
  const said=[];let want=null,bad=0,chg=0;
@@ -1538,7 +1567,7 @@ function airaGreet0(){
  const hi=A.said?'':'नमस्ते, मैं आयरा हूँ। फोन दूर रखकर बोलिए, मैं नाप लिखती जाऊँगी। ';A.said=1;
  airaSay(hi+(i>=0?'पहली नाप: '+steps[i].h+' बताइए।':'सारे नाप भरे हैं। बदलाव बोलिए, या ऐड टू कार्ट कहिए।'),airaAfter)}
 function airaGreet(){
- if(!A.on)return;A.skipCust=0;const hi=A.said?'':`नमस्ते, मैं ${PR().n} हूँ। `;A.said=1;
+ if(!A.on)return;A.skipCust=0;A.skipName=0;A.skipPhone=0;A.skipped=new Set();A.fail=0;A.ph='';airaVoiceInit();const hi=A.said?'':`नमस्ते, मैं ${PR().n} हूँ। `;A.said=1;
  airaSay(hi+airaQ(),airaAfter)}
 function airaNativeIn(d){if(!d||d.seq<=A.seq)return;A.seq=d.seq;try{NP().ack({seq:d.seq})}catch(_){}const t=A.exp?(d.text||d.alt):(airaPick([d.text,d.alt])||d.text||d.alt);if(t)airaIn(t)}
 function airaOn(N,ev,cb){try{if(typeof N.addListener==='function')N.addListener(ev,cb);else if(window.Capacitor&&Capacitor.addListener)Capacitor.addListener('Aira',ev,cb)}catch(_){}}
@@ -1601,7 +1630,33 @@ function airaStop(quiet){
  try{A.wl&&A.wl.release()}catch(_){}
  document.querySelectorAll('.row.airon').forEach(r=>r.classList.remove('airon'));
  airaUI('',''); if(!quiet)toast('आयरा बंद')}
+airaVoiceInit();
 function airaToggle(){A.on?airaStop():airaStart()}
+function airaTBclose(){const b=$('#airaTB');if(b)b.remove()}
+function airaTypeBox(kind,label){
+ airaTBclose();const b=document.createElement('div');b.id='airaTB';
+ const num=kind==='cphone',fld=kind==='field';
+ b.innerHTML=`<div class="tbl">${esc(label)}</div><div class="tbr"><input id="airaTI" ${num?'type="tel" maxlength="10" inputmode="numeric"':fld?'type="text" inputmode="decimal"':'type="text"'} placeholder="${num?'10 अंक का मोबाइल':fld?'नाप (इंच)':'नाम'}" autocomplete="off"><button class="press" id="airaTok">ठीक</button><button class="press" id="airaTsk">आगे ▶</button><button class="press" id="airaTx">✕</button></div>`;
+ ph.append(b);setTimeout(()=>{try{$('#airaTI').focus()}catch(_){}},150);
+ const fin=(skip)=>{const v=($('#airaTI').value||'').trim();
+  if(!skip){
+   if(kind==='cphone'){const d=v.replace(/\D/g,'').slice(-10);if(d.length!==10){toast('10 अंक डालिए');return}airaSetCust({mobile:d})}
+   else if(kind==='cname'){if(v.length<2){toast('नाम डालिए');return}airaSetCust({name:v,mobile:cust.mobile||''})}
+   else{const n=parseFloat(v.replace(',','.'));if(!(n>=1&&n<=150)){toast('सही नाप डालिए');return}const i=A.target!=null?A.target:airaFirstEmpty();if(steps[i]){vals[steps[i].id]=fmtV(n);A.lastIdx=i;A.target=null;refresh()}}}
+  else{if(kind==='cname')A.skipName=1;else if(kind==='cphone')A.skipPhone=1;else{const i=A.target!=null?A.target:airaFirstEmpty();if(steps[i]){A.skipped.add(steps[i].id);A.target=null}}}
+  airaTBclose();A.exp=null;A.fail=0;A.ph='';A.unk=0;
+  if(A.on){A.busy=1;airaSay((skip?'ठीक है, आगे। ':pickR(ACK)+'। ')+airaQ(),airaAfter)}};
+ $('#airaTok').onclick=()=>fin(0);$('#airaTsk').onclick=()=>fin(1);$('#airaTx').onclick=airaTBclose;
+ $('#airaTI').addEventListener('keydown',e=>{if(e.key==='Enter')fin(0)})}
+function airaTypeAsk(kind,done){A.fail=0;
+ const lab=kind==='cphone'?'मोबाइल नंबर टाइप करें':kind==='cname'?'ग्राहक का नाम टाइप करें':(steps[A.target!=null?A.target:airaFirstEmpty()]||{h:'नाप'}).h+' टाइप करें';
+ airaTypeBox(kind,lab);return done('मेरी समझ में नहीं आया। नीचे टाइप कर दीजिए, या बोलिए आगे चलो।')}
+async function airaVoiceInit(){
+ try{const N=NP();if(N&&N.voices){A.vs=((await N.voices())||{}).voices||[]}else if(window.speechSynthesis)A.vs=speechSynthesis.getVoices().filter(v=>/^hi/i.test(v.lang)).map(v=>({name:v.name}))}catch(_){}}
+function voiceNm(){const k=persK(),sv=LS('aira_v_'+k);if(sv!=null&&sv!=='')return sv;
+ const h=(A.vs||[]).find(v=>PERS[k].hint.test(v.name)&&(k==='raja'?!/female/i.test(v.name):true));return h?h.name:''}
+function airaSettings0(){}
+
 async function airaSettings(){
  const N=NP();let vs=[];
  try{if(N&&N.voices)vs=((await N.voices())||{}).voices||[]}catch(_){}
@@ -1612,11 +1667,11 @@ async function airaSettings(){
   <div class="lbl">किसकी आवाज़?</div><div style="display:flex;gap:10px;margin-bottom:12px">${Object.entries(PERS).map(([k,p])=>`<button class="chip ${k===pk?'sel':''}" data-p="${k}" style="flex:1;padding:14px;font-size:15px">${p.em} ${p.n}${k==='raja'?' (मेल)':' (फीमेल)'}</button>`).join('')}</div>
   <div class="lbl">सुनने का तरीका</div><div style="display:flex;gap:10px;margin-bottom:12px"><button class="chip ${amode()==='always'?'sel':''}" data-m="always" style="flex:1;padding:12px">हमेशा सुनो</button><button class="chip ${amode()==='name'?'sel':''}" data-m="name" style="flex:1;padding:12px">नाम लेकर बुलाओ</button></div>
   <p class="sub" style="margin:0 0 12px">"नाम लेकर बुलाओ" में ${PERS.raja.n}/${PERS.rani.n} का नाम लेने पर ही सुनेगी — आसपास की बातें अनदेखी करेगी।</p>
-  <div class="lbl">${PR().n} की आवाज़ चुनें (दबाकर सुनिए)</div>${vs.length?vs.map(v=>`<button class="chip ${v.name===sel?'sel':''}" data-v="${esc(v.name)}" style="display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px">🔊 ${esc(v.name)}${v.offline===false?' · ऑनलाइन':''}</button>`).join(''):'<p class="sub">इस फोन में हिंदी आवाज़ नहीं मिली — सेटिंग → Text-to-speech में हिंदी डाउनलोड करें।</p>'}
+  ${persK()==='raja'&&!vs.some(v=>PERS.raja.hint.test(v.name)&&!/female/i.test(v.name))?'<div class="sub" style="background:#fff4d6;border-radius:14px;padding:10px;margin-bottom:10px">⚠ फोन में मेल हिंदी आवाज़ नहीं दिखी। राजा अभी भारी की हुई आवाज़ में बोलेगा। असली मेल आवाज़ के लिए नीचे दबाइए, फिर Google TTS में हिंदी आवाज़ें डाउनलोड करें।<button class="chip" data-t="1" style="display:block;width:100%;margin-top:8px;padding:11px">⚙ फोन की आवाज़ सेटिंग खोलें</button></div>':''}<div class="lbl">${PR().n} की आवाज़ चुनें (दबाकर सुनिए)</div>${vs.length?vs.map(v=>`<button class="chip ${v.name===sel?'sel':''}" data-v="${esc(v.name)}" style="display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px">🔊 ${esc(v.name)}${v.offline===false?' · ऑनलाइन':''}</button>`).join(''):'<p class="sub">इस फोन में हिंदी आवाज़ नहीं मिली — सेटिंग → Text-to-speech में हिंदी डाउनलोड करें।</p>'}
   <button class="chip ${sel===''?'sel':''}" data-v="" style="display:block;width:100%;text-align:left;margin-bottom:6px;padding:11px">🔊 फोन की डिफ़ॉल्ट</button></div>`};
  draw();
- const test=()=>{const N2=NP();const t=`नमस्ते, मैं ${PR().n} हूँ। बताइए, क्या बनाना है?`;if(N2&&N2.say)N2.say({text:t,pitch:PR().pitch,rate:PR().rate,voice:LS('aira_v_'+persK())||''}).catch(()=>{});else try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';u.pitch=PR().pitch;u.rate=PR().rate;const v=airaVoice();if(v)u.voice=v;speechSynthesis.speak(u)}catch(_){}};
- o.addEventListener('click',e=>{const b=e.target.closest('[data-p],[data-m],[data-v]');if(!b)return;
+ const test=()=>{const N2=NP();const t=`नमस्ते, मैं ${PR().n} हूँ। बताइए, क्या बनाना है?`;if(N2&&N2.say)N2.say({text:t,pitch:PR().pitch,rate:PR().rate,voice:voiceNm()}).catch(()=>{});else try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='hi-IN';u.pitch=PR().pitch;u.rate=PR().rate;const v=airaVoice();if(v)u.voice=v;speechSynthesis.speak(u)}catch(_){}};
+ o.addEventListener('click',e=>{const b=e.target.closest('[data-p],[data-m],[data-v],[data-t]');if(!b)return;if(b.dataset.t){try{NP().ttsSettings()}catch(_){toast('सेटिंग → भाषा → Text-to-speech खोलें')}return}
   if(b.dataset.p){LS('aira_p',b.dataset.p);draw();test()}
   else if(b.dataset.m){LS('aira_mode',b.dataset.m);draw()}
   else if(b.dataset.v!==undefined){LS('aira_v_'+persK(),b.dataset.v);draw();test()}})}
@@ -2745,7 +2800,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-13.2';
+const APP_VER='2026-11-13.3';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
