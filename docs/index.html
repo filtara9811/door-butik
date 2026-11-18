@@ -1007,6 +1007,20 @@ html[data-theme=dark] #seli .pill{--pb:#2a2030;background:#2a2030!important;bord
 .acr{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid #f0e8f1}.acr.on{background:#f0fdf4;border-radius:14px}.aci{width:44px;height:44px;border-radius:50%;background:#F4EDF5;display:grid;place-items:center;font-size:22px;overflow:hidden}.aci img{width:100%;height:100%;object-fit:cover}.act{flex:1}.act b{display:block;font:700 14px 'Noto Sans Devanagari',sans-serif;color:#2f2233}.act small{font:600 12px sans-serif;color:#5A1157}.acq{display:flex;align-items:center;gap:8px}.acq button{width:32px;height:32px;border-radius:50%;background:#F4EDF5;color:#5A1157;font:800 17px sans-serif}.acq em{min-width:18px;text-align:center;font:700 14px sans-serif;font-style:normal}
 .svr{display:flex;justify-content:space-between;align-items:center;padding:12px 8px;border-bottom:1px solid #f0e8f1;cursor:pointer}.svr b{display:block;font:700 14px 'Noto Sans Devanagari',sans-serif;color:#2f2233}.svr small{font:500 11px 'Noto Sans Devanagari',sans-serif;color:#6b5b6e}.svr i{font-style:normal;padding:8px}
 .s3m .sb{display:flex;flex-direction:column}.s3m #syw{flex:1;display:flex;flex-direction:column}.s3m .mxp{flex:1;min-height:0;aspect-ratio:auto!important}.mxdock{margin-top:auto!important;padding-bottom:14px!important}
+
+/* v40 */
+.s3m .sh2{display:none!important}
+.mxb{width:86px}.mxb canvas,.mxb .mxim{width:60px;height:60px;border-radius:50%;border:2px solid #cdbad0;background:#fff;object-fit:cover}.mxb.on canvas,.mxb.on .mxim{border-color:#10B981}.mxb.pend{border-color:#FFB800;background:#fffbeb;box-shadow:0 0 0 2px #ffb80055}.mxb.dis{opacity:.3}
+.mxb em{position:absolute;top:3px;right:5px;width:18px;height:18px;border-radius:50%;background:#10B981;color:#fff;font:900 10px/18px sans-serif;text-align:center;font-style:normal}.mxb em.q{background:#5A1157;font-size:11px}
+.mxb .qm{position:absolute;top:3px;left:5px;width:20px;height:20px;border-radius:50%;background:#fee2e2;color:#b91c1c;font:800 14px/19px sans-serif;text-align:center;font-style:normal}
+.mxb .ae{width:60px;height:60px;border-radius:50%;background:#fff;border:2px solid #FFB800;display:grid;place-items:center;font-size:26px;overflow:hidden}.mxb .ae img{width:100%;height:100%;object-fit:cover}
+.mxb.ac.on .ae{border-color:#10B981}.mxb.plus .ae,.mxb.plus span{line-height:60px}
+.mxnote{margin:18px 10px;color:#6b5b6e;font:600 12px 'Noto Sans Devanagari',sans-serif}
+.mxcat button.on{background:#5A1157;color:#fff}
+.mxadd{height:40px;padding:0 16px;border-radius:20px;background:#10B981;color:#fff;font:800 13px 'Noto Sans Devanagari',sans-serif;display:none;animation:airap 1.2s infinite}.mxadd.show{display:block}
+.mxchips span.ex{background:#fffbeb;border:1px solid #FFB800}
+.pkc .mxim{width:78px;height:78px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18)}.pkc .ae{width:78px;height:78px;border-radius:50%;background:#F4EDF5;display:grid;place-items:center;font-size:30px}.pkc.plus{border:2px dashed #cdbad0;background:#fff;color:#5A1157;justify-content:center}
+.edi{display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0 12px;cursor:pointer}.edi span{width:96px;height:96px;border-radius:50%;background:#F4EDF5;display:grid;place-items:center;font-size:34px;overflow:hidden;border:2px dashed #cdbad0}.edi span img{width:100%;height:100%;object-fit:cover}.edi small{font:600 11px 'Noto Sans Devanagari',sans-serif;color:#5A1157}
 </style>
 </head>
 <body>
@@ -2894,7 +2908,7 @@ const sysDecC={},sysIm={},mixModels={};let sysTab=1,mixSel={t:0,b:0,d:0},mixTok=
 const sysOfM=m=>m.sys||1;
 function paintSys(){const e=$('#sysn');if(e)e.textContent='सिस्टम '+sysOfM(curModel)}
 function findModel(id){return allModels().find(x=>x.id===id)||s2List().find(x=>x.id===id)||mixModels[id]}
-var mxCat='t',mxDirty=false;
+var mxCat='t',mxDirty=false,mixExtra=[];
 const teOf=i=>SYSL[i].te??SYSL[i].ys,bsOf=i=>SYSL[i].bs??SYSL[i].ys;
 function seamOf(T,B){if(SYSL[T].one)return 960;const lo=Math.max(teOf(T),teOf(B)),hi=bsOf(T);if(lo>hi+3)return -1;return Math.round((lo+Math.max(lo,hi))/2)}
 const sepOK=(T,B)=>SYSL[T].one?T===B:(!SYSL[B].one&&seamOf(T,B)>=0);
@@ -2907,9 +2921,9 @@ async function sysDec(i){
 async function composeMix(T,B,D){
  const t=await sysDec(T),b=await sysDec(B),d=await sysDec(D),s=seamOf(T,B)<0?teOf(T):seamOf(T,B),w=720,h=960;
  const ph=new ImageData(w,h),mk=new ImageData(w,h),P=ph.data,M=mk.data;
- for(let y=0;y<h;y++){const wB=s>=960?0:Math.min(1,Math.max(0,(y-(s-5))/10)),belowSeam=y>=s&&s<960;
+ for(let y=0;y<h;y++){const wB=s>=960?0:Math.min(1,Math.max(0,(y-(s-14))/28)),belowSeam=y>=s&&s<960;
   for(let x=0;x<w;x++){const i=(y*w+x)*4;let br=255,bg=255,bb=255,sa=0;
-   if(x>=330){const j=(y*390+x-330)*4;br=d.sp[j];bg=d.sp[j+1];bb=d.sp[j+2];sa=d.sm[j]/255}
+   if(x>=330){const j=(y*390+x-330)*4;br=d.sp[j];bg=d.sp[j+1];bb=d.sp[j+2];sa=d.sm[j]/255*Math.min(1,(x-330)/18)}
    let wr,wg,wbl,wa;
    if(wB===0){wr=t.wp[i];wg=t.wp[i+1];wbl=t.wp[i+2];wa=t.wm[i+2]/255}
    else if(wB===1){wr=b.wp[i];wg=b.wp[i+1];wbl=b.wp[i+2];wa=b.wm[i+2]/255}
@@ -2947,14 +2961,14 @@ function openSystems2(tab){
  const mxRefresh=()=>{
   const {t,b,d}=mixSel,one=SYSL[t].one;mxMark();
   {const key=`mx_${t}_${one?t:b}_${d}`,g=$('#mxgo');if(g)g.classList.toggle('show',mxDirty&&key!==curModel.id)}
-  const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(mxLabel('t',t))}</span>${one?'':`<span>👖 ${esc(mxLabel('b',b))}</span>`}`;
+  const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(nameOf('t',t))}</span>${one?'':`<span>👖 ${esc(nameOf('b',b))}</span>`}<span>🧣 ${esc(nameOf('d',d))}</span>${mixExtra.map(x=>`<span class="ex" data-xr="${x.id}">✨ ${esc(x.n)} ✕</span>`).join('')}`;
   mxTray();mixPrev()};
  const paint=()=>{
   const tabs=`<div class="systabs">${[1,2,3].map(n=>`<button class="stab ${sysTab===n?'on':''}" data-t="${n}"><b>सिस्टम ${n}</b><small>${['पूरे मॉडल · अभी वाले','पूरे मॉडल · नई शीट','मिक्स-मैच'][n-1]}</small></button>`).join('')}</div>${sysTab===3?'':`<p class="sysd">${SYSD[sysTab-1]}</p>`}`;
   let body='';
   if(sysTab===1)body=`<div class="sgrid">${allModels().filter(m=>!m.sys).map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img src="${m.photo}" alt=""></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
   if(sysTab===2)body=`<div class="sgrid">${s2List().map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img alt="" id="s2i${m.i}"><i class="sk"></i></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
-  if(sysTab===3)body=`<div class="mxp"><img id="mxp" alt=""><i class="sk"></i><div class="mxchips" id="mxi"></div></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="a">🧰 एसेसरीज़</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾 सेव</button><button class="mxok show" id="mxgo">✓ लगाएँ</button></div></div>`;
+  if(sysTab===3)body=`<div class="mxp"><img id="mxp" alt=""><i class="sk"></i><div class="mxchips" id="mxi"></div></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="a">🧰 एसेसरीज़</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾</button><button class="mxadd" id="mxadd">＋ ऐड</button><button class="mxok show" id="mxgo">✓ लगाएँ</button></div></div>`;
   $('#syw').innerHTML=tabs+body;{const pg=$('#fs .scr');if(pg)pg.classList.toggle('s3m',sysTab===3)}
   if(sysTab===2)(async()=>{for(const m of s2List()){if(!$('#s2i'+m.i))return;await m.lazy();const e=$('#s2i'+m.i);if(!e)return;e.src=m.photo;e.parentNode.classList.add('ld')}})();
   if(sysTab===3){fillList();mxRefresh()}
@@ -2962,48 +2976,89 @@ function openSystems2(tab){
  const mixPrev=()=>{const tok=++mixTok,{t,b,d}=mixSel,one=SYSL[t].one,bb=one?t:b;
   const p=$('#mxp');if(p&&p.parentNode)p.parentNode.classList.remove('ld');
   setTimeout(async()=>{if(tok!==mixTok)return;const m=await mixModelOf(t,bb,d);if(tok!==mixTok)return;const q=$('#mxp');if(q){q.src=m.photo;q.parentNode.classList.add('ld')}},30)};
- const DEFP={t:200,b:150,d:80};
- const pmap=()=>LS('db_s3p')||{};
+ const DEFP={t:200,b:150,d:80};let act='t',pend=null;mixExtra=[];
+ const pmap=()=>LS('db_s3p')||{},ovr=()=>LS('db_s3o')||{},cust3=()=>LS('db_s3c')||[];
+ const nameOf=(k,i)=>(ovr()[k+i]&&ovr()[k+i].n)||mxLabel(k,i),imgOf=(k,i)=>ovr()[k+i]&&ovr()[k+i].img;
  const priceOf=(k,i)=>{const m=pmap(),v=m[k+i];return v!=null?+v:(k==='t'&&SYSL[i].one?450:DEFP[k])};
  const accT=()=>ADD.reduce((a,x)=>a+(addons[x[0]]?addons[x[0]]*x[3]:0),0);
- function mxTotal(withAcc){const{t,b,d}=mixSel,one=SYSL[t].one;return priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d)+(withAcc?accT():0)}
+ const exT=()=>mixExtra.reduce((a,x)=>a+(+x.p||0),0);
+ function mxTotal(withAcc){const{t,b,d}=mixSel,one=SYSL[t].one;return priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d)+exT()+(withAcc?accT():0)}
  window.mxTotal=mxTotal;
- const blk=(k,i,lab,em)=>`<div class="mxb" data-pk="${k}"><canvas width="96" height="96" data-k="${k}" data-i="${i}"></canvas><b>${esc(lab)}</b><small>₹${priceOf(k,i)}</small></div>`;
- function mxTray(){const tr=$('#mxtr');if(!tr)return;const{t,b,d}=mixSel,one=SYSL[t].one;
-  const acc=ADD.filter(x=>addons[x[0]]).map(x=>`<div class="mxb ac" data-pk="a"><span class="ae">${ico(typeof x[5]==='string'&&x[5].length<60000&&x[5].startsWith('data:')?x[5]:x[2])}</span><b>${esc(x[1])}${addons[x[0]]>1?' ×'+addons[x[0]]:''}</b><small>${x[3]?'₹'+x[3]*addons[x[0]]:'फ्री'}</small></div>`).join('');
-  tr.innerHTML=blk('t',t,mxLabel('t',t))+(one?'':blk('b',b,mxLabel('b',b)))+blk('d',d,mxLabel('d',d))+acc+`<div class="mxb plus" data-pk="a"><span>＋</span><b>एसेसरीज़</b></div>`;
-  tr.querySelectorAll('canvas').forEach(c=>paintThumb(c,+c.dataset.i,c.dataset.k));
-  const tt=$('#mxtot');if(tt)tt.textContent='₹'+mxTotal(true)}
+ const accImg=x=>typeof x[5]==='string'&&x[5].startsWith('data:')&&x[5].length<60000?x[5]:x[2];
+ const thumbHTML=(k,i,sz)=>{const im=imgOf(k,i);return im?`<img class="mxim" src="${im}" alt="">`:`<canvas width="${sz}" height="${sz}" data-k="${k}" data-i="${i}"></canvas>`};
+ const paintAll=root=>root.querySelectorAll('canvas[data-k]').forEach(c=>paintThumb(c,+c.dataset.i,c.dataset.k));
+ function tileHTML(k,it){const one=SYSL[mixSel.t].one;
+  if(it.c){const on=mixExtra.some(x=>x.id===it.c.id),pd=pend&&pend.c===it.c.id;return `<div class="mxb ${on?'on':''} ${pd?'pend':''}" data-k="${k}" data-c="${it.c.id}">${it.c.img?`<img class="mxim" src="${it.c.img}" alt="">`:'<span class="ae">✨</span>'}<b>${esc(it.c.n)}</b><small>₹${it.c.p}</small></div>`}
+  const i=it.i,ok=k!=='b'||sepOK(mixSel.t,i),on=mixSel[k]===i&&(k!=='b'||!one),pd=pend&&pend.k===k&&pend.i===i;
+  return `<div class="mxb ${on?'on':''} ${pd?'pend':''} ${ok?'':'dis'}" data-k="${k}" data-i="${i}">${thumbHTML(k,i,96)}<b>${esc(nameOf(k,i))}</b><small>₹${priceOf(k,i)}</small>${on?'<em>✓</em>':''}</div>`}
+ function mxTray(){const tr=$('#mxtr');if(!tr)return;const one=SYSL[mixSel.t].one;
+  $$('#mxcat [data-pk]').forEach(b=>b.classList.toggle('on',b.dataset.pk===act));
+  let h='';
+  if(act==='a'){h=ADD.map(x=>{const q=addons[x[0]]||0;return `<div class="mxb ac ${q?'on':''}" data-acc="${x[0]}"><span class="ae">${ico(accImg(x))}</span><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small>${q?`<em class="q">${q}</em><i class="qm" data-qm="${x[0]}">−</i>`:''}</div>`}).join('');if(isV())h+=`<div class="mxb plus" data-newacc="1"><span>＋</span><b>नया सामान</b></div>`}
+  else if(act==='b'&&one){h='<p class="mxnote">गाउन / साड़ी में बॉटम साथ ही है — टॉप बदलकर देखिए</p>'}
+  else{const idx=act==='t'?S3TOP:act==='b'?S3BOT_A.concat(S3BOT_B):S3DUP;h=idx.map(i=>tileHTML(act,{i})).join('')+cust3().filter(c=>c.k===act).map(c=>tileHTML(act,{c})).join('');if(isV())h+=`<div class="mxb plus" data-newit="${act}"><span>＋</span><b>नया आइटम</b></div>`}
+  tr.innerHTML=h;paintAll(tr);
+  const tt=$('#mxtot');if(tt)tt.textContent='₹'+mxTotal(true);const ad=$('#mxadd');if(ad)ad.classList.toggle('show',!!pend)}
  function pickMx(k,i){if(k==='b'&&!sepOK(mixSel.t,i)){toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');return false}
   mixSel[k]=i;mxDirty=true;
   if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0]}
   mxRefresh();return true}
+ const persistAcc=()=>{try{localStorage.setItem('db_acc',JSON.stringify(ADD.filter(a=>a[0][0]!=='c')))}catch(e){toast('स्टोरेज भर गया')}};
+ function onLong(root,sel,cb){let t=null,sx=0,sy=0;root.addEventListener('pointerdown',e=>{const el=e.target.closest(sel);if(!el||!isV())return;sx=e.clientX;sy=e.clientY;clearTimeout(t);t=setTimeout(()=>{window._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}cb(el)},520)});
+  ['pointerup','pointercancel','pointerleave'].forEach(ev=>root.addEventListener(ev,()=>clearTimeout(t)));root.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)>10)clearTimeout(t)})}
+ const justLP=()=>Date.now()-(window._lpAt||0)<700;
+ /* पूरा एडिट: नाम · कीमत · फोटो · हटाना · नया */
+ function editItem(ref){ /* ref: {k,i} बिल्ट-इन | {k,c} कस्टम | {acc} सामान | {newK} नया आइटम | {newAcc:1} */
+  let k=ref.k||ref.newK,cur={n:'',p:0,img:''},kind='new',id=null;
+  if(ref.i!==undefined){kind='b';cur={n:nameOf(k,ref.i),p:priceOf(k,ref.i),img:imgOf(k,ref.i)||''}}
+  else if(ref.c){kind='c';const c=cust3().find(z=>z.id===ref.c);if(!c)return;id=c.id;cur={n:c.n,p:c.p,img:c.img||''}}
+  else if(ref.acc){kind='a';const x=ADD.find(z=>z[0]===ref.acc);if(!x)return;id=x[0];cur={n:x[1],p:x[3],img:typeof x[5]==='string'&&x[5].startsWith('data:')?x[5]:'',em:x[2]}}
+  else if(ref.newAcc){kind='na';cur={n:'',p:0,img:''}}
+  let img=cur.img;
+  const ttl=kind==='na'||kind==='new'?'＋ नया जोड़ें':'✏ बदलें';
+  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${ttl}</h3><div class="sc"><label class="edi"><span id="edp">${img?`<img src="${img}" alt="">`:(cur.em||'📷')}</span><small>फोटो ${img?'बदलें':'जोड़ें'}</small><input type="file" accept="image/*" hidden id="edf"></label><div class="field"><p>नाम</p><input id="edn" value="${esc(cur.n)}" placeholder="जैसे: शरारा दुपट्टा"></div><div class="field"><p>कीमत ₹ (0 = फ्री)</p><input id="edr" inputmode="numeric" value="${cur.p}"></div>${kind==='b'?'<button class="obt" id="edrs">↺ मूल नाम / फोटो / कीमत पर लौटें</button>':''}${kind==='c'||kind==='a'?'<button class="obt del" id="edd">🗑 हटाएँ</button>':''}${kind==='new'||kind==='na'?'<p class="sub2">'+(kind==='new'?'यह आइटम मॉडल की तस्वीर पर नहीं दिखेगा, पर कीमत और नाम पर्ची में जुड़ेंगे।':'')+'</p>':''}</div><button class="btn gold press" id="edk">💾 सेव करें</button>`,{h:'86%',pop:false});
+  $('#edf',o).onchange=async e=>{const f=e.target.files[0];if(!f)return;img=await shrinkImg(f,300);$('#edp',o).innerHTML=`<img src="${img}" alt="">`};
+  const done=()=>{o.close();mxTray();mxRefresh();if(window._accSheet&&window._accSheet._redraw&&document.body.contains(window._accSheet))window._accSheet._redraw()};
+  $('#edk',o).onclick=()=>{const n=$('#edn',o).value.trim(),p=+($('#edr',o).value.replace(/\D/g,''))||0;if(!n)return toast('नाम लिखिए');
+   if(kind==='b'){const m=ovr();m[k+ref.i]={n,img};LS('db_s3o',m);const pm=pmap();pm[k+ref.i]=p;LS('db_s3p',pm)}
+   else if(kind==='c'){const L=cust3(),c=L.find(z=>z.id===id);c.n=n;c.p=p;c.img=img;LS('db_s3c',L);mixExtra.forEach(x=>{if(x.id===id){x.n=n;x.p=p;x.img=img}})}
+   else if(kind==='a'){const x=ADD.find(z=>z[0]===id);x[1]=n;x[3]=p;x[5]=img||x[5]||'';if(!img&&typeof x[5]==='string'&&x[5].startsWith('data:'))x[5]='';persistAcc()}
+   else if(kind==='new'){const L=cust3();L.push({id:'c'+Date.now().toString(36),k,n,p,img});LS('db_s3c',L)}
+   else if(kind==='na'){ADD.push(['a'+Date.now().toString(36),n,'🧷',p,0,img]);persistAcc()}
+   toast('सेव हो गया ✓');done()};
+  const d=$('#edd',o);if(d)d.onclick=()=>{if(!confirm('हटा दें?'))return;if(kind==='c'){LS('db_s3c',cust3().filter(z=>z.id!==id));mixExtra=mixExtra.filter(z=>z.id!==id)}else{ADD=ADD.filter(z=>z[0]!==id);delete addons[id];persistAcc()}toast('हटा दिया');done()};
+  const r=$('#edrs',o);if(r)r.onclick=()=>{const m=ovr();delete m[k+ref.i];LS('db_s3o',m);const pm=pmap();delete pm[k+ref.i];LS('db_s3p',pm);toast('मूल रूप लौट आया');done()}}
+ function applyPend(){if(!pend)return;if(pend.c){const c=cust3().find(z=>z.id===pend.c);if(c&&!mixExtra.some(x=>x.id===c.id))mixExtra.push({...c});else if(c)mixExtra=mixExtra.filter(x=>x.id!==c.id)}else pickMx(pend.k,pend.i);pend=null;mxDirty=true;mxRefresh()}
  function openPick(k){
   if(k==='s')return openSaved();
   if(k==='a')return openAcc();
   const one=SYSL[mixSel.t].one;if(k==='b'&&one){toast('गाउन / साड़ी में बॉटम साथ है');return}
-  const idx=k==='t'?S3TOP:k==='b'?S3BOT_A.concat(S3BOT_B):S3DUP,ttl={t:'👚 टॉप चुनिए',b:'👖 बॉटम चुनिए',d:'🧣 दुपट्टा चुनिए'}[k];let ed=false;
-  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${ttl}</h3>${isV()?'<div class="pkt"><button id="pked">✏ कीमत बदलें</button></div>':''}<div class="sc"><div class="pkg" id="pkg"></div></div>`,{h:'86%',pop:false});
-  const draw=()=>{const g=$('#pkg',o);g.innerHTML=idx.map(i=>{const ok=k!=='b'||sepOK(mixSel.t,i),on=mixSel[k]===i&&(k!=='b'||!one);return `<div class="pkc ${on?'on':''} ${ok?'':'dis'}" data-i="${i}"><canvas width="140" height="140" data-k="${k}" data-i="${i}"></canvas><em>✓</em><small>${esc(mxLabel(k,i))}</small>${ed?`<input data-pr="${k}${i}" inputmode="numeric" value="${priceOf(k,i)}">`:`<b>₹${priceOf(k,i)}</b>`}</div>`}).join('');(async()=>{for(const c of g.querySelectorAll('canvas'))await paintThumb(c,+c.dataset.i,c.dataset.k)})()};
+  const idx=k==='t'?S3TOP:k==='b'?S3BOT_A.concat(S3BOT_B):S3DUP,ttl={t:'👚 सारे टॉप',b:'👖 सारे बॉटम',d:'🧣 सारे दुपट्टे'}[k];
+  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${ttl}</h3>${isV()?'<p class="sub2">वेंडर: किसी भी आइटम को दबाकर रखें → नाम / कीमत / फोटो बदलें</p>':''}<div class="sc"><div class="pkg" id="pkg"></div></div>`,{h:'86%',pop:false});
+  const draw=()=>{const g=$('#pkg',o);g.innerHTML=idx.map(i=>{const ok=k!=='b'||sepOK(mixSel.t,i),on=mixSel[k]===i&&(k!=='b'||!one);return `<div class="pkc ${on?'on':''} ${ok?'':'dis'}" data-i="${i}">${thumbHTML(k,i,140)}<em>✓</em><small>${esc(nameOf(k,i))}</small><b>₹${priceOf(k,i)}</b></div>`}).join('')+cust3().filter(c=>c.k===k).map(c=>`<div class="pkc ${mixExtra.some(x=>x.id===c.id)?'on':''}" data-c="${c.id}">${c.img?`<img class="mxim" src="${c.img}" alt="">`:'<span class="ae">✨</span>'}<em>✓</em><small>${esc(c.n)}</small><b>₹${c.p}</b></div>`).join('')+(isV()?`<div class="pkc plus" data-newit="${k}"><span class="ae">＋</span><small>नया आइटम</small></div>`:'');paintAll(g)};
   draw();
-  o.addEventListener('click',e=>{if(e.target.closest('#pked')){ed=!ed;$('#pked',o).textContent=ed?'✓ हो गया':'✏ कीमत बदलें';draw();return}
-   if(ed)return;const c=e.target.closest('.pkc');if(!c||c.classList.contains('dis')){if(c)toast('ये बॉटम इस टॉप के साथ नहीं बैठता');return}if(pickMx(k,+c.dataset.i))o.close()});
-  o.addEventListener('input',e=>{const t=e.target;if(t.dataset.pr){const m=pmap();m[t.dataset.pr]=+t.value.replace(/\D/g,'')||0;LS('db_s3p',m);mxTray()}})}
+  onLong(o,'.pkc[data-i],.pkc[data-c]',el=>{editItem(el.dataset.c?{k,c:el.dataset.c}:{k,i:+el.dataset.i});});
+  o.addEventListener('click',e=>{if(justLP())return;const nw=e.target.closest('[data-newit]');if(nw){editItem({newK:nw.dataset.newit});return}
+   const c=e.target.closest('.pkc');if(!c)return;if(c.dataset.c){pend={k,c:c.dataset.c};applyPend();o.close();return}
+   if(c.classList.contains('dis')){toast('ये बॉटम इस टॉप के साथ नहीं बैठता');return}if(pickMx(k,+c.dataset.i))o.close()})}
  function openAcc(){
-  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🧰 एसेसरीज़ जोड़ें</h3><p class="sub2">प्रेस, लाइनिंग, डोरी, चैन… जितनी चाहिए जोड़ें — कीमत अपने-आप जुड़ेगी</p><div class="sc"><div class="acl" id="acl"></div></div><button class="btn gold press" id="acok">✓ हो गया</button>`,{h:'80%',pop:false});
-  const draw=()=>{$('#acl',o).innerHTML=ADD.map(x=>`<div class="acr ${addons[x[0]]?'on':''}"><span class="aci">${ico(typeof x[5]==='string'&&x[5].startsWith('data:')&&x[5].length<60000?x[5]:x[2])}</span><div class="act"><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small></div><div class="acq"><button data-ad="${x[0]}" data-d="-1">−</button><em>${addons[x[0]]||0}</em><button data-ad="${x[0]}" data-d="1">＋</button></div></div>`).join('')};draw();
-  o.addEventListener('click',e=>{const b=e.target.closest('[data-ad]');if(b){const id=b.dataset.ad,n=Math.max(0,(addons[id]||0)+ +b.dataset.d);if(n)addons[id]=n;else delete addons[id];draw();mxTray();return}if(e.target.closest('#acok'))o.close()})}
+  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🧰 एसेसरीज़ जोड़ें</h3><p class="sub2">${isV()?'वेंडर: किसी को दबाकर रखें → नाम / कीमत / फोटो बदलें · ':''}प्रेस, लाइनिंग, डोरी… जितनी चाहिए जोड़ें</p><div class="sc"><div class="acl" id="acl"></div></div>${isV()?'<button class="obt" id="acn" style="margin:6px 0">＋ नया सामान जोड़ें</button>':''}<button class="btn gold press" id="acok">✓ हो गया</button>`,{h:'86%',pop:false});
+  const draw=()=>{$('#acl',o).innerHTML=ADD.map(x=>`<div class="acr ${addons[x[0]]?'on':''}" data-id="${x[0]}"><span class="aci">${ico(accImg(x))}</span><div class="act"><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small></div><div class="acq"><button data-ad="${x[0]}" data-d="-1">−</button><em>${addons[x[0]]||0}</em><button data-ad="${x[0]}" data-d="1">＋</button></div></div>`).join('')};draw();
+  onLong(o,'.acr',el=>{editItem({acc:el.dataset.id});setTimeout(()=>{},0)});
+  o.addEventListener('click',e=>{if(justLP())return;const b=e.target.closest('[data-ad]');if(b){const id=b.dataset.ad,n=Math.max(0,(addons[id]||0)+ +b.dataset.d);if(n)addons[id]=n;else delete addons[id];draw();mxTray();return}if(e.target.closest('#acn')){editItem({newAcc:1});return}if(e.target.closest('#acok')){o.close();mxRefresh()}});
+  o._redraw=draw;window._accSheet=o}
  function openSaved(){
-  const L=LS('db_s3b')||[];
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>📂 मेरे सेव किए सेट</h3><div class="sc" id="svl"></div>`,{h:'70%',pop:false});
-  const draw=()=>{const L=LS('db_s3b')||[];$('#svl',o).innerHTML=L.length?L.map((x,j)=>`<div class="svr" data-j="${j}"><div><b>${esc(x.n)}</b><small>${esc(x.sum)} · ₹${x.price}</small></div><i data-del="${j}">🗑</i></div>`).join(''):'<p class="pvn">अभी कोई सेट सेव नहीं। नीचे "💾 सेव" से बनाइए।</p>'};draw();
+  const draw=()=>{const L=LS('db_s3b')||[];$('#svl',o).innerHTML=L.length?L.map((x,j)=>`<div class="svr" data-j="${j}"><div><b>${esc(x.n)}</b><small>${esc(x.sum)} · ₹${x.price}</small></div><i data-del="${j}">🗑</i></div>`).join(''):'<p class="pvn">अभी कोई सेट सेव नहीं। नीचे "💾" से बनाइए।</p>'};draw();
   o.addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(d){const L=LS('db_s3b')||[];L.splice(+d.dataset.del,1);LS('db_s3b',L);draw();return}
-   const r=e.target.closest('.svr');if(!r)return;const x=(LS('db_s3b')||[])[+r.dataset.j];if(!x)return;mixSel={...x.sel};Object.keys(addons).forEach(k=>delete addons[k]);Object.assign(addons,x.acc||{});mxDirty=true;fillList&&0;mxRefresh();o.close();toast('"'+x.n+'" लग गया ✓')})}
+   const r=e.target.closest('.svr');if(!r)return;const x=(LS('db_s3b')||[])[+r.dataset.j];if(!x)return;mixSel={...x.sel};Object.keys(addons).forEach(k=>delete addons[k]);Object.assign(addons,x.acc||{});mixExtra=(x.ex||[]).slice();mxDirty=true;mxRefresh();o.close();toast('"'+x.n+'" लग गया ✓')})}
  function saveSet(){
-  const sum=`${mxLabel('t',mixSel.t)}${SYSL[mixSel.t].one?'':' + '+mxLabel('b',mixSel.b)} + ${mxLabel('d',mixSel.d)}`;
+  const sum=`${nameOf('t',mixSel.t)}${SYSL[mixSel.t].one?'':' + '+nameOf('b',mixSel.b)} + ${nameOf('d',mixSel.d)}`;
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>💾 यह सेट सेव करें</h3><p class="sub2">${esc(sum)} · कुल ₹${mxTotal(true)}</p><input class="nm" id="svn" placeholder="सेट का नाम, जैसे: शादी स्पेशल सूट" autofocus><button class="btn gold press" id="svk">💾 सेव करें</button>`,{h:'46%',pop:false});
-  $('#svk',o).onclick=()=>{const n=$('#svn',o).value.trim();if(!n)return toast('नाम लिखिए');const L=LS('db_s3b')||[];L.unshift({n,sel:{...mixSel},acc:{...addons},price:mxTotal(true),sum});LS('db_s3b',L.slice(0,40));o.close();toast('सेट सेव हो गया ✓')}}
+  $('#svk',o).onclick=()=>{const n=$('#svn',o).value.trim();if(!n)return toast('नाम लिखिए');const L=LS('db_s3b')||[];L.unshift({n,sel:{...mixSel},acc:{...addons},ex:mixExtra.slice(),price:mxTotal(true),sum});LS('db_s3b',L.slice(0,40));o.close();toast('सेट सेव हो गया ✓')}}
  paint();
+ /* स्ट्रिप: टैप / लॉन्ग-प्रेस */
+ {const tr=$('#syw');if(tr){onLong(tr,'.mxb[data-k],.mxb[data-acc]',el=>{if(el.dataset.acc)editItem({acc:el.dataset.acc});else if(el.dataset.c)editItem({k:el.dataset.k,c:el.dataset.c});else editItem({k:el.dataset.k,i:+el.dataset.i})})}}
  $('#sb').onclick=async e=>{const q=e.target.closest('[data-t].stab');
   if(q){sysTab=+q.dataset.t;paint();$('#sb').scrollTo({top:0});return}
   const c=e.target.closest('.scard');
@@ -3013,9 +3068,17 @@ function openSystems2(tab){
    const k=x.dataset.r,i=+x.dataset.i;mixSel[k]=i;mxDirty=true;
    if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0];fillList()}
    mxRefresh();return}
-  const pk=e.target.closest('[data-pk]');if(pk){openPick(pk.dataset.pk);return}
+  if(justLP())return;
+  const xr=e.target.closest('[data-xr]');if(xr){mixExtra=mixExtra.filter(z=>z.id!==xr.dataset.xr);mxDirty=true;mxRefresh();return}
+  const pk=e.target.closest('[data-pk]');if(pk){const k=pk.dataset.pk;if(k==='s')return openSaved();if(k===act&&k!=='a'||k==='a'&&act==='a'){openPick(k);return}act=k;pend=null;mxTray();$('#mxtr').scrollLeft=0;return}
+  const nit=e.target.closest('[data-newit]');if(nit){editItem({newK:nit.dataset.newit});return}
+  if(e.target.closest('[data-newacc]')){editItem({newAcc:1});return}
+  const qm=e.target.closest('[data-qm]');if(qm){const id=qm.dataset.qm;if(addons[id]>1)addons[id]--;else delete addons[id];mxTray();return}
+  const ac=e.target.closest('[data-acc]');if(ac){const id=ac.dataset.acc;addons[id]=(addons[id]||0)+1;mxTray();return}
+  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');const k=tk.dataset.k;pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};mxTray();return}
+  if(e.target.closest('#mxadd')){applyPend();return}
   if(e.target.closest('#mxsv')){saveSet();return}
-  if(e.target.closest('#mxgo')){const{t,b,d}=mixSel,one=SYSL[t].one;const m=await mixModelOf(t,one?t:b,d);m.bprice=mxTotal(false);await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice)}}
+  if(e.target.closest('#mxgo')){const{t,b,d}=mixSel,one=SYSL[t].one;const m=await mixModelOf(t,one?t:b,d);m.bprice=priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d);mixExtra.forEach(x=>{const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p||0,0,x.img||'']);addons[id]=1});await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice)}}
 }
 
 
@@ -3509,7 +3572,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-18.9';
+const APP_VER='2026-11-18.10';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
