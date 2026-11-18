@@ -1043,6 +1043,15 @@ html[data-theme=dark] #seli .pill{--pb:#2a2030;background:#2a2030!important;bord
 .pyb{display:inline-block;margin-top:3px;font:700 11px 'Noto Sans Devanagari',sans-serif;color:#b45309;background:#fff1d6;border-radius:8px;padding:2px 8px}.pyb.pd{color:#166534;background:#dcfce7}.lt2{color:#E11D48;font-weight:800}.osep{height:10px;border-bottom:2px dashed #e4d9e6;margin:6px 0 14px}
 .oact.q{padding:0 10px 10px}.oact.q button{width:100%}
 .wkl{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.wkl button{padding:10px 14px;border-radius:16px;background:#F4EDF5;color:#5A1157;font:700 13px 'Noto Sans Devanagari',sans-serif}.wkl button.on{background:#5A1157;color:#fff}.wkn{display:flex;gap:8px;margin:6px 0 10px}.wkn input{flex:1;border:1px solid #d9ccdc;border-radius:12px;padding:10px;font:600 14px 'Noto Sans Devanagari',sans-serif}.wkn button{width:44px;border-radius:12px;background:#FFB800;font:800 20px sans-serif}.wkc{display:flex;gap:8px;align-items:center;font:600 13px 'Noto Sans Devanagari',sans-serif;margin-bottom:10px}
+
+/* v42 stage */
+.mxp{touch-action:none;user-select:none;-webkit-user-select:none}.mxp .mxs{position:absolute;left:50%;top:50%;transform-origin:50% 50%}.mxp .mxs>img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill;transform-origin:50% 50%;pointer-events:none}.mxp .mxs>img[hidden]{display:none}
+.stk{position:absolute;transform:translate(-50%,-50%);touch-action:none}.stk img{width:100%;display:block;pointer-events:none;filter:drop-shadow(0 3px 5px rgba(0,0,0,.3))}.stk.sel{outline:2px dashed #FFB800;outline-offset:3px;border-radius:6px}
+.stkbar{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:rgba(40,20,45,.88);border-radius:22px;padding:4px 6px 4px 12px;z-index:5}.stkbar .sn{color:#fff;font:700 12px 'Noto Sans Devanagari',sans-serif;margin-right:4px;white-space:nowrap}.stkbar button{width:32px;height:32px;border-radius:50%;background:#fff;color:#5A1157;font:800 16px sans-serif}.stkbar button[data-sa=x]{background:#fee2e2}
+.zrs{position:absolute;top:8px;right:8px;z-index:5;padding:6px 10px;border-radius:14px;background:rgba(40,20,45,.8);color:#fff;font:700 11px 'Noto Sans Devanagari',sans-serif}
+.mxb.on{border-color:#FFB800;background:#fffbeb;box-shadow:0 0 0 2px #ffb80066}.mxb.on canvas,.mxb.on .mxim{border-color:#FFB800}.mxb.ae,.mxb .ae img{object-fit:contain;padding:6px;box-sizing:border-box}
+.mxsl{position:relative;flex:none;width:200px;height:46px;border-radius:23px;background:linear-gradient(90deg,#10B981,#5A1157);display:flex;align-items:center;justify-content:space-between;padding:0 14px;box-shadow:0 4px 14px rgba(90,17,87,.35)}.mxsl span{color:#fff;font:800 11px 'Noto Sans Devanagari',sans-serif}.mxsl .kn{position:absolute;left:50%;top:3px;margin-left:-20px;width:40px;height:40px;border-radius:50%;background:#FFB800;color:#3b2a00;font:900 18px/40px sans-serif;text-align:center;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.35);animation:airap 1.6s infinite}
+.mxadd,.mxok#mxgo{display:none!important}
 </style>
 </head>
 <body>
@@ -3020,6 +3029,13 @@ async function openSystems(tab){
  if(!sysLoaded||!SYSL.length){screen('सिस्टम चुनिए','<div class="sysd" style="text-align:center;padding:60px 20px;font-size:13px">⏳ स्टाइल लोड हो रहे हैं…</div>',true);
   try{await loadSys()}catch(e){toast('लोड नहीं हुआ — इंटरनेट चेक करके फिर खोलें');return}}
  return openSystems2(tab)}
+const STKS=[['पर्स','👜',.74,.6,.26],['वॉलेट','👛',.27,.64,.18],['बेल्ट','belt',.5,.5,.34],['चश्मा','🕶',.5,.135,.17],['घड़ी','⌚',.2,.54,.1],['हैट','👒',.5,.045,.3],['जूते','👠',.4,.93,.15],['माला','📿',.5,.3,.2]];
+const _su={};
+function emojiURL(e){if(_su[e])return _su[e];const c=document.createElement('canvas');c.width=c.height=200;const x=c.getContext('2d');x.font='150px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,100,112);return _su[e]=c.toDataURL('image/png')}
+function beltURL(){if(_su.belt)return _su.belt;const c=document.createElement('canvas');c.width=400;c.height=90;const x=c.getContext('2d');x.fillStyle='#7a4a1f';rrect(x,0,26,400,38,8);x.fill();x.strokeStyle='#d9b27a';x.setLineDash([8,6]);x.lineWidth=2;x.beginPath();x.moveTo(10,34);x.lineTo(390,34);x.moveTo(10,56);x.lineTo(390,56);x.stroke();x.setLineDash([]);x.strokeStyle='#FFB800';x.lineWidth=9;x.strokeRect(166,10,68,70);x.fillStyle='#FFB800';x.fillRect(196,32,26,26);return _su.belt=c.toDataURL('image/png')}
+const stkSrc=d=>d[1]==='belt'?beltURL():emojiURL(d[1]);
+const dupCache={};
+async function dupLayer(m){if(dupCache[m.id])return dupCache[m.id];const[ph,mk]=await Promise.all([imgLoad(m.photo),imgLoad(m.mask)]),w=ph.width,h=ph.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(ph,0,0);const id=x.getImageData(0,0,w,h),c2=document.createElement('canvas');c2.width=w;c2.height=h;const y=c2.getContext('2d');y.drawImage(mk,0,0);const M=y.getImageData(0,0,w,h).data,P=id.data;for(let i=0;i<P.length;i+=4)P[i+3]=M[i+2];x.putImageData(id,0,0);const ks=Object.keys(dupCache);if(ks.length>6)delete dupCache[ks[0]];return dupCache[m.id]={url:c.toDataURL('image/png'),c}}
 function openSystems2(tab){
  sysTab=tab||sysOfM(curModel);mxDirty=false;
  screen('सिस्टम चुनिए','<div id="syw"></div>',true);
@@ -3034,27 +3050,33 @@ function openSystems2(tab){
  const mxRefresh=()=>{
   const {t,b,d}=mixSel,one=SYSL[t].one;mxMark();
   {const key=`mx_${t}_${one?t:b}_${d}`,g=$('#mxgo');if(g)g.classList.toggle('show',mxDirty&&key!==curModel.id)}
-  const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(nameOf('t',t))}</span>${one?'':`<span>👖 ${esc(nameOf('b',b))}</span>`}${d<0?'':`<span>🧣 ${esc(nameOf('d',d))}</span>`}${mixExtra.map(x=>`<span class="ex" data-xr="${x.id}">✨ ${esc(x.n)} ✕</span>`).join('')}`;
+  const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(nameOf('t',t))}</span>${one?'':`<span>👖 ${esc(nameOf('b',b))}</span>`}${d<0?'':`<span>🧣 ${esc(nameOf('d',d))}</span>`}${mixExtra.map(x=>`<span class="ex" data-xr="${x.id}">✨ ${esc(x.n)} ✕</span>`).join('')}${stk.map(x=>`<span class="ex" data-xs="${x.id}">👜 ${esc(x.n)} ✕</span>`).join('')}`;
   mxTray();mixPrev()};
  const paint=()=>{
   const tabs=`<div class="systabs">${[1,2,3].map(n=>`<button class="stab ${sysTab===n?'on':''}" data-t="${n}"><b>सिस्टम ${n}</b><small>${['पूरे मॉडल · अभी वाले','पूरे मॉडल · नई शीट','मिक्स-मैच'][n-1]}</small></button>`).join('')}</div>${sysTab===3?'':`<p class="sysd">${SYSD[sysTab-1]}</p>`}`;
   let body='';
   if(sysTab===1)body=`<div class="sgrid">${allModels().filter(m=>!m.sys).map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img src="${m.photo}" alt=""></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
   if(sysTab===2)body=`<div class="sgrid">${s2List().map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img alt="" id="s2i${m.i}"><i class="sk"></i></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
-  if(sysTab===3)body=`<div class="mxp"><img id="mxp" alt=""><i class="sk"></i><div class="mxchips" id="mxi"></div></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="a">🧰 एसेसरीज़</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾</button><button class="mxadd" id="mxadd">＋ ऐड</button><button class="mxok show" id="mxgo">✓ लगाएँ</button></div></div>`;
+  if(sysTab===3)body=`<div class="mxp" id="mxst"><div class="mxs" id="mxs"><img id="mxp" alt=""><img id="mxd" alt="" hidden></div><i class="sk"></i><div class="mxchips" id="mxi"></div><div class="stkbar" id="stkb" hidden><span class="sn"></span><button data-sa="-">−</button><button data-sa="+">＋</button><button data-sa="x">🗑</button></div><button class="zrs" id="zrs" hidden>⤢ ज़ूम रीसेट</button></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="g">👜 एसेसरीज़</button><button data-pk="a">🧰 सामान</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾</button><div class="mxsl" id="mxsl"><span class="l">◀ कार्ट</span><span class="r">सिलाई ▶</span><b class="kn" id="mxkn">✓</b></div></div></div>`;
   $('#syw').innerHTML=tabs+body;{const pg=$('#fs .scr');if(pg)pg.classList.toggle('s3m',sysTab===3)}
   if(sysTab===2)(async()=>{for(const m of s2List()){if(!$('#s2i'+m.i))return;await m.lazy();const e=$('#s2i'+m.i);if(!e)return;e.src=m.photo;e.parentNode.classList.add('ld')}})();
-  if(sysTab===3){fillList();mxRefresh()}
+  if(sysTab===3){fillList();mxRefresh();layout();renderStk()}
  };
  const mixPrev=()=>{const tok=++mixTok,{t,b,d}=mixSel,one=SYSL[t].one,bb=one?t:b;
-  const p=$('#mxp');if(p&&p.parentNode)p.parentNode.classList.remove('ld');
-  setTimeout(async()=>{if(tok!==mixTok)return;const m=await mixModelT(t,bb,d,mixTint);if(tok!==mixTok)return;const q=$('#mxp');if(q){q.src=m.photo;q.parentNode.classList.add('ld')}},30)};
- const DEFP={t:200,b:150,d:80};let act='t',pend=null;mixExtra=[];mixTint={t:null,b:null,d:null};
+  const st=$('#mxst');if(st)st.classList.remove('ld');
+  setTimeout(async()=>{if(tok!==mixTok)return;const m0=await mixModelT(t,bb,-1,mixTint),m1=d<0?null:await mixModelT(t,bb,d,mixTint),L=m1?await dupLayer(m1):null;if(tok!==mixTok)return;
+   const q=$('#mxp'),dq=$('#mxd');if(!q)return;q.src=m0.photo;if(L){dq.src=L.url;dq.hidden=false;dupC=L.c}else{dq.hidden=true;dupC=null}applyDup();layout();const s2=$('#mxst');if(s2)s2.classList.add('ld')},30)};
+ const DEFP={t:200,b:150,d:80,g:0};let act='t',pend=null;mixExtra=[];mixTint={t:null,b:null,d:null};
+ let stk=[],selS=null,dupC=null,DUP={x:0,y:0,s:1},Z={z:1,px:0,py:0};
+ const layout=()=>{const st=$('#mxst'),m=$('#mxs');if(!st||!m)return;const w=st.clientWidth,h=st.clientHeight;if(!w||!h)return;const k=Math.min(w/720,h/960);m.style.width=720*k+'px';m.style.height=960*k+'px';m.style.marginLeft=-360*k+'px';m.style.marginTop=-480*k+'px';applyZ()};
+ const applyZ=()=>{const m=$('#mxs');if(!m)return;m.style.transform=`translate(${Z.px}px,${Z.py}px) scale(${Z.z})`;const z=$('#zrs');if(z)z.hidden=Z.z<=1.02};
+ const applyDup=()=>{const e=$('#mxd');if(e)e.style.transform=`translate(${DUP.x*100}%,${DUP.y*100}%) scale(${DUP.s})`};
+ window.addEventListener('resize',()=>setTimeout(layout,200));
  const pmap=()=>LS('db_s3p')||{},ovr=()=>LS('db_s3o')||{},cust3=()=>LS('db_s3c')||[];
- const nameOf=(k,i)=>(ovr()[k+i]&&ovr()[k+i].n)||mxLabel(k,i),imgOf=(k,i)=>ovr()[k+i]&&ovr()[k+i].img;
+ const nameOf=(k,i)=>(ovr()[k+i]&&ovr()[k+i].n)||(k==='g'?STKS[i][0]:mxLabel(k,i)),imgOf=(k,i)=>ovr()[k+i]&&ovr()[k+i].img;
  const priceOf=(k,i)=>{if(k==='d'&&i<0)return 0;const m=pmap(),v=m[k+i];return v!=null?+v:(k==='t'&&SYSL[i].one?450:DEFP[k])};
  const accT=()=>ADD.reduce((a,x)=>a+(addons[x[0]]?addons[x[0]]*x[3]:0),0);
- const exT=()=>mixExtra.reduce((a,x)=>a+(+x.p||0),0);
+ const exT=()=>mixExtra.reduce((a,x)=>a+(+x.p||0),0)+stk.reduce((a,x)=>a+(+x.p||0),0);
  function mxTotal(withAcc){const{t,b,d}=mixSel,one=SYSL[t].one;return priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d)+exT()+(withAcc?accT():0)}
  window.mxTotal=mxTotal;
  const accImg=x=>typeof x[5]==='string'&&x[5].startsWith('data:')&&x[5].length<60000?x[5]:x[2];
@@ -3068,12 +3090,13 @@ function openSystems2(tab){
   $$('#mxcat [data-pk]').forEach(b=>b.classList.toggle('on',b.dataset.pk===act));
   let h='';
   if(act==='a'){h=ADD.map(x=>{const q=addons[x[0]]||0;return `<div class="mxb ac ${q?'on':''}" data-acc="${x[0]}"><span class="ae">${ico(accImg(x))}</span><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small>${q?`<em class="q">${q}</em><i class="qm" data-qm="${x[0]}">−</i>`:''}</div>`}).join('');if(isV())h+=`<div class="mxb plus" data-newacc="1"><span>＋</span><b>नया सामान</b></div>`}
+  else if(act==='g'){h=STKS.map((d,i)=>`<div class="mxb ${stk.some(z=>z.i===i)?'on':''}" data-g="${i}"><span class="ae">${imgOf('g',i)?`<img src="${imgOf('g',i)}" alt="">`:`<img src="${stkSrc(d)}" alt="">`}</span><b>${esc(nameOf('g',i))}</b><small>${priceOf('g',i)?'₹'+priceOf('g',i):'फ्री'}</small></div>`).join('')+cust3().filter(c=>c.k==='g').map(c=>`<div class="mxb ${stk.some(z=>z.c===c.id)?'on':''}" data-gc="${c.id}"><span class="ae">${c.img?`<img src="${c.img}" alt="">`:'✨'}</span><b>${esc(c.n)}</b><small>${c.p?'₹'+c.p:'फ्री'}</small></div>`).join('')+(isV()?`<div class="mxb plus" data-newit="g"><span>＋</span><b>नया आइटम</b></div>`:'')}
   else if(act==='b'&&one){h='<p class="mxnote">गाउन / साड़ी में बॉटम साथ ही है — टॉप बदलकर देखिए</p>'}
   else{const idx=act==='t'?S3TOP:act==='b'?S3BOT_A.concat(S3BOT_B):S3DUP;h=(act==='d'?`<div class="mxb ${mixSel.d<0?'on':''}" data-none="d"><span class="ae">🚫</span><b>बिना दुपट्टा</b><small>₹0</small></div>`:'')+idx.map(i=>tileHTML(act,{i})).join('')+cust3().filter(c=>c.k===act).map(c=>tileHTML(act,{c})).join('');if(isV())h+=`<div class="mxb plus" data-newit="${act}"><span>＋</span><b>नया आइटम</b></div>`}
   tr.innerHTML=h;paintAll(tr);
   const tt=$('#mxtot');if(tt)tt.textContent='₹'+mxTotal(true);const ad=$('#mxadd');if(ad)ad.classList.toggle('show',!!pend)}
  function pickMx(k,i){if(k==='b'&&!sepOK(mixSel.t,i)){toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');return false}
-  mixSel[k]=i;mxDirty=true;
+  mixSel[k]=i;mxDirty=true;if(k==='d')DUP={x:0,y:0,s:1};
   if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0]}
   mxRefresh();return true}
  const persistAcc=()=>{try{localStorage.setItem('db_acc',JSON.stringify(ADD.filter(a=>a[0][0]!=='c')))}catch(e){toast('स्टोरेज भर गया')}};
@@ -3101,7 +3124,7 @@ function openSystems2(tab){
    toast('सेव हो गया ✓');done()};
   const d=$('#edd',o);if(d)d.onclick=()=>{if(!confirm('हटा दें?'))return;if(kind==='c'){LS('db_s3c',cust3().filter(z=>z.id!==id));mixExtra=mixExtra.filter(z=>z.id!==id)}else{ADD=ADD.filter(z=>z[0]!==id);delete addons[id];persistAcc()}toast('हटा दिया');done()};
   const r=$('#edrs',o);if(r)r.onclick=()=>{const m=ovr();delete m[k+ref.i];LS('db_s3o',m);const pm=pmap();delete pm[k+ref.i];LS('db_s3p',pm);toast('मूल रूप लौट आया');done()}}
- function applyPend(){if(!pend)return;const tl=document.querySelector('#mxtr .mxb.pend');if(tl)flyFrom(tl);if(pend.c){const c=cust3().find(z=>z.id===pend.c);if(c&&!mixExtra.some(x=>x.id===c.id))mixExtra.push({...c});else if(c)mixExtra=mixExtra.filter(x=>x.id!==c.id)}else pickMx(pend.k,pend.i);pend=null;mxDirty=true;mxRefresh()}
+ function applyPend(el){if(!pend)return;const tl=el||document.querySelector('#mxtr .mxb.pend');if(tl)flyFrom(tl);if(pend.c){const c=cust3().find(z=>z.id===pend.c);if(c&&!mixExtra.some(x=>x.id===c.id))mixExtra.push({...c});else if(c)mixExtra=mixExtra.filter(x=>x.id!==c.id)}else pickMx(pend.k,pend.i);pend=null;mxDirty=true;mxRefresh()}
 
  function flyFrom(el){try{const src=el.querySelector('canvas,img,.ae');const r=el.getBoundingClientRect(),tg=$('#mxp').getBoundingClientRect();
   const f=document.createElement('div');f.className='mxfly';f.style.cssText=`left:${r.left+r.width/2-30}px;top:${r.top}px`;
@@ -3109,7 +3132,7 @@ function openSystems2(tab){
   document.body.append(f);const dx=tg.left+tg.width/2-(r.left+r.width/2),dy=tg.top+tg.height*.45-r.top;
   const a=f.animate([{transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-70}px) scale(1.7) rotate(-12deg)`,opacity:1,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(2.6) rotate(8deg)`,opacity:0}],{duration:720,easing:'cubic-bezier(.25,.8,.3,1)'});
   a.onfinish=()=>{f.remove();const m=$('.mxp');if(m){m.classList.remove('pop');void m.offsetWidth;m.classList.add('pop')}}}catch(e){}}
- function removePart(k){if(k==='d'){if(mixSel.d<0)return toast('दुपट्टा पहले से हटा हुआ है');mixSel.d=-1;mixTint.d=null}
+ function removePart(k){if(k==='d'){if(mixSel.d<0)return toast('दुपट्टा पहले से हटा हुआ है');mixSel.d=-1;mixTint.d=null;DUP={x:0,y:0,s:1}}
   else if(k==='t'){mixSel.t=S3TOP[0];if(SYSL[mixSel.t].one)mixSel.b=mixSel.t;else if(!sepOK(mixSel.t,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0];mixTint.t=null}
   else{mixSel.b=S3BOT_A[0];if(!sepOK(mixSel.t,mixSel.b)){mixSel.t=S3TOP[0];mixSel.b=S3BOT_A[0]}mixTint.b=null}
   mxDirty=true;mxRefresh();toast(k==='d'?'दुपट्टा हटा दिया ✓':k==='t'?'टॉप हटाकर सादा टॉप लगा दिया':'बॉटम हटाकर सादा बॉटम लगा दिया')}
@@ -3123,16 +3146,63 @@ function openSystems2(tab){
   o.addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c)set({c:c.dataset.c});if(e.target.closest('#tcr'))set(null);if(e.target.closest('#tcok'))o.close()});
   $('#tcp',o).onchange=e=>set({c:e.target.value});
   $('#tcf',o).onchange=async e=>{const f=e.target.files[0];if(f)set({img:await shrinkImg(f,260)})}}
- {const R=$('#syw');if(R){let t=null,sx=0,sy=0,ev=null;R.addEventListener('pointerdown',e=>{const el=e.target.closest('.mxp');if(!el||e.target.closest('.mxchips'))return;sx=e.clientX;sy=e.clientY;ev=e;clearTimeout(t);t=setTimeout(()=>{window._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}partMenu(ev)},520)});
-   ['pointerup','pointercancel','pointerleave'].forEach(n=>R.addEventListener(n,()=>clearTimeout(t)));R.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)>10)clearTimeout(t)})}}
- function partMenu(e){const im=$('#mxp');if(!im)return;const r=im.getBoundingClientRect(),sc=Math.min(r.width/720,r.height/960),ox=(r.width-720*sc)/2,oy=(r.height-960*sc)/2,xi=(e.clientX-r.left-ox)/sc,yi=(e.clientY-r.top-oy)/sc;
-  const{t,b,d}=mixSel,one=SYSL[t].one,sm=seamOf(t,one?t:b)<0?teOf(t):seamOf(t,one?t:b);let k=xi>=330&&d>=0?'d':(yi<sm||one?'t':'b');if(xi>=330&&d<0)k=yi<sm||one?'t':'b';
+ /* ===== स्टेज जेस्चर: मॉडल ज़ूम · दुपट्टा खींचना · स्टिकर ===== */
+ const SW=()=>{const m=$('#mxs');return m?m.offsetWidth:1},SH=()=>{const m=$('#mxs');return m?m.offsetHeight:1},cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+ function dupHit(cx,cy){if(!dupC||mixSel.d<0)return false;const m=$('#mxs').getBoundingClientRect(),u=(cx-m.left)/m.width,v=(cy-m.top)/m.height,uu=.5+(u-.5-DUP.x)/DUP.s,vv=.5+(v-.5-DUP.y)/DUP.s;if(uu<0||vv<0||uu>=1||vv>=1)return false;try{return dupC.getContext('2d').getImageData(Math.floor(uu*dupC.width),Math.floor(vv*dupC.height),1,1).data[3]>40}catch(e){return false}}
+ function updStk(o){const e=document.querySelector(`.stk[data-id="${o.id}"]`);if(e){e.style.left=o.x*100+'%';e.style.top=o.y*100+'%';e.style.width=o.s*100+'%'}}
+ function renderStk(){const m=$('#mxs');if(!m)return;m.querySelectorAll('.stk').forEach(e=>e.remove());stk.forEach(o=>{const d=document.createElement('div');d.className='stk'+(o.id===selS?' sel':'');d.dataset.id=o.id;d.innerHTML=`<img src="${o.src}" alt="" draggable="false">`;m.append(d);updStk(o)});
+  const bar=$('#stkb');if(bar){const o=stk.find(z=>z.id===selS);bar.hidden=!o;if(o)bar.querySelector('.sn').textContent=o.n+(o.p?' ₹'+o.p:'')}}
+ function selStk(id){selS=id;renderStk()}
+ function removeStk(id){stk=stk.filter(z=>z.id!==id);if(selS===id)selS=null;mxDirty=true;renderStk();mxRefresh();toast('हटा दिया ✓')}
+ function addStk(ref,el){let o;if(ref.c){const c=cust3().find(z=>z.id===ref.c);if(!c)return;o={c:c.id,n:c.n,p:+c.p||0,src:c.img||emojiURL('✨'),x:.5,y:.5,s:.25}}
+  else{const d=STKS[ref.i];o={i:ref.i,n:nameOf('g',ref.i),p:priceOf('g',ref.i),src:imgOf('g',ref.i)||stkSrc(d),x:d[2],y:d[3],s:d[4]}}
+  o.id='s'+Date.now().toString(36)+Math.random().toString(36).slice(2,4);stk.push(o);mxDirty=true;if(el)flyFrom(el);selS=o.id;renderStk();mxRefresh()}
+ {const R=$('#syw');if(R){const P=new Map();let G=null,lt=null;const stop=()=>{clearTimeout(lt)};
+  R.addEventListener('pointerdown',e=>{
+   const kn=e.target.closest('#mxkn');if(kn){G={slide:1,sx:e.clientX,el:kn,w:$('#mxsl').offsetWidth};try{kn.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();return}
+   const st=e.target.closest('#mxst');if(!st||e.target.closest('.stkbar,.zrs,.mxchips'))return;
+   try{st.setPointerCapture(e.pointerId)}catch(_){}
+   P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+   if(P.size===1){let ty='stage',obj=null;const se=e.target.closest('.stk');if(se){ty='stk';obj=stk.find(z=>z.id===se.dataset.id)}else if(dupHit(e.clientX,e.clientY))ty='dup';
+    G={ty,obj,sx:e.clientX,sy:e.clientY,moved:false,x0:obj?obj.x:DUP.x,y0:obj?obj.y:DUP.y,s0:obj?obj.s:DUP.s,z0:Z.z,px0:Z.px,py0:Z.py,pinch:null,ev:e};
+    stop();lt=setTimeout(()=>{if(!G||G.moved||P.size!==1)return;window._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}
+     if(G.ty==='stk'){selStk(G.obj.id)}else partMenu(G.ev,G.ty==='dup'?'d':null);G.lp=true},520)}
+   else if(P.size===2&&G){stop();const[a,b]=[...P.values()];G.pinch={d0:Math.max(10,Math.hypot(a.x-b.x,a.y-b.y)),s0:G.ty==='stk'?G.obj.s:G.ty==='dup'?DUP.s:Z.z};G.moved=true}
+  });
+  R.addEventListener('pointermove',e=>{
+   if(G&&G.slide){const dx=cl(e.clientX-G.sx,-(G.w/2-24),G.w/2-24);G.dx=dx;G.el.style.transform=`translateX(${dx}px)`;return}
+   if(!P.has(e.pointerId)||!G)return;P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+   if(P.size>=2&&G.pinch){const[a,b]=[...P.values()],r=Math.hypot(a.x-b.x,a.y-b.y)/G.pinch.d0;
+    if(G.ty==='stk'){G.obj.s=cl(G.pinch.s0*r,.05,1);updStk(G.obj)}else if(G.ty==='dup'){DUP.s=cl(G.pinch.s0*r,.35,3);applyDup()}else{Z.z=cl(G.pinch.s0*r,1,3.5);const mx=(Z.z-1)*SW()/2,my=(Z.z-1)*SH()/2;Z.px=cl(Z.px,-mx,mx);Z.py=cl(Z.py,-my,my);applyZ()}mxDirty=true;return}
+   const dx=e.clientX-G.sx,dy=e.clientY-G.sy;if(!G.moved&&Math.hypot(dx,dy)<8)return;if(!G.moved){G.moved=true;stop()}
+   if(G.ty==='stk'){G.obj.x=cl(G.x0+dx/(SW()*Z.z),-.1,1.1);G.obj.y=cl(G.y0+dy/(SH()*Z.z),-.1,1.1);if(selS!==G.obj.id){selS=G.obj.id;renderStk()}else updStk(G.obj)}
+   else if(G.ty==='dup'){DUP.x=cl(G.x0+dx/(SW()*Z.z),-1,1);DUP.y=cl(G.y0+dy/(SH()*Z.z),-1,1);applyDup();mxDirty=true}
+   else if(Z.z>1){const mx=(Z.z-1)*SW()/2,my=(Z.z-1)*SH()/2;Z.px=cl(G.px0+dx,-mx,mx);Z.py=cl(G.py0+dy,-my,my);applyZ()}});
+  const up=e=>{stop();
+   if(G&&G.slide){const kn=G.el,w=G.w,dx=G.dx||0;G=null;kn.style.transition='transform .25s';kn.style.transform='';setTimeout(()=>{kn.style.transition=''},260);
+    if(Math.abs(dx)>w*.22)finishMx(dx>0?'seli':'cart');else if(Math.abs(dx)<6)finishMx('');return}
+   if(!P.has(e.pointerId))return;P.delete(e.pointerId);
+   if(P.size===0&&G){if(!G.moved&&!G.lp&&!G.pinch){if(G.ty==='stk')selStk(G.obj.id);else if(selS){selS=null;renderStk()}}G=null}};
+  ['pointerup','pointercancel'].forEach(n=>R.addEventListener(n,up))}}
+ async function bakeMx(t,bb){const m0=await mixModelT(t,bb,-1,mixTint),c=document.createElement('canvas');c.width=720;c.height=960;const x=c.getContext('2d');x.drawImage(await imgLoad(m0.photo),0,0,720,960);
+  if(dupC&&mixSel.d>=0){x.save();x.translate(360+DUP.x*720,480+DUP.y*960);x.scale(DUP.s,DUP.s);x.drawImage(dupC,-360,-480,720,960);x.restore()}
+  for(const o of stk){const im=await imgLoad(o.src),w=o.s*720,h=w*im.height/im.width;x.drawImage(im,o.x*720-w/2,o.y*960-h/2,w,h)}
+  return c.toDataURL('image/jpeg',.9)}
+ async function finishMx(go){const{t,b,d}=mixSel,one=SYSL[t].one,bb=one?t:b;let m={...(await mixModelT(t,bb,d,mixTint))};m.bprice=priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d);
+  if(stk.length||DUP.x||DUP.y||DUP.s!==1){m.photo=await bakeMx(t,bb);m.id=m.id+'_k'+Date.now().toString(36)}
+  mixExtra.forEach(x=>{const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p||0,0,x.img||'']);addons[id]=1});
+  stk.forEach(x=>{if(+x.p>0){const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p,0,'']);addons[id]=1}});
+  await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice);
+  if(go==='cart')setTimeout(()=>addToCart(),450);else if(go==='seli')setTimeout(()=>showForm(),350)}
+ function partMenu(e,fk){const im=$('#mxp');if(!im)return;const r=im.getBoundingClientRect(),sc=Math.min(r.width/720,r.height/960),ox=(r.width-720*sc)/2,oy=(r.height-960*sc)/2,xi=(e.clientX-r.left-ox)/sc,yi=(e.clientY-r.top-oy)/sc;
+  const{t,b,d}=mixSel,one=SYSL[t].one,sm=seamOf(t,one?t:b)<0?teOf(t):seamOf(t,one?t:b);let k=fk||(yi<sm||one?'t':'b');
   const nm=k==='d'?nameOf('d',d):k==='t'?nameOf('t',t):nameOf('b',b);
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${PN[k]} · ${esc(nm)}</h3><div class="sc"><button class="pmb" data-a="tint">🎨 रंग / फैब्रिक बदलें</button><button class="pmb red" data-a="rm">🗑 ${k==='d'?'दुपट्टा पूरा हटाएँ':k==='t'?'यह टॉप हटाएँ (सादा टॉप लगेगा)':'यह बॉटम हटाएँ (सादा बॉटम लगेगा)'}</button></div>`,{h:'36%',pop:false});
   o.addEventListener('click',ev=>{const a=ev.target.closest('[data-a]');if(!a)return;o.close();if(a.dataset.a==='rm')removePart(k);else setTimeout(()=>openTint(k),200)})}
  function openPick(k){
   if(k==='s')return openSaved();
   if(k==='a')return openAcc();
+  if(k==='g')return;
   const one=SYSL[mixSel.t].one;if(k==='b'&&one){toast('गाउन / साड़ी में बॉटम साथ है');return}
   const idx=k==='t'?S3TOP:k==='b'?S3BOT_A.concat(S3BOT_B):S3DUP,ttl={t:'👚 सारे टॉप',b:'👖 सारे बॉटम',d:'🧣 सारे दुपट्टे'}[k];
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${ttl}</h3>${isV()?'<p class="sub2">वेंडर: किसी भी आइटम को दबाकर रखें → नाम / कीमत / फोटो बदलें</p>':''}<div class="sc"><div class="pkg" id="pkg"></div></div>`,{h:'86%',pop:false});
@@ -3159,7 +3229,7 @@ function openSystems2(tab){
   $('#svk',o).onclick=()=>{const n=$('#svn',o).value.trim();if(!n)return toast('नाम लिखिए');const L=LS('db_s3b')||[];L.unshift({n,sel:{...mixSel},acc:{...addons},ex:mixExtra.slice(),price:mxTotal(true),sum});LS('db_s3b',L.slice(0,40));o.close();toast('सेट सेव हो गया ✓')}}
  paint();
  /* स्ट्रिप: टैप / लॉन्ग-प्रेस */
- {const tr=$('#syw');if(tr){onLong(tr,'.mxb[data-k],.mxb[data-acc]',el=>{if(el.dataset.acc)editItem({acc:el.dataset.acc});else if(el.dataset.c)editItem({k:el.dataset.k,c:el.dataset.c});else editItem({k:el.dataset.k,i:+el.dataset.i})})}}
+ {const tr=$('#syw');if(tr){onLong(tr,'.mxb[data-k],.mxb[data-acc],.mxb[data-g],.mxb[data-gc]',el=>{if(el.dataset.g!==undefined)editItem({k:'g',i:+el.dataset.g});else if(el.dataset.gc)editItem({k:'g',c:el.dataset.gc});else if(el.dataset.acc)editItem({acc:el.dataset.acc});else if(el.dataset.c)editItem({k:el.dataset.k,c:el.dataset.c});else editItem({k:el.dataset.k,i:+el.dataset.i})})}}
  $('#sb').onclick=async e=>{const q=e.target.closest('[data-t].stab');
   if(q){sysTab=+q.dataset.t;paint();$('#sb').scrollTo({top:0});return}
   const c=e.target.closest('.scard');
@@ -3177,10 +3247,12 @@ function openSystems2(tab){
   const qm=e.target.closest('[data-qm]');if(qm){const id=qm.dataset.qm;if(addons[id]>1)addons[id]--;else delete addons[id];mxTray();return}
   const ac=e.target.closest('[data-acc]');if(ac){const id=ac.dataset.acc;addons[id]=(addons[id]||0)+1;mxTray();return}
   const nn=e.target.closest('[data-none]');if(nn){removePart('d');return}
-  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');const k=tk.dataset.k;if(tk.classList.contains('on')&&!tk.dataset.c&&!(pend&&pend.k===k)){openTint(k);return}pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};mxTray();return}
-  if(e.target.closest('#mxadd')){applyPend();return}
+  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');const k=tk.dataset.k;if(tk.classList.contains('on')&&!tk.dataset.c){openTint(k);return}pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};applyPend(tk);return}
+  if(e.target.closest('#zrs')){Z={z:1,px:0,py:0};applyZ();return}
+  {const gi=e.target.closest('[data-g]');if(gi){addStk({i:+gi.dataset.g},gi);return}const gc=e.target.closest('[data-gc]');if(gc){addStk({c:gc.dataset.gc},gc);return}const xs=e.target.closest('[data-xs]');if(xs){removeStk(xs.dataset.xs);return}
+   const sa=e.target.closest('[data-sa]');if(sa){const o=stk.find(z=>z.id===selS);if(!o)return;if(sa.dataset.sa==='x')return removeStk(o.id);o.s=cl(o.s*(sa.dataset.sa==='+'?1.15:.87),.05,1);updStk(o);return}}
   if(e.target.closest('#mxsv')){saveSet();return}
-  if(e.target.closest('#mxgo')){const{t,b,d}=mixSel,one=SYSL[t].one;const m=await mixModelT(t,one?t:b,d,mixTint);m.bprice=priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d);mixExtra.forEach(x=>{const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p||0,0,x.img||'']);addons[id]=1});await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice)}}
+}
 }
 
 
@@ -3674,7 +3746,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-19.2';
+const APP_VER='2026-11-19.3';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
