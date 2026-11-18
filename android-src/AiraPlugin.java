@@ -165,6 +165,46 @@ public class AiraPlugin extends Plugin {
     }
 
     @PluginMethod
+    public void ocr(final PluginCall call) {
+        final String b64 = call.getString("image", "");
+        try {
+            byte[] raw = android.util.Base64.decode(b64, android.util.Base64.DEFAULT);
+            final android.graphics.Bitmap bmp = android.graphics.BitmapFactory.decodeByteArray(raw, 0, raw.length);
+            if (bmp == null) { call.reject("image"); return; }
+            final com.google.mlkit.vision.common.InputImage img = com.google.mlkit.vision.common.InputImage.fromBitmap(bmp, 0);
+            final JSArray toks = new JSArray();
+            final com.google.mlkit.vision.text.TextRecognizer dev = com.google.mlkit.vision.text.TextRecognition.getClient(new com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions.Builder().build());
+            final com.google.mlkit.vision.text.TextRecognizer lat = com.google.mlkit.vision.text.TextRecognition.getClient(com.google.mlkit.vision.text.latin.TextRecognizerOptions.DEFAULT_OPTIONS);
+            final com.google.android.gms.tasks.OnSuccessListener<com.google.mlkit.vision.text.Text> add = new com.google.android.gms.tasks.OnSuccessListener<com.google.mlkit.vision.text.Text>() {
+                public void onSuccess(com.google.mlkit.vision.text.Text t) {
+                    for (com.google.mlkit.vision.text.Text.TextBlock b : t.getTextBlocks())
+                        for (com.google.mlkit.vision.text.Text.Line l : b.getLines())
+                            for (com.google.mlkit.vision.text.Text.Element e : l.getElements()) {
+                                android.graphics.Rect r = e.getBoundingBox();
+                                if (r == null) continue;
+                                try {
+                                    JSObject o = new JSObject();
+                                    o.put("t", e.getText()); o.put("x1", r.left); o.put("y1", r.top); o.put("x2", r.right); o.put("y2", r.bottom);
+                                    toks.put(o);
+                                } catch (Exception ex) { }
+                            }
+                }
+            };
+            dev.process(img).addOnSuccessListener(add).addOnCompleteListener(new com.google.android.gms.tasks.OnCompleteListener<com.google.mlkit.vision.text.Text>() {
+                public void onComplete(com.google.android.gms.tasks.Task<com.google.mlkit.vision.text.Text> t1) {
+                    lat.process(img).addOnSuccessListener(add).addOnCompleteListener(new com.google.android.gms.tasks.OnCompleteListener<com.google.mlkit.vision.text.Text>() {
+                        public void onComplete(com.google.android.gms.tasks.Task<com.google.mlkit.vision.text.Text> t2) {
+                            JSObject res = new JSObject();
+                            res.put("tokens", toks); res.put("w", bmp.getWidth()); res.put("h", bmp.getHeight());
+                            call.resolve(res);
+                        }
+                    });
+                }
+            });
+        } catch (Exception e) { call.reject(String.valueOf(e.getMessage())); }
+    }
+
+    @PluginMethod
     public void ttsSettings(final PluginCall call) {
         try {
             android.content.Intent i = new android.content.Intent("com.android.settings.TTS_SETTINGS");

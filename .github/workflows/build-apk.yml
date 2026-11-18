@@ -41,7 +41,8 @@ jobs:
               "@capacitor/cli": "^6.2.0",
               "@capacitor/android": "^6.2.0",
               "@capacitor/filesystem": "^6.0.0",
-              "@capacitor/share": "^6.0.0"
+              "@capacitor/share": "^6.0.0",
+              "@capacitor/local-notifications": "^6.0.0"
             }
           }
           JSON
@@ -86,7 +87,7 @@ jobs:
           open(p, 'w', encoding='utf-8').write(s)
           g = 'android/app/build.gradle'
           t = open(g, encoding='utf-8').read()
-          t = t.replace('dependencies {', 'dependencies {\n    implementation "net.java.dev.jna:jna:5.13.0@aar"\n    implementation "com.alphacephei:vosk-android:0.3.47"', 1)
+          t = t.replace('dependencies {', 'dependencies {\n    implementation "net.java.dev.jna:jna:5.13.0@aar"\n    implementation "com.alphacephei:vosk-android:0.3.47"\n    implementation "com.google.mlkit:text-recognition:16.0.1"\n    implementation "com.google.mlkit:text-recognition-devanagari:16.0.1"', 1)
           open(g, 'w', encoding='utf-8').write(t)
           PY
           mkdir -p android/app/src/main/assets
