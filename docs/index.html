@@ -828,6 +828,30 @@ html[data-theme=dark] .paybar{background:linear-gradient(rgba(27,18,32,0),#1b122
 #airaTB .tbl{font:800 12px 'Noto Sans Devanagari',sans-serif;color:#5A1157;margin:0 4px 6px}
 #airaTB .tbr{display:flex;gap:6px}#airaTB input{flex:1;min-width:0;border:2px solid #e5d5e6;border-radius:12px;padding:10px;font-size:16px}
 #airaTB button{border-radius:12px;padding:0 12px;font-weight:800;background:#5A1157;color:#fff}#airaTB #airaTsk{background:#FFB800;color:#5A1157}#airaTB #airaTx{background:#eee;color:#555}
+
+/* v34 */
+.tile.na,.tile.px{min-width:64px;font-size:26px}.tile.na{background:#FEE2E2;color:#B91C1C}.tile.px{background:#EDE7EE;color:#5A1157}
+.tile.na small,.tile.px small{font-size:8px;font-weight:800;color:inherit;opacity:.8;white-space:nowrap}
+.disp.na{color:#B91C1C;font-size:17px}.disp.na small{font-size:10px;color:#B91C1C;opacity:.8}#seli .disp.na:after{content:""!important}
+.addrow{display:block;width:100%;margin:6px 0 18px;padding:14px;border-radius:18px;border:2px dashed #d9b9d8;background:#fbf6fb;color:#5A1157;font:800 13px 'Noto Sans Devanagari',sans-serif}
+.pmx{position:absolute;top:12px;right:14px;width:30px;height:30px;border-radius:50%;background:#EDE7EE;color:#5A1157;font-weight:900;font-size:13px;z-index:2}
+.pmh{text-align:center;margin-top:2px}.pmh .pme{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:#5A1157;color:#FFB800;font-size:22px;margin-bottom:6px}.pmh .pme img{width:26px;height:26px;object-fit:contain}
+.pmh p{font-size:12px;color:#6b5b6e;font-weight:700;margin:2px 0 8px}
+.pmr{display:flex;gap:10px;margin-top:10px}.pmr button{flex:1;padding:14px 8px;border-radius:40px;font:800 12px 'Noto Sans Devanagari',sans-serif}
+.pmd{background:#FEF2F2;color:#B91C1C;border:1.5px solid #FECACA}.pmc{background:#EDE7EE;color:#5A1157}
+.sub2{text-align:center;font-size:12px;color:#6b5b6e;font-weight:700;margin:4px 0 12px}
+.nmrow{display:flex;gap:8px;align-items:center;margin-bottom:10px}.nmrow input{flex:1;min-width:0;padding:14px;border-radius:16px;border:2px solid #5A1157;font:800 15px 'Noto Sans Devanagari',sans-serif;outline:0}
+.nmic{width:46px;height:46px;border-radius:14px;background:#5A1157;color:#fff;font-size:18px;flex-shrink:0}.nmic.rec{background:#DC2626;animation:airap 1s infinite}
+.nmc{display:flex;flex-wrap:wrap;gap:8px;overflow:auto;flex:1;min-height:0;align-content:flex-start;padding:2px 0 8px}
+.nmch{padding:10px 14px;border-radius:30px;background:#F4EDF5;color:#5A1157;font:800 12.5px 'Noto Sans Devanagari',sans-serif;border:1.5px solid #E5D5E6}
+.nmch.used{background:#E8F7EF;color:#047857;border-color:#A7E3C4}.nmch.new{background:#FFB800;color:#5A1157;border-color:#FFB800}.nmch i{font-style:normal;margin-left:8px;opacity:.55;font-size:11px}
+.pvs{margin-top:14px;background:#fff;border:1.5px solid #eadcec;border-radius:18px;padding:10px 12px}
+.pvs h4{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#5A1157;font-weight:900;margin-bottom:6px}.pvs h4 em{font-style:normal;font-size:11px;color:#8b7d8e;font-weight:800}
+.pvr{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dotted #d9ccdc}.pvr:last-child{border-bottom:0}
+.pvi{width:42px;height:42px;border-radius:12px;background:#F4EDF5;display:grid;place-items:center;font-size:20px;overflow:hidden;flex-shrink:0}.pvi img{width:100%;height:100%;object-fit:cover}
+.pvt{flex:1;min-width:0}.pvt b{display:block;font-size:13px;color:#3b2a3e}.pvt small{font-size:11px;color:#8b7d8e;font-weight:700}
+.pvp{font-size:13px;color:#5A1157}.pvm{display:flex;align-items:center;gap:4px}.pvm input{width:62px;text-align:center;padding:8px 4px;border-radius:10px;border:1.5px solid #e5d5e6;font-weight:900;font-size:14px;color:#5A1157}.pvm small{font-size:10px;color:#8b7d8e;font-weight:700}
+.pvn{font-size:12px;color:#8b7d8e;font-weight:700}.pvg{display:flex;gap:8px;flex-wrap:wrap}.pvg img{width:76px;height:76px;object-fit:cover;border-radius:12px;background:#f1eef2}
 </style>
 </head>
 <body>
@@ -1208,13 +1232,26 @@ function showForm(){
   <div class="nb3"><div class="t" id="nt">Notes...</div><button class="press" id="clip" aria-label="अटैच">📎</button><button class="press mic" id="mic" aria-label="वॉइस नोट">🎤</button></div></div></div>
  <div class="bbar"><div class="bth" id="bth"></div><div class="bin" id="bin"></div><button class="bn press" id="bn">Buy now</button><button class="bcart press" id="fc">＋ Add to cart</button></div></div>`);
  buildRows();$('#mdx').onclick=closeDrop;$('#airab').onclick=airaToggle;$('#airag').onclick=airaSettings;
- $('#rows').onclick=e=>{const a=e.target.closest('[data-act]');if(!a)return;const rw=a.closest('.row'),id=rw.dataset.id;cur=id;if(a.dataset.act==='tape')return rw.classList.contains('lock')?toast('पहले ऊपर की नाप भरें 🔒'):openTape();a.dataset.act==='guide'?openGuide():openVar()};
+ $('#rows').onclick=e=>{if(e.target.closest('[data-add]'))return openNamePicker(null);const a=e.target.closest('[data-act]');if(!a)return;const rw=a.closest('.row'),id=rw.dataset.id;cur=id;if(a.dataset.act==='tape')return rw.classList.contains('lock')?toast('पहले ऊपर की नाप भरें 🔒'):openTape();a.dataset.act==='guide'?openGuide():openVar()};
  $('#rows').oninput=e=>{const id=e.target.closest('.row').dataset.id;vals[id]=e.target.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');refresh()};
  $('#pf').onclick=openCust;$('#pc').onclick=openLooks;$('#addc').onclick=openAdd;$('#clip').onclick=openAttach;$('#nt').onclick=openMedia;$('#mic').onclick=openMedia;
  $('#tray3').onclick=e=>{const t=e.target.closest('.tp');if(!t)return;({tm:openMat,ts:openSize,tr:openRef})[t.id]()};
  $('#fc').onclick=()=>addToCart();$('#bn').onclick=buyNow;
  paintTray();
 }
+function estMeters(){
+ const g=re=>{for(const s of steps){if(re.test(s.id+' '+s.h)){const v=parseFloat(vals[s.id]);if(v>0)return v}}return 0};
+ const up=q=>Math.ceil(q*4-1e-9)/4;
+ const L=g(/length|llen|लंबाई|लेंथ/i)||40,B=g(/baju|बाजू|sleeve/i)||20,PL=g(/plen|blen|पलाज़ो|सलवार|बॉटम/i)||38;
+ const t=curTplId,out=[];
+ for(let i=0;i<3;i++){if(hid&&hid[i])continue;const nm=PARTS[i];if(!nm)continue;let m;
+  if(t==='saree')m=[5.5,.9,0][i];
+  else if(t==='blouse')m=[1,0,0][i];
+  else if(t==='lehenga')m=[1,3.5,2.5][i];
+  else if(t==='gown')m=[up((L*2+B+10)/39.37),0,2.25][i];
+  else m=[up((L*2+B+6)/39.37),up((PL*2+10)/39.37),2.25][i];
+  if(m>0)out.push([nm,String(m)])}
+ return out}
 function curTotal(){return BASE+Object.values(designs).reduce((a,d)=>a+(+d[1]||0),0)+addTotal()}
 function stack(a,more){return `<span class="stk">${a.slice(0,3).join('')}${a.length>3?`<em>+${a.length-3}</em>`:''}</span>`}
 function paintTray(){
@@ -1233,7 +1270,7 @@ function paintTray(){
 }
 
 /* ---------- आयरा : आवाज़ से नाप (ऑफ़लाइन + फ़्लोटिंग बबल) ---------- */
-const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0,target:null,lastIdx:null,exp:null,keep:0,skipName:0,skipPhone:0,skipped:new Set(),fail:0,ph:'',vs:[],skipCust:0,lastAct:0,pendAdv:null,unk:0};
+const A={on:0,busy:0,idle:0,r:null,gen:0,said:0,native:0,seq:0,q:[],lis:0,target:null,lastIdx:null,exp:null,keep:0,dict:null,dictOnly:0,skipName:0,skipPhone:0,skipped:new Set(),fail:0,ph:'',vs:[],skipCust:0,lastAct:0,pendAdv:null,unk:0};
 const NP=()=>{const C=window.Capacitor;return(C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Aira)||null};
 const _nz=t=>String(t||'').normalize('NFD').replace(/[़]/g,'').replace(/ँ/g,'ं').normalize('NFC').toLowerCase();
 const _sk=t=>_nz(t).normalize('NFD').replace(/[ऀ-ःऺ-़ा-ॏ]/g,'').replace(/ई/g,'इ').replace(/ऊ/g,'उ').replace(/ऐ/g,'ए').replace(/औ/g,'ओ').replace(/(.)\1+/g,'$1');
@@ -1511,6 +1548,10 @@ async function airaHandle(text){
   const rm=/हटा|निकाल|remove|delete|मत|कैंसल/.test(T);const q=amt!=null&&amt<50?amt:1;
   const had=addons[adn[0]]||0;addons[adn[0]]=rm?0:(amt!=null&&amt<50?q:had+1);try{paintMat()}catch(_){}try{refresh()}catch(_){}
   return done(rm?`${adn[1]} हटा दी।`:`${pickR(ACK)}, ${adn[1]} ${addons[adn[0]]} जोड़ दी, ${adn[3]*addons[adn[0]]} रुपये।`)}
+ /* ---- नाप नहीं चाहिए ---- */
+ if(/नहीं चाहिए|नही चाहिए|जरूरत नहीं|ज़रूरत नहीं|not needed|no need|नहीं लगेगा|नहीं रखनी|नहीं रखना/.test(T)&&steps.length){
+  const it=airaParse(T).find(x=>x.f!==null);const i=it?it.f:(A.target!=null&&steps[A.target]?A.target:airaFirstEmpty());
+  if(i>=0&&steps[i]){airaEnsureForm();vals[steps[i].id]='✕';A.lastIdx=i;A.target=null;refresh();return done(steps[i].h+' नहीं चाहिए, '+pickR(['ठीक है','हाँ जी'])+'। '+airaQ())}}
  /* ---- template / category ---- */
  const items0=airaParse(T);
  if(!items0.some(x=>x.v!=null)){
@@ -1567,9 +1608,24 @@ function airaGreet0(){
  const hi=A.said?'':'नमस्ते, मैं आयरा हूँ। फोन दूर रखकर बोलिए, मैं नाप लिखती जाऊँगी। ';A.said=1;
  airaSay(hi+(i>=0?'पहली नाप: '+steps[i].h+' बताइए।':'सारे नाप भरे हैं। बदलाव बोलिए, या ऐड टू कार्ट कहिए।'),airaAfter)}
 function airaGreet(){
- if(!A.on)return;A.skipCust=0;A.skipName=0;A.skipPhone=0;A.skipped=new Set();A.fail=0;A.ph='';airaVoiceInit();const hi=A.said?'':`नमस्ते, मैं ${PR().n} हूँ। `;A.said=1;
+ if(!A.on)return;if(A.dictOnly){A.busy=0;airaUI('🎙 बोलिए…','');return}A.skipCust=0;A.skipName=0;A.skipPhone=0;A.skipped=new Set();A.fail=0;A.ph='';airaVoiceInit();const hi=A.said?'':`नमस्ते, मैं ${PR().n} हूँ। `;A.said=1;
  airaSay(hi+airaQ(),airaAfter)}
-function airaNativeIn(d){if(!d||d.seq<=A.seq)return;A.seq=d.seq;try{NP().ack({seq:d.seq})}catch(_){}const t=A.exp?(d.text||d.alt):(airaPick([d.text,d.alt])||d.text||d.alt);if(t)airaIn(t)}
+function dictate(cb,btn){
+ if(A.dict){A.dict=null;clearTimeout(A.dt);if(A.dictOnly){A.dictOnly=0;airaStop(true)}btn&&btn.classList.remove('rec');return}
+ const fin=t=>{btn&&btn.classList.remove('rec');cb(t)};
+ const N=NP();
+ if(N){A.dict=fin;btn&&btn.classList.add('rec');
+  if(!A.on){A.dictOnly=1;airaStart().catch(()=>{})}
+  clearTimeout(A.dt);A.dt=setTimeout(()=>{if(!A.dict)return;A.dict=null;btn&&btn.classList.remove('rec');if(A.dictOnly){A.dictOnly=0;airaStop(true)}toast('कुछ सुनाई नहीं दिया, फिर 🎤 दबाइए')},14000);return}
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR)return toast('इस ब्राउज़र में आवाज़ नहीं चलेगी — टाइप करें');
+ const r=new SR();r.lang='hi-IN';r.interimResults=false;r.maxAlternatives=1;
+ r.onresult=e=>{try{fin(e.results[0][0].transcript)}catch(_){}};
+ r.onerror=e=>{btn&&btn.classList.remove('rec');toast(e.error==='not-allowed'?'माइक की इजाज़त दीजिए':'आवाज़ नहीं पकड़ी, फिर कोशिश करें')};
+ r.onend=()=>btn&&btn.classList.remove('rec');
+ btn&&btn.classList.add('rec');try{r.start()}catch(_){btn&&btn.classList.remove('rec')}}
+function airaNativeIn(d){if(!d||d.seq<=A.seq)return;A.seq=d.seq;try{NP().ack({seq:d.seq})}catch(_){}
+ if(A.dict){const cb=A.dict;A.dict=null;clearTimeout(A.dt);const t=d.text||d.alt;if(A.dictOnly){A.dictOnly=0;airaStop(true)}cb(t);return}const t=A.exp?(d.text||d.alt):(airaPick([d.text,d.alt])||d.text||d.alt);if(t)airaIn(t)}
 function airaOn(N,ev,cb){try{if(typeof N.addListener==='function')N.addListener(ev,cb);else if(window.Capacitor&&Capacitor.addListener)Capacitor.addListener('Aira',ev,cb)}catch(_){}}
 function permOK(st){return st.mic&&st.camera&&st.notif&&st.media&&st.overlay&&st.battery}
 async function permFlow(N,sh){
@@ -1623,7 +1679,7 @@ async function airaStart(){
  try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(w=>A.wl=w).catch(()=>{})}catch(_){}
  airaGreet()}
 function airaStop(quiet){
- if(!A.on&&!A.r)return;A.on=0;A.busy=0;A.gen++;A.q=[];
+ A.dict=null;if(!A.on&&!A.r)return;A.on=0;A.busy=0;A.gen++;A.q=[];
  try{A.r&&A.r.abort()}catch(_){}A.r=null;
  if(A.native){try{NP().stop()}catch(_){}A.native=0}
  try{speechSynthesis.cancel()}catch(_){}
@@ -1712,12 +1768,37 @@ function openLooks(){
   if(i!==curLook){curLook=i;loadLook(looks[i]);applyLook(looks[i]);buildRows();paintTray();$('.list').scrollTo({top:0});toast(looks[i].name+' की नाप खुली')}o.close()};
  $('#nl',o).onclick=()=>{o.close();pendingNew=true;closeDrop();setTimeout(()=>toast('नया मॉडल / कपड़ा चुनकर ✂ नाप दबाइए'),500)};
 }
-function buildRows(){$('#rows').innerHTML=steps.map(rowHTML).join('');refresh();initRowLP()}
+function buildRows(){$('#rows').innerHTML=steps.map(rowHTML).join('')+'<button class="addrow press" data-add="1">＋ नई नाप जोड़ें</button>';refresh();initRowLP()}
+const FN_BASE=['अपर चेस्ट','चेस्ट / बॉडी','कमर','हिप','लंबाई','बाजू','बाजू की लंबाई','बाजू का घेरा','मोहरी (कफ)','गला','आगे का गला','पीछे का गला','तीरा (कंधा)','घेरा','आर्महोल','जांघ','घुटना','पिंडली','पायचा (मोहरी)','टॉप लंबाई','पलाज़ो लंबाई','सलवार लंबाई','ब्लाउज़ लंबाई','स्कर्ट लंबाई','दुपट्टा लंबाई','कॉलर','पीठ की चौड़ाई'];
+function fieldBank(){const m=new Map();const add=n=>{n=String(n||'').trim();if(n&&!m.has(n.toLowerCase()))m.set(n.toLowerCase(),n)};
+ (LS('db_fnames')||[]).forEach(add);steps.forEach(x=>add(x.h));try{TPLS.forEach(t=>t.fields.forEach(f=>add(f.h)))}catch(_){}FN_BASE.forEach(add);return[...m.values()]}
+function bankSave(n){n=String(n||'').trim();if(!n)return;const L=LS('db_fnames')||[];if(!fieldBank().some(x=>x.toLowerCase()===n.toLowerCase())||!L.some(x=>x.toLowerCase()===n.toLowerCase())&&!FN_BASE.some(x=>x.toLowerCase()===n.toLowerCase())&&!steps.some(x=>x.h.toLowerCase()===n.toLowerCase())){L.push(n);LS('db_fnames',L)}}
+function iconFor(n){try{for(const t of TPLS){const f=t.fields.find(x=>x.h===n);if(f)return f.i}}catch(_){}const st=steps.find(x=>x.h===n);return st?st.i:'📏'}
 function rowMenu(id){const s=steps.find(x=>x.id===id);if(!s)return;
- const o=sheet(`<h3 style="letter-spacing:0;font-size:16px">${esc(s.h)}</h3><p class="sub" style="font-size:11px">क्या करना है?</p><button class="btn press" id="rmE" style="margin-top:6px">✏ नाम / लेबल बदलें</button><button class="btn press" id="rmD" style="background:#DC2626;margin-top:10px">🗑 यह नाप हटाएँ</button><button class="btn press" data-close style="background:#EDE7EE;color:var(--p);box-shadow:none;margin-top:10px">रहने दें</button>`,{h:'40%'});
+ const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><div class="pmh"><span class="pme">${ico(s.i)}</span><h3 style="letter-spacing:0;font-size:17px;text-transform:none">${esc(s.h)}</h3><p>इस नाप का क्या करना है?</p></div><button class="btn press" id="rmE" style="margin-top:4px">✏ नाम / लेबल बदलें</button><div class="pmr"><button class="pmd press" id="rmD">🗑 हटाएँ</button><button class="pmc press" data-close>रहने दें</button></div>`,{h:'40%'});
  $('#rmD',o).onclick=()=>{steps=steps.filter(x=>x.id!==id);delete vals[id];delete designs[id];o.close();buildRows();toast(s.h+' हटा दिया')};
- $('#rmE',o).onclick=()=>{o.close();setTimeout(()=>{const p=sheet(`<h3 style="letter-spacing:0;font-size:16px">नया नाम</h3><input id="rnn" class="fin" value="${esc(s.h)}" style="margin-top:12px;width:100%;padding:14px;border-radius:16px;border:2px solid var(--p);font:800 15px 'Noto Sans Devanagari',sans-serif;outline:0"><button class="btn gold press" id="rnk">✓ सेव</button>`,{h:'40%'});
-  const i=$('#rnn',p);setTimeout(()=>{i.focus();i.select()},300);$('#rnk',p).onclick=()=>{const n=i.value.trim();if(!n)return toast('नाम लिखें');s.h=n;p.close();buildRows();toast('नाम बदल गया ✓')}},280)}}
+ $('#rmE',o).onclick=()=>{o.close();setTimeout(()=>openNamePicker(s),280)}}
+function openNamePicker(st){
+ const add=!st;
+ const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3 style="letter-spacing:0;font-size:16px;text-transform:none">${add?'नई नाप जोड़ें':'नाम बदलें'}</h3><p class="sub2">${add?'नीचे से चुनिए, या नया नाम लिखें / बोलें':'नीचे से नाम चुनें, या नया लिखें / बोलें'}</p><div class="nmrow"><input id="rnn" placeholder="नाम लिखें…" value="${add?'':esc(st.h)}" autocomplete="off"><button class="nmic press" id="rnm" aria-label="बोलकर भरें">🎤</button><button class="nmic press" id="rnd" aria-label="सूची खोलें/बंद करें">▾</button></div><div class="nmc" id="nmc"></div>${add?'<button class="btn gold press" id="rnk">＋ यह नाम जोड़ें</button>':'<button class="btn gold press" id="rnk">✓ सेव</button>'}`,{h:'78%',pop:false});
+ const inp=$('#rnn',o),box=$('#nmc',o);let open=true;
+ let touched=false;const draw=()=>{const q=touched?inp.value.trim().toLowerCase():'',bank=fieldBank();
+  const L=bank.filter(n=>!q||n.toLowerCase().includes(q));
+  const exists=bank.some(n=>n.toLowerCase()===q);
+  box.style.display=open?'flex':'none';
+  box.innerHTML=(q&&!exists?`<button class="nmch new" data-new="1">＋ "${esc(inp.value.trim())}" नया नाम बनाएँ</button>`:'')+L.map(n=>{const used=steps.some(x=>x.h.toLowerCase()===n.toLowerCase());const mine=(LS('db_fnames')||[]).some(x=>x.toLowerCase()===n.toLowerCase());return `<button class="nmch ${used?'used':''}" data-n="${esc(n)}">${used?'✓ ':''}${esc(n)}${mine?'<i data-del="'+esc(n)+'">✕</i>':''}</button>`}).join('')};
+ draw();inp.oninput=()=>{touched=true;draw()};$('#rnd',o).onclick=()=>{open=!open;draw()};
+ if(!add)setTimeout(()=>{inp.focus();inp.select()},300);
+ const addField=n=>{n=n.trim();if(!n)return;if(steps.some(x=>x.h.toLowerCase()===n.toLowerCase())){toast(n+' पहले से है');return}
+  const id='c'+Date.now()+Math.floor(Math.random()*99);steps.push({id,h:n,i:iconFor(n)});bankSave(n);buildRows();toast(n+' जुड़ गई ✓');inp.value='';touched=false;draw()};
+ const rename=()=>{const n=inp.value.trim();if(!n)return toast('नाम लिखें');st.h=n;bankSave(n);o.close();buildRows();toast('नाम बदल गया ✓')};
+ box.onclick=e=>{const d=e.target.closest('[data-del]');if(d){e.stopPropagation();const n=d.dataset.del;LS('db_fnames',(LS('db_fnames')||[]).filter(x=>x.toLowerCase()!==n.toLowerCase()));draw();toast('सूची से हटाया');return}
+  const c=e.target.closest('.nmch');if(!c)return;
+  if(c.dataset.new){const n=inp.value.trim();bankSave(n);if(add)addField(n);else{inp.value=n;draw();toast('सूची में जुड़ा — अब सेव दबाइए')}return}
+  const n=c.dataset.n;if(add){if(c.classList.contains('used'))return toast(n+' पहले से है');addField(n)}else{inp.value=n;draw()}};
+ $('#rnm',o).onclick=function(){dictate(t=>{t=String(t||'').replace(/[,।?!.]/g,' ').split(/\s+/).filter(w=>w&&!FILL.has(_nz(w))).join(' ').trim();if(!t)return toast('सुनाई नहीं दिया, फिर बोलिए');inp.value=t;draw();if(add&&!fieldBank().some(x=>x.toLowerCase()===t.toLowerCase()))toast('"'+t+'" — जोड़ें दबाइए')},this)};
+ $('#rnk',o).onclick=()=>add?(inp.value.trim()?(addField(inp.value),null):o.close()):rename();
+ inp.addEventListener('keydown',e=>{if(e.key==='Enter')$('#rnk',o).click()})}
 function initRowLP(){const R=$('#rows');if(!R||R._lp)return;R._lp=1;let t=null,sx=0,sy=0,fired=0;
  R.addEventListener('pointerdown',e=>{const rw=e.target.closest('.row');if(!rw||e.target.closest('input'))return;sx=e.clientX;sy=e.clientY;fired=0;clearTimeout(t);
   t=setTimeout(()=>{fired=1;R._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(18)}catch(_){}rw.classList.add('lpd');setTimeout(()=>rw.classList.remove('lpd'),300);rowMenu(rw.dataset.id)},520)});
@@ -1731,7 +1812,7 @@ function refresh(){
   r.classList.toggle('lock',!u);r.classList.toggle('ok',!!v);
   const inp=$('input',r);inp.disabled=!u;if(inp.value!==v)inp.value=v;
   const d=$('.disp',r);
-  if(!v){d.className='disp empty';d.textContent='00.0'}else{const p=v.split('.');d.className='disp';d.innerHTML=p[0]+(v.includes('.')?`<small>.${p[1]||'0'}</small>`:'')}
+  if(v==='✕'){d.className='disp na';d.innerHTML='✕ <small>नहीं चाहिए</small>'}else if(!v){d.className='disp empty';d.textContent='00.0'}else{const p=v.split('.');d.className='disp';d.innerHTML=p[0]+(v.includes('.')?`<small>.${p[1]||'0'}</small>`:'')}
   $('.dot',r).innerHTML=!u?'<i>🔒</i>':!v?'<i class="clk">🕒</i>':'<span class="tick">✓</span>';
   $('.ic.l span',r).innerHTML=ico(designs[id]?designs[id][2]:steps[i].i);$('.ic.l',r).classList.toggle('has',!!designs[id]);
  });
@@ -1751,9 +1832,25 @@ function sheet(html,{h='60%',bg='#fff',r='56px',pop}={}){
 }
 function openTape(){
  const s=steps.find(x=>x.id===cur);
- const o=sheet(`<h3 style="letter-spacing:0">${s.h} का इंची टेप</h3><div class="sc" style="display:flex;align-items:center"><div class="tape" style="width:100%"><div class="strip">${Array.from({length:100},(_,i)=>`<div class="tile" data-n="${i+1}">${i+1}<small>inc</small></div>`).join('')}</div><div class="redl"></div></div></div><button class="btn press" data-close>CANCEL</button>`,{h:'45%'});
- $('.strip',o).onclick=e=>{const t=e.target.closest('.tile');if(!t)return;vals[cur]=t.dataset.n+'.';refresh();o.close();
+ const o=sheet(`<h3 style="letter-spacing:0">${esc(s.h)} का इंची टेप</h3><div class="sc" style="display:flex;align-items:center"><div class="tape" style="width:100%"><div class="strip"><div class="tile na" data-n="x">✕<small>नहीं चाहिए</small></div><div class="tile px" data-n="+">＋<small>खुद लिखें</small></div>${Array.from({length:100},(_,i)=>`<div class="tile" data-n="${i+1}">${i+1}<small>inc</small></div>`).join('')}</div><div class="redl"></div></div></div><button class="btn press" data-close>CANCEL</button>`,{h:'45%'});
+ const st=$('.strip',o);
+ setTimeout(()=>{try{st.scrollLeft=Math.max(0,$('.tile.na',o).offsetLeft-10)}catch(_){}},30);
+ st.onclick=e=>{const t=e.target.closest('.tile');if(!t)return;const n=t.dataset.n;
+  if(n==='x'){vals[cur]='✕';refresh();o.close();toast(s.h+': नहीं चाहिए ✓');return}
+  if(n==='+'){const id=cur;o.close();setTimeout(()=>openExact(id),280);return}
+  vals[cur]=n+'.';refresh();o.close();
   setTimeout(()=>{const i=$(`.row[data-id="${cur}"] input`);i.style.pointerEvents='auto';i.focus();i.setSelectionRange(99,99)},400)};
+}
+function openExact(id){
+ const s=steps.find(x=>x.id===id);if(!s)return;
+ const old=vals[id]&&vals[id]!=='✕'?String(vals[id]).replace(/\.$/,''):'';
+ const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3 style="letter-spacing:0;font-size:16px">${esc(s.h)}</h3><p class="sub2">सही नाप इंच में लिखें या बोलें (जैसे 36.5)</p><div class="nmrow"><input id="exv" inputmode="decimal" placeholder="जैसे 36.5" value="${esc(old)}" autocomplete="off"><button class="nmic press" id="exm" aria-label="बोलकर भरें">🎤</button></div><button class="btn gold press" id="exk">✓ सेव</button><button class="btn press" id="exn" style="background:#FEF2F2;color:#B91C1C;box-shadow:none;margin-top:10px;border:1.5px solid #FECACA">✕ यह नाप नहीं चाहिए</button>`,{h:'46%',pop:true});
+ const inp=$('#exv',o);setTimeout(()=>{inp.focus();inp.select()},300);
+ inp.oninput=()=>{inp.value=inp.value.replace(/,/g,'.').replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1')};
+ $('#exm',o).onclick=function(){dictate(t=>{const it=airaParse(_nz(t||'')).find(x=>x.v!=null);if(it){inp.value=fmtV(it.v)}else{const m=toDig(_nz(t||'')).match(/\d+(\.\d+)?/);if(m)inp.value=m[0];else toast('नाप समझ नहीं आई, फिर बोलिए')}},this)};
+ const save=()=>{const n=parseFloat(inp.value);if(!(n>=1&&n<=150))return toast('सही नाप लिखिए (1–150)');vals[id]=fmtV(n);refresh();o.close();toast(s.h+' '+fmtV(n)+' ✓')};
+ $('#exk',o).onclick=save;inp.addEventListener('keydown',e=>{if(e.key==='Enter')save()});
+ $('#exn',o).onclick=()=>{vals[id]='✕';refresh();o.close();toast(s.h+': नहीं चाहिए ✓')};
 }
 /* ---------- STYLE (design) + HOW-TO-MEASURE GUIDE ---------- */
 const ico=x=>String(x||'').startsWith('data:')?`<img src="${x}" alt="">`:esc(x||'');
@@ -1948,7 +2045,7 @@ function addToCart(go){
  if(filled()<steps.length)return toast(`${steps.length-filled()} नाप बाकी हैं`);
  if(!custOK()){toast('पहले ग्राहक की जानकारी भरें');return openCust()}
  const lk=looks[curLook];
- const it={id:'P'+Date.now(),pn:lk?lk.name:'सूट '+(cart.length+1),qty:1,base:BASE,cust:{...cust},meas:steps.map(s=>[s.h,num(vals[s.id])]),des:steps.filter(s=>designs[s.id]).map(s=>[s.h,designs[s.id][0],designs[s.id][1]]),add:ADD.filter(a=>addons[a[0]]).map(a=>[a[1],a[2],addons[a[0]],a[3]]),fabs:PARTS.map((p,i)=>fabNames[i]?[p,fabNames[i]]:null).filter(Boolean),notes,size:curSize,refs:imgs.slice(),thumb:lk?lk.thumb:thumb()};
+ const it={id:'P'+Date.now(),pn:lk?lk.name:'सूट '+(cart.length+1),qty:1,base:BASE,cust:{...cust},meas:steps.map(s=>[s.h,num(vals[s.id])]),des:steps.filter(s=>designs[s.id]).map(s=>[s.h,designs[s.id][0],designs[s.id][1]]),add:ADD.filter(a=>addons[a[0]]).map(a=>[a[1],a[2],addons[a[0]],a[3],typeof a[5]==='string'&&a[5].length<60000?a[5]:'']),fabs:PARTS.map((p,i)=>{if(!fabNames[i])return null;let sw='';try{const t=TILES.find(t=>t.name===fabNames[i]);if(t)sw=tinyOf(t)}catch(_){}return[p,fabNames[i],sw]}).filter(Boolean),mtr:estMeters(),notes,size:curSize,refs:imgs.slice(),thumb:lk?lk.thumb:thumb()};
  cart.push(it);saveAll();
  fly(it.thumb,()=>{
   if(lk){looks.splice(curLook,1);curLook=Math.max(0,Math.min(curLook,looks.length-1))}
@@ -2193,7 +2290,7 @@ async function saveBlobOut(b,fn){if(await nativeOut(b,fn))return;
  try{const dl=window.claude&&await window.claude.use('downloads');if(dl){await dl.save({filename:fn,data:b});return toast('इमेज सेव हो गई ✓')}}catch(e){if(e&&e.code==='declined')return;if(e&&e.code!=='unavailable'&&e.code!=='not_granted'){toast('सेव नहीं हो पाई');return}}
  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fn;document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);toast('इमेज सेव हो रही है ⬇')}
 async function slipCanvas(p,c){
- const im=await imgLoad(p.thumb),W=1200,rows=p.meas.length,extra=[p.size?'📏 साइज़: '+p.size:'',p.fabs.length?'🧵 '+p.fabs.map(f=>f[0]+': '+f[1]).join(' · '):'',p.des.length?'🎨 '+p.des.map(d=>d[0]+': '+d[1]).join(' · '):'',p.add.length?'ऐड-ऑन: '+p.add.filter(a=>a[2]).map(a=>a[0]+'×'+a[2]).join(', '):'',p.notes?'📝 '+p.notes:''].filter(Boolean);
+ const im=await imgLoad(p.thumb),W=1200,rows=p.meas.length,extra=[p.size?'📏 साइज़: '+p.size:'',fabLine(p)?'🧵 '+fabLine(p):'',p.des.length?'🎨 '+p.des.map(d=>d[0]+': '+d[1]).join(' · '):'',p.add.length?'🧰 मटीरियल: '+p.add.filter(a=>a[2]).map(a=>a[0]+'×'+a[2]).join(', '):'',p.notes?'📝 '+p.notes:''].filter(Boolean);
  const H=Math.max(1500,330+rows*92+extra.length*70+160),cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
  x.fillStyle='#FFFFF8';x.fillRect(0,0,W,H);x.fillStyle='#5A1157';x.fillRect(0,0,W,150);
  const F="'Noto Sans Devanagari',sans-serif";x.fillStyle='#FFB800';x.font='900 56px '+F;x.textBaseline='middle';x.fillText('DOOR | BUTIK',50,60);x.fillStyle='#fff';x.font='700 30px '+F;x.fillText('नाप पर्ची',50,115);
@@ -2201,16 +2298,32 @@ async function slipCanvas(p,c){
  let y=200;x.fillStyle='#5A1157';x.font='900 44px '+F;x.fillText(p.pn+((p.qty||1)>1?' ×'+p.qty:''),50,y);y+=52;
  x.fillStyle='#6b5b6e';x.font='700 30px '+F;x.fillText((c.name||'')+(c.rel?' · '+c.rel:'')+(c.mobile?'  📱 '+c.mobile:''),50,y);y+=60;
  const LW=620;
- for(const m of p.meas){x.fillStyle='#3b2a3e';x.font='800 32px '+F;x.fillText(m[0],50,y+30);x.fillStyle='#5A1157';x.font='900 40px '+F;x.textAlign='right';x.fillText((m[1]||'—')+(m[1]?' inch':''),50+LW,y+30);x.textAlign='left';
+ for(const m of p.meas){x.fillStyle='#3b2a3e';x.font='800 32px '+F;x.fillText(m[0],50,y+30);x.fillStyle='#5A1157';x.font='900 40px '+F;x.textAlign='right';x.fillText(m[1]==='✕'?'✕ नहीं चाहिए':(m[1]||'—')+(m[1]?' inch':''),50+LW,y+30);x.textAlign='left';
   x.strokeStyle='#d9ccdc';x.setLineDash([3,6]);x.lineWidth=2;x.beginPath();x.moveTo(50,y+64);x.lineTo(50+LW,y+64);x.stroke();x.setLineDash([]);y+=92}
  y+=14;x.fillStyle='#6b5b6e';x.font='700 28px '+F;for(const t of extra){const words=t.split(' ');let line='';for(const w of words){const test=line?line+' '+w:w;if(x.measureText(test).width>LW&&line){x.fillText(line,50,y);y+=40;line=w}else line=test}x.fillText(line,50,y);y+=52}
  const ax=720,aw=W-ax-50,ah=H-250-80,sc=Math.min(aw/im.width,ah/im.height),iw=im.width*sc,ih=im.height*sc,ix=ax+(aw-iw)/2,iy=200+(ah-ih)/2;
  x.fillStyle='#f1eef2';x.fillRect(ax,200,aw,ah);x.drawImage(im,ix,iy,iw,ih);x.strokeStyle='#FFB800';x.lineWidth=4;x.strokeRect(ax,200,aw,ah);
  x.fillStyle='#8b7d8e';x.font='700 24px '+F;x.textAlign='center';x.fillText('Door Butik · '+new Date().toLocaleDateString('hi-IN'),W/2,H-40);
  return cv}
+function fabLine(p){const mt=p.mtr||[];const L=(p.fabs||[]).map(f=>{const m=mt.find(x=>x[0]===f[0]);return f[0]+': '+f[1]+(m?' ('+m[1]+' मी)':'')});
+ mt.forEach(m=>{if(!(p.fabs||[]).some(f=>f[0]===m[0]))L.push(m[0]+': ग्राहक का कपड़ा ('+m[1]+' मी)')});return L.join(' · ')}
 function openSlip(i){
  const p=cart[i];if(!p)return;const c=p.cust||cust||{};
- const o=sheet(`<h3 style="letter-spacing:0">प्रीव्यू · ${esc(p.pn)}</h3><p class="sub">बाएँ नाप की पर्ची · दाएँ मॉडल · नाप बदल सकते हैं</p><div class="sc" style="overflow:auto"><div class="slp"><div class="sll"><div class="sct"><b>${esc(c.name||'ग्राहक')}${c.rel?' · '+esc(c.rel):''}</b><small>${c.mobile?'📱 '+esc(c.mobile)+'<br>':''}डिलीवरी ${fmt(bill.due||'')}</small></div>${p.meas.map((m,j)=>`<div class="smr"><span>${esc(m[0])}</span><input data-sm="${j}" inputmode="decimal" value="${esc(m[1])}"><small>inch</small></div>`).join('')}<div class="sin">${p.size?'📏 साइज़ '+esc(p.size)+'<br>':''}${p.fabs.length?'🧵 '+esc(p.fabs.map(f=>f[0]+': '+f[1]).join(' · '))+'<br>':''}${p.des.length?'🎨 '+esc(p.des.map(d=>d[0]+': '+d[1]).join(' · '))+'<br>':''}${p.notes?'📝 '+esc(p.notes):''}</div></div><div class="slr"><img src="${p.thumb}" alt="मॉडल"></div></div></div><div class="sla"><button class="btn gold press" id="slD">⬇ इमेज डाउनलोड</button><button class="btn press" id="slS">↗ शेयर</button></div>`,{h:'90%',pop:false});
+ if(!p.mtr)p.mtr=[];
+ const fabOf=nm=>(p.fabs||[]).find(f=>f[0]===nm);
+ const mtrRows=(p.mtr.length?p.mtr:(p.fabs||[]).map(f=>[f[0],''])).map((m,j)=>{const f=fabOf(m[0]);return `<div class="pvr"><span class="pvi">${f&&f[2]?`<img src="${f[2]}" alt="">`:'🧵'}</span><div class="pvt"><b>${esc(m[0])}</b><small>${f?esc(f[1]):'ग्राहक का कपड़ा'}</small></div><label class="pvm"><input data-mt="${j}" inputmode="decimal" value="${esc(m[1])}" placeholder="0"><small>मीटर</small></label></div>`}).join('');
+ const tm=Math.round(p.mtr.reduce((a,m)=>a+(parseFloat(m[1])||0),0)*100)/100;
+ const addT=(p.add||[]).reduce((a,x)=>a+(x[2]||0)*(x[3]||0),0);
+ const addRows=(p.add||[]).filter(a=>a[2]).map(a=>`<div class="pvr"><span class="pvi">${ico(a[4]||a[1])}</span><div class="pvt"><b>${esc(a[0])}</b><small>₹${a[3]} × ${a[2]}</small></div><strong class="pvp">₹${a[3]*a[2]}</strong></div>`).join('');
+ const desRows=(p.des||[]).map(d=>`<div class="pvr"><span class="pvi">🎨</span><div class="pvt"><b>${esc(d[0])}</b><small>${esc(d[1])}</small></div>${+d[2]?`<strong class="pvp">₹${d[2]}</strong>`:''}</div>`).join('');
+ const refs=(p.refs||[]).map(r=>`<img src="${r}" alt="">`).join('');
+ const o=sheet(`<h3 style="letter-spacing:0">प्रीव्यू · ${esc(p.pn)}</h3><p class="sub">पूरा प्रोडक्ट — नाप, कपड़ा, मटीरियल · मीटर / नाप बदल सकते हैं</p><div class="sc" style="overflow:auto"><div class="slp"><div class="sll"><div class="sct"><b>${esc(c.name||'ग्राहक')}${c.rel?' · '+esc(c.rel):''}</b><small>${c.mobile?'📱 '+esc(c.mobile)+'<br>':''}डिलीवरी ${fmt(bill.due||'')}${p.size?'<br>📏 साइज़ '+esc(p.size):''}</small></div>${p.meas.map((m,j)=>`<div class="smr"><span>${esc(m[0])}</span><input data-sm="${j}" inputmode="decimal" value="${m[1]==='✕'?'':esc(m[1])}" placeholder="${m[1]==='✕'?'✕ नहीं':''}"><small>${m[1]==='✕'?'':'inch'}</small></div>`).join('')}</div><div class="slr"><img src="${p.thumb}" alt="मॉडल"></div></div>
+ <div class="pvs"><h4>🧵 कपड़ा · मीटर <em>अनुमान${tm?' · कुल '+tm+' मी':''}</em></h4>${mtrRows||'<p class="pvn">कपड़ा चुना नहीं गया</p>'}</div>
+ <div class="pvs"><h4>🧰 मटीरियल / आइटम <em>${addRows?'₹'+addT:''}</em></h4>${addRows||'<p class="pvn">कोई ऐड-ऑन नहीं</p>'}</div>
+ ${desRows?`<div class="pvs"><h4>🎨 स्टाइल / डिज़ाइन</h4>${desRows}</div>`:''}
+ ${refs?`<div class="pvs"><h4>📷 रेफरेंस फोटो</h4><div class="pvg">${refs}</div></div>`:''}
+ ${p.notes?`<div class="pvs"><h4>📝 नोट</h4><p class="pvn" style="color:#3b2a3e">${esc(p.notes)}</p></div>`:''}</div><div class="sla"><button class="btn gold press" id="slD">⬇ इमेज डाउनलोड</button><button class="btn press" id="slS">↗ शेयर</button></div>`,{h:'92%',pop:false});
+ o.addEventListener('input',e=>{const k=e.target.dataset.mt;if(k===undefined)return;const v=e.target.value.replace(/,/g,'.').replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');e.target.value=v;if(!p.mtr[+k])return;p.mtr[+k][1]=v;saveAll();const t=Math.round(p.mtr.reduce((a,m)=>a+(parseFloat(m[1])||0),0)*100)/100;const em=o.querySelector('.pvs h4 em');if(em)em.textContent='अनुमान'+(t?' · कुल '+t+' मी':'')});
  o.addEventListener('input',e=>{const j=e.target.dataset.sm;if(j===undefined)return;p.meas[+j][1]=e.target.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');e.target.value=p.meas[+j][1];saveAll()});
  const mk=async()=>slipCanvas(p,c);
  $('#slD',o).onclick=async()=>{const cv=await mk();cv.toBlob(b=>b?saveBlobOut(b,'nap-parchi-'+Date.now()+'.png'):toast('इमेज नहीं बन पाई'),'image/png')};
@@ -2800,7 +2913,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-13.3';
+const APP_VER='2026-11-18.1';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
