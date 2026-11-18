@@ -1021,6 +1021,28 @@ html[data-theme=dark] #seli .pill{--pb:#2a2030;background:#2a2030!important;bord
 .mxchips span.ex{background:#fffbeb;border:1px solid #FFB800}
 .pkc .mxim{width:78px;height:78px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18)}.pkc .ae{width:78px;height:78px;border-radius:50%;background:#F4EDF5;display:grid;place-items:center;font-size:30px}.pkc.plus{border:2px dashed #cdbad0;background:#fff;color:#5A1157;justify-content:center}
 .edi{display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0 12px;cursor:pointer}.edi span{width:96px;height:96px;border-radius:50%;background:#F4EDF5;display:grid;place-items:center;font-size:34px;overflow:hidden;border:2px dashed #cdbad0}.edi span img{width:100%;height:100%;object-fit:cover}.edi small{font:600 11px 'Noto Sans Devanagari',sans-serif;color:#5A1157}
+
+/* v41 */
+.mxfly{position:fixed;z-index:99999;width:60px;height:60px;border-radius:50%;overflow:hidden;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.35);border:3px solid #FFB800;background:#fff;display:grid;place-items:center;font-size:30px}.mxfly img{width:100%;height:100%;object-fit:cover}
+.mxp.pop{animation:mxpop .5s ease}@keyframes mxpop{0%{filter:brightness(1)}35%{filter:brightness(1.12) saturate(1.2);transform:scale(1.015)}100%{filter:none;transform:none}}
+.tcs{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.tcs i{aspect-ratio:1;border-radius:50%;border:2px solid #e5d5e6;cursor:pointer}.tcc{aspect-ratio:1;border-radius:50%;border:2px dashed #cdbad0;display:grid;place-items:center;cursor:pointer;font-size:18px}
+.tcv{display:flex;align-items:center;gap:10px;margin:8px 0}.tcv img,.tcv i{width:46px;height:46px;border-radius:12px;object-fit:cover;border:1px solid #e5d5e6}.tcv small{color:#6b5b6e;font:600 12px 'Noto Sans Devanagari',sans-serif}
+.pmb{display:block;width:100%;padding:15px;margin:8px 0;border-radius:18px;background:#F4EDF5;color:#5A1157;font:700 14px 'Noto Sans Devanagari',sans-serif;text-align:left}.pmb.red{background:#fee2e2;color:#b91c1c}
+
+/* v41 pay/edit */
+.cfm{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cfm label{display:flex;flex-direction:column;gap:3px;font:600 11px 'Noto Sans Devanagari',sans-serif;color:#6b5b6e}.cfm label.w2{grid-column:1/3}.cfm label{min-width:0}.cfm input{width:100%;box-sizing:border-box;min-width:0;border:1px solid #d9ccdc;border-radius:12px;padding:10px;font:600 14px 'Noto Sans Devanagari',sans-serif;color:#2f2233;outline:0}.cfm input:focus{border-color:#5A1157}.cfm .obt{grid-column:1/3;margin:0}
+.payc{display:grid;grid-template-columns:1fr 1fr;gap:8px}.payc button{padding:11px 6px;border-radius:14px;background:#F4EDF5;color:#5A1157;font:700 12.5px 'Noto Sans Devanagari',sans-serif;border:1.5px solid transparent}.payc button.on{background:#5A1157;color:#fff}
+.payi{width:100%;box-sizing:border-box;margin-top:8px;border:1px solid #d9ccdc;border-radius:12px;padding:11px;font:700 15px sans-serif}
+
+/* v41 orders */
+.ohero{display:grid;grid-template-columns:repeat(4,1fr);background:linear-gradient(135deg,#5A1157,#7a1d76);border-radius:20px;padding:14px 6px;margin-bottom:12px;color:#fff}.ohero div{text-align:center;border-right:1px solid rgba(255,255,255,.18)}.ohero div:last-child{border:0}.ohero small{display:block;font:600 10px 'Noto Sans Devanagari',sans-serif;opacity:.8}.ohero b{font:800 20px sans-serif;color:#FFB800}.ohero b.rd{color:#ff8a8a}
+.dchs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.dchs::-webkit-scrollbar{display:none}.dch{flex:0 0 auto;min-width:46px;padding:7px 4px;border-radius:14px;background:#fff;border:1.5px solid #eadff0;text-align:center;font-family:sans-serif;color:#2f2233}.dch small{display:block;font:600 10px 'Noto Sans Devanagari',sans-serif;color:#8a7a8d}.dch b{font:800 15px sans-serif}.dch u{display:block;text-decoration:none;font:700 10px sans-serif;color:#fff;background:#E11D48;border-radius:8px;margin:2px auto 0;width:16px}.dch u.z{background:transparent;height:12px}.dch.on{background:#5A1157;border-color:#5A1157;color:#fff}.dch.on small{color:#e8d3e7}
+.sfs{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}.sfs::-webkit-scrollbar{display:none}.sfs button{flex:0 0 auto;padding:8px 13px;border-radius:18px;background:#F4EDF5;color:#5A1157;font:700 12.5px 'Noto Sans Devanagari',sans-serif}.sfs button em{font-style:normal;background:#fff;border-radius:9px;padding:0 6px;margin-left:3px;font-size:11px}.sfs button.on{background:#FFB800;color:#3b2200}
+.trk{display:flex;justify-content:space-between;padding:8px 10px 2px;position:relative}.trk .tk{flex:1;text-align:center;position:relative}.trk .tk:not(:last-child)::after{content:'';position:absolute;top:13px;left:55%;width:90%;height:2px;background:#e4d9e6}.trk .tk.dn:not(:last-child)::after{background:#16a34a}.trk i{position:relative;z-index:1;display:inline-flex;width:27px;height:27px;border-radius:50%;background:#f1e9f2;align-items:center;justify-content:center;font:700 13px sans-serif;font-style:normal;color:#777}.trk .tk.dn i{background:#16a34a;color:#fff}.trk .tk.cu i{background:#FFB800;color:#3b2200;box-shadow:0 0 0 4px #ffb80033}.trk small{display:block;font:600 9.5px 'Noto Sans Devanagari',sans-serif;color:#7b6b7e;margin-top:2px}.trk .tk.cu small{color:#5A1157;font-weight:800}
+.hld{margin:4px 10px 10px;padding:7px 10px;background:#FFF6DC;border-radius:12px;font:600 12px 'Noto Sans Devanagari',sans-serif;color:#5b3d00}.hld u{text-decoration:none;color:#5A1157;font-weight:800}
+.pyb{display:inline-block;margin-top:3px;font:700 11px 'Noto Sans Devanagari',sans-serif;color:#b45309;background:#fff1d6;border-radius:8px;padding:2px 8px}.pyb.pd{color:#166534;background:#dcfce7}.lt2{color:#E11D48;font-weight:800}.osep{height:10px;border-bottom:2px dashed #e4d9e6;margin:6px 0 14px}
+.oact.q{padding:0 10px 10px}.oact.q button{width:100%}
+.wkl{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.wkl button{padding:10px 14px;border-radius:16px;background:#F4EDF5;color:#5A1157;font:700 13px 'Noto Sans Devanagari',sans-serif}.wkl button.on{background:#5A1157;color:#fff}.wkn{display:flex;gap:8px;margin:6px 0 10px}.wkn input{flex:1;border:1px solid #d9ccdc;border-radius:12px;padding:10px;font:600 14px 'Noto Sans Devanagari',sans-serif}.wkn button{width:44px;border-radius:12px;background:#FFB800;font:800 20px sans-serif}.wkc{display:flex;gap:8px;align-items:center;font:600 13px 'Noto Sans Devanagari',sans-serif;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -2418,15 +2440,24 @@ const WD2=['रवि','सोम','मंगल','बुध','गुरु','�
 const oDone=o=>o.fs==='done'||o.stage>=6,oPcs=o=>o.pieces.reduce((a,p)=>a+(p.qty||1),0),oDue=o=>(o.cust&&o.cust.due)||'',oMade=o=>o.times&&o.times[0]?iso(new Date(o.times[0])):'';
 const kfmt=v=>v>=100000?(v/100000).toFixed(1).replace(/\.0$/,'')+'L':v>=1000?(v/1000).toFixed(1).replace(/\.0$/,'')+'k':String(v);
 const GRP=[['🆕 नए / एडमिन के पास',['placed'],'#6366f1'],['📨 वेंडर-डिलीवरी रिक्वेस्ट',['v_req','d_req','d_pick','v_req2','handover','recv'],'#0ea5e9'],['✂️ सिलाई चल रही',['cutting','stitching','finishing'],'#f59e0b'],['🚚 डिस्पैच / रास्ते में',['r_req','r_pick','out'],'#8b5cf6'],['🎉 डिलीवर हुए',['done'],'#16a34a']];
-const oSt={sel:'',mon:null,rng:7,open:new Set()};
+const oSt={sel:'',mon:null,rng:7,open:new Set(),q:'',chip:'',st:'all'};
+const STEPS=[['📥','रिक्वेस्ट'],['✂️','कटिंग'],['🪡','सिलाई'],['🧼','फिनिशिंग'],['🚚','डिस्पैच'],['🎉','डिलीवर']];
+const STIDX={placed:0,v_req:0,d_req:0,d_pick:0,v_req2:0,handover:0,recv:0,cutting:1,stitching:2,finishing:3,r_req:4,r_pick:4,out:4,done:5};
+const NXS={cutting:1,stitching:2,finishing:3,out:4,done:5};
+const SFIL=[['all','सभी',null],['new','🆕 नए',['placed']],['req','📨 रिक्वेस्ट',['v_req','d_req','d_pick','v_req2','handover','recv']],['sew','✂️ सिलाई',['cutting','stitching','finishing']],['out','🚚 डिस्पैच',['r_req','r_pick','out']],['done','🎉 पूरे',['done']]];
+let WK=LS('db_wk')||['राम','श्याम','सीमा'];
+const wkOf=(o,k)=>(o.wk&&o.wk[k])||'';
+function holder(o){const i=STIDX[o.fs];if(o.fs==='done')return '🎉 डिलीवर हो गया';const n=wkOf(o,o.fs),nx=NXT[o.fs];return `${FS[o.fs][0]} <b>अभी:</b> ${FS[o.fs][1].replace(/ चल रही है$/,'')}${n?' — <u>'+esc(n)+'</u>':''}${nx?` &nbsp;→&nbsp; <b>आगे:</b> ${NXL[nx].split(' ')[0]} ${STEPS[NXS[nx]][1]}`:''}`}
+function tracker(o){const c=STIDX[o.fs];return `<div class="trk">${STEPS.map((x,i)=>`<div class="tk ${i<c?'dn':i===c?'cu':''}"><i>${i<c?'✓':x[0]}</i><small>${x[1]}</small></div>`).join('')}</div>`}
 function ordDetail(o){const g=orderTotal(o);return `<div class="odt">${o.pieces.map((p,pi)=>`<div class="opc"><b>${p.no?'#'+p.no+' · ':''}${esc(p.pn)}${(p.qty||1)>1?' ×'+p.qty:''}${p.size?' ('+esc(p.size)+')':''}</b><div class="omv">${p.meas.map(m=>`<span><em>${esc(m[0])}</em>${esc(m[1])}</span>`).join('')}</div>${(p.fabs||[]).length?`<small>🧵 ${esc(fabLine(p))}</small>`:''}${(p.add||[]).filter(a=>a[2]).length?`<small>🧰 ${p.add.filter(a=>a[2]).map(a=>esc(a[0])+'×'+a[2]).join(' · ')}</small>`:''}${(p.des||[]).length?`<small>🎨 ${p.des.map(d=>esc(d[0])+': '+esc(d[1])).join(' · ')}</small>`:''}${p.notes?`<small>📝 ${esc(p.notes)}</small>`:''}<button class="obt" data-prev="${o.id}.${pi}">👁 प्रीव्यू / पर्ची</button></div>`).join('')}
  <div class="omo"><span>कुल <b>₹${g}</b></span><span>भुगतान <b>₹${o.adv||0}</b></span><span>बाकी <b>₹${Math.max(0,g-(o.adv||0))}</b></span></div>
  <div class="otl">${(o.log||[]).slice(-4).map(l=>`<small>${fmtT(l.t)} · ${esc(l.txt)}</small>`).join('')}</div></div>`}
 const NXT={placed:'cutting',v_req:'cutting',d_req:'cutting',d_pick:'cutting',v_req2:'cutting',handover:'cutting',recv:'cutting',cutting:'stitching',stitching:'finishing',finishing:'out',r_req:'out',r_pick:'out',out:'done'};
 const NXL={cutting:'✂️ कटिंग शुरू करें',stitching:'🪡 सिलाई शुरू',finishing:'🧼 फिनिशिंग',out:'🚚 डिस्पैच करें',done:'🎉 डिलीवर हुआ'};
-function dbCard(o,force){const open=force||oSt.open.has(o.id),nx=NXT[o.fs],late=!oDone(o)&&oDue(o)&&oDue(o)<iso(new Date());
- return `<div class="ocd ${open?'open':''} ${late?'late':''}" data-id="${o.id}"><div class="och" data-tg="${o.id}"><img src="${o.thumb||''}" alt=""><div class="oi"><b>${o.id} · ${esc(o.cust.name||'ग्राहक')}</b><small>📅 ${fmt(oDue(o))} · ${oPcs(o)} पीस · ₹${orderTotal(o)}</small><span class="stp">${FS[o.fs][0]} ${FS[o.fs][1]}</span></div><span class="chev">⌄</span></div>
- <div class="ocb2">${open?ordDetail(o)+`<div class="oact"><button data-edit="${o.id}">✏ एडिट</button>${o.cust.mobile?`<a href="tel:${esc(o.cust.mobile)}" class="oa">📞 कॉल</a>`:''}${nx?`<button class="pri" data-nx2="${o.id}">${NXL[nx]}</button>`:''}</div>`:''}</div></div>`}
+function dbCard(o,force){const open=force||oSt.open.has(o.id),nx=NXT[o.fs],late=!oDone(o)&&oDue(o)&&oDue(o)<iso(new Date()),tt=orderTotal(o),paid=(o.adv||0)>=tt&&tt>0,nos=o.pieces.map(p=>p.no?'#'+p.no:'').filter(Boolean).join(' ');
+ return `<div class="ocd ${open?'open':''} ${late?'late':''}" data-id="${o.id}"><div class="och" data-tg="${o.id}"><img src="${o.thumb||''}" alt=""><div class="oi"><b>${o.id} · ${esc(o.cust.name||'ग्राहक')}</b><small>${nos?nos+' · ':''}📅 ${fmt(oDue(o))}${late?' · <span class="lt2">लेट</span>':''} · ${oPcs(o)} पीस</small><span class="pyb ${paid?'pd':''}">₹${tt} · ${paid?'✓ पूरा भुगतान':'बाकी ₹'+Math.max(0,tt-(o.adv||0))}</span></div><span class="chev">⌄</span></div>
+ ${tracker(o)}<div class="hld">${holder(o)}</div>
+ <div class="ocb2">${open?ordDetail(o)+`<div class="oact"><button data-edit="${o.id}">✏ एडिट</button>${o.cust.mobile?`<a href="tel:${esc(o.cust.mobile)}" class="oa">📞 कॉल</a>`:''}${o.cust.mobile?`<button data-wa="${o.id}">💬 अपडेट भेजें</button>`:''}<button data-wk="${o.id}">👷 कारीगर</button>${nx?`<button class="pri" data-nx2="${o.id}">${NXL[nx]} ›</button>`:''}</div>`:`<div class="oact q">${nx?`<button class="pri" data-nx2="${o.id}">${NXL[nx]} ›</button>`:''}</div>`}</div></div>`}
 function ordDash(){
  const today=iso(new Date()),A=orders.filter(o=>!oDone(o)),tot=orders.reduce((a,o)=>a+orderTotal(o),0),bak=A.reduce((a,o)=>a+Math.max(0,orderTotal(o)-(o.adv||0)),0),tdy=A.filter(o=>oDue(o)===today).length,late=A.filter(o=>oDue(o)&&oDue(o)<today).length;
  if(!oSt.sel)oSt.sel=today;if(!oSt.mon){const m=new Date(oSt.sel+'T00:00');m.setDate(1);oSt.mon=m}
@@ -2440,7 +2471,14 @@ function ordDash(){
  for(let d=1;d<=nd;d++){const dt=iso(new Date(y,mo,d)),L=orders.filter(o=>oDue(o)===dt),act=L.filter(o=>!oDone(o)),pc=L.reduce((a,o)=>a+oPcs(o),0),am=L.reduce((a,o)=>a+orderTotal(o),0);
   cells.push(`<button class="dcl ${dt===today?'td':''} ${dt===oSt.sel?'sl':''} ${L.length?(act.length?(dt<today?'lt':'hv'):'dn'):''}" data-d="${dt}"><b>${d}</b>${L.length?`<u>${L.length}</u><small>₹${kfmt(am)}</small>`:''}</button>`)}
  const selO=orders.filter(o=>oDue(o)===oSt.sel),selA=selO.filter(o=>!oDone(o)),selD=selO.filter(oDone),made=orders.filter(o=>oMade(o)===oSt.sel),sd=new Date(oSt.sel+'T00:00');
- return `<div class="otiles"><div><b>${orders.length}</b><small>कुल ऑर्डर</small></div><div><b>${A.length}</b><small>चालू</small></div><div class="${tdy?'hot':''}"><b>${tdy}</b><small>आज देना है</small></div><div class="${late?'red':''}"><b>${late}</b><small>लेट</small></div><div><b>₹${kfmt(tot)}</b><small>कुल सेल</small></div><div><b>₹${kfmt(bak)}</b><small>बकाया</small></div></div>
+ const q=(oSt.q||'').trim().toLowerCase(),mt=o=>!q||[o.id,o.cust.name,o.cust.mobile,...o.pieces.map(p=>p.no),...o.pieces.map(p=>p.pn)].some(v=>String(v||'').toLowerCase().includes(q)),sf=SFIL.find(x=>x[0]===oSt.st)||SFIL[0],
+  L0=orders.filter(o=>mt(o)&&(!sf[2]||sf[2].includes(o.fs))&&(!oSt.chip||oDue(o)===oSt.chip)).sort((a,b)=>(oDone(a)-oDone(b))||String(oDue(a)).localeCompare(oDue(b)));
+ const chips=[];for(let k=0;k<14;k++){const d=new Date();d.setDate(d.getDate()+k);const dt=iso(d),n=orders.filter(o=>!oDone(o)&&oDue(o)===dt).length;chips.push(`<button class="dch ${oSt.chip===dt?'on':''}" data-chip="${dt}"><small>${k?WD2[d.getDay()]:'आज'}</small><b>${d.getDate()}</b>${n?`<u>${n}</u>`:'<u class="z"></u>'}</button>`)}
+ const hero=`<div class="ohero"><div><small>चालू ऑर्डर</small><b>${A.length}</b></div><div><small>आज देना है</small><b>${tdy}</b></div><div><small>लेट</small><b class="${late?'rd':''}">${late}</b></div><div><small>बकाया</small><b>₹${kfmt(bak)}</b></div></div>
+ <div class="dchs"><button class="dch all ${!oSt.chip?'on':''}" data-chip=""><small>सभी</small><b>∞</b><u class="z"></u></button>${chips.join('')}</div>
+ <div class="sfs">${SFIL.map(x=>`<button class="${oSt.st===x[0]?'on':''}" data-sf="${x[0]}">${x[1]} <em>${x[2]?orders.filter(o=>x[2].includes(o.fs)).length:orders.length}</em></button>`).join('')}</div>
+ <h4 class="osh">📦 ऑर्डर (${L0.length})${oSt.chip?' · '+fmt(oSt.chip):''}</h4>${L0.map(o=>dbCard(o)).join('')||'<p class="oem">कोई ऑर्डर नहीं मिला</p>'}<div class="osep"></div>`;
+ return hero+`<div class="otiles"><div><b>${orders.length}</b><small>कुल ऑर्डर</small></div><div><b>${A.length}</b><small>चालू</small></div><div class="${tdy?'hot':''}"><b>${tdy}</b><small>आज देना है</small></div><div class="${late?'red':''}"><b>${late}</b><small>लेट</small></div><div><b>₹${kfmt(tot)}</b><small>कुल सेल</small></div><div><b>₹${kfmt(bak)}</b><small>बकाया</small></div></div>
  <div class="ocart"><div class="och2"><b>📈 सेल (नए ऑर्डर)</b><span class="sgm2" id="orng"><button data-rg="7" class="${oSt.rng===7?'on':''}">7 दिन</button><button data-rg="30" class="${oSt.rng===30?'on':''}">30 दिन</button></span></div>
   <div class="obars ${oSt.rng===30?'thin':''}">${days.map((d,k)=>`<div class="ob" title="${d}"><em>${sale[k]?kfmt(sale[k]):''}</em><i style="height:${Math.max(sale[k]?6:2,sale[k]/mx*100)}%"></i><small>${oSt.rng===30&&k%5?'':new Date(d+'T00:00').getDate()}</small></div>`).join('')}</div>
   <div class="osum">इस दौरान <b>${cnt.reduce((a,b)=>a+b,0)}</b> ऑर्डर · <b>₹${sale.reduce((a,b)=>a+b,0)}</b></div></div>
@@ -2453,9 +2491,10 @@ function ordDash(){
  ${made.length?`<h4 class="osh">🆕 इस दिन बने ऑर्डर (${made.length})</h4>${made.map(dbCard).join('')}`:''}
  <button class="btn gold press" id="mo" style="margin-top:14px">＋ नया ऑर्डर बनाएँ</button>`}
 function openOrderEdit(o){
- const o2=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>✏ ${o.id} एडिट</h3><div class="sc"><div class="field"><p>ग्राहक का नाम</p><input id="oe1" value="${esc(o.cust.name||'')}"></div><div class="field"><p>मोबाइल</p><input id="oe2" inputmode="numeric" maxlength="10" value="${esc(o.cust.mobile||'')}"></div><div class="field"><p>डिलीवरी तारीख</p><button class="obt" id="oe3" style="width:100%;text-align:left;padding:12px">📅 ${fmt(o.cust.due)}</button></div><div class="field"><p>एडवांस ₹</p><input id="oe4" inputmode="numeric" value="${o.adv||0}"></div>
+ const o2=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>✏ ${o.id} एडिट</h3><div class="sc"><div class="field"><p>ग्राहक का नाम</p><input id="oe1" value="${esc(o.cust.name||'')}"></div><div class="field"><p>मोबाइल</p><input id="oe2" inputmode="numeric" maxlength="10" value="${esc(o.cust.mobile||'')}"></div><div class="field"><p>डिलीवरी तारीख</p><button class="obt" id="oe3" style="width:100%;text-align:left;padding:12px">📅 ${fmt(o.cust.due)}</button></div><div class="field"><p>भुगतान / एडवांस ₹ <small>(कुल ₹${orderTotal(o)})</small></p><div class="payc"><button data-op="full">✅ पूरा</button><button data-op="half">½ आधा</button><button data-op="zero">⏳ बाकी</button></div><input id="oe4" inputmode="numeric" value="${o.adv||0}"></div>
  ${o.pieces.map((p,pi)=>`<div class="pvs"><h4>${esc(p.pn)} — नाप</h4><div class="pvg2">${p.meas.map((m,mi)=>`<div class="pvf"><label>${esc(m[0])}</label><input data-pm="${pi}.${mi}" inputmode="decimal" value="${m[1]==='✕'?'':esc(m[1])}" placeholder="${m[1]==='✕'?'✕':''}"></div>`).join('')}</div></div>`).join('')}
  <button class="obt del" id="oe9">🗑 यह ऑर्डर हटाएँ</button></div><button class="btn gold press" id="oe5">💾 सेव करें</button>`,{h:'94%',pop:false});
+  o2.addEventListener('click',e=>{const b=e.target.closest('[data-op]');if(!b)return;const t=orderTotal(o);$('#oe4',o2).value=b.dataset.op==='full'?t:b.dataset.op==='half'?Math.round(t/2):0});
  let due=o.cust.due;$('#oe3',o2).onclick=()=>openCal({val:due,rem:o.rem,title:'डिलीवरी की तारीख',onPick:(d,r)=>{due=d;if(r!=null)o.rem=r;setTimeout(()=>{$('#oe3',o2)&&($('#oe3',o2).textContent='📅 '+fmt(d))},0)}});
  o2.addEventListener('input',e=>{const k=e.target.dataset.pm;if(!k)return;const[a,b]=k.split('.');o.pieces[+a].meas[+b][1]=e.target.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');e.target.value=o.pieces[+a].meas[+b][1]});
  $('#oe5',o2).onclick=()=>{o.cust.name=$('#oe1',o2).value.trim()||o.cust.name;o.cust.mobile=$('#oe2',o2).value.replace(/\D/g,'');o.cust.due=due;o.adv=+$('#oe4',o2).value.replace(/\D/g,'')||0;o.log.push({t:Date.now(),txt:'वेंडर ने ऑर्डर एडिट किया'});saveAll();scheduleReminders&&scheduleReminders();o2.close();showOrders();toast('सेव हो गया ✓')};
@@ -2463,18 +2502,28 @@ function openOrderEdit(o){
 function showOrders(hl=[]){
  if(!isV())return showOrdersC(hl);
  orders.forEach(o=>o.pieces.forEach(ensurePno));saveAll();
- screen('📦 ऑर्डर डैशबोर्ड','<div class="osr"><input id="osn" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="🔎 पर्ची नं. डालें (3–4 अंक)"></div><div id="osres"></div><div id="od"></div>');
- const runS=()=>{const q=($('#osn').value||'').replace(/\D/g,''),R=$('#osres');if(q.length<3){R.innerHTML='';return}const hit=[];orders.forEach(o=>o.pieces.forEach((p,pi)=>{if(String(p.no)===String(+q))hit.push([o,pi])}));R.innerHTML=hit.length?hit.map(([o,pi])=>`<div class="osf">पर्ची <b>#${q}</b> · ${esc(o.pieces[pi].pn)}</div>`+dbCard(o,true)).join(''):`<p class="oem">#${q} नंबर की कोई पर्ची नहीं मिली</p>`};
- $('#osn').oninput=e=>{e.target.value=e.target.value.replace(/\D/g,'');runS()};
- const draw=()=>{const sb=$('#sb'),y=sb.scrollTop;$('#od').innerHTML=ordDash();runS();sb.scrollTop=y;const mo=$('#mo');if(mo)mo.onclick=showHome};draw();
+ screen('📦 ऑर्डर डैशबोर्ड','<div class="osr"><input id="osn" autocomplete="off" placeholder="🔎 पर्ची नं. / इनवॉइस / नाम / मोबाइल" value="'+esc(oSt.q||'')+'"></div><div id="od"></div>');
+ const runS=()=>{};
+ const draw=()=>{const sb=$('#sb'),y=sb.scrollTop;$('#od').innerHTML=ordDash();sb.scrollTop=y;const mo=$('#mo');if(mo)mo.onclick=showHome};draw();
+ $('#osn').oninput=e=>{oSt.q=e.target.value;draw()};
  $('#sb').onclick=e=>{const t=e.target;let b;
+  if((b=t.closest('[data-chip]'))){oSt.chip=b.dataset.chip;return draw()}
+  if((b=t.closest('[data-sf]'))){oSt.st=b.dataset.sf;return draw()}
+  if((b=t.closest('[data-wa]'))){const o=orders.find(x=>x.id===b.dataset.wa);if(o)waUpdate(o);return}
+  if((b=t.closest('[data-wk]'))){const o=orders.find(x=>x.id===b.dataset.wk);if(o)pickWorker(o,o.fs,null,draw);return}
   if((b=t.closest('[data-d]'))){oSt.sel=b.dataset.d;return draw()}
   if((b=t.closest('[data-mm]'))){oSt.mon=new Date(oSt.mon.getFullYear(),oSt.mon.getMonth()+ +b.dataset.mm,1);return draw()}
   if((b=t.closest('[data-rg]'))){oSt.rng=+b.dataset.rg;return draw()}
   if((b=t.closest('[data-tg]'))){const id=b.dataset.tg;oSt.open.has(id)?oSt.open.delete(id):oSt.open.add(id);return draw()}
-  if((b=t.closest('[data-prev]'))){const[id,pi]=b.dataset.prev.split('.'),o=orders.find(x=>x.id===id);if(o){const p=o.pieces[+pi];openSlip(0,p,{...o.cust},{adv:o.adv||0,recv:o.times&&o.times[0]?new Date(o.times[0]).toLocaleDateString('hi-IN',{day:'numeric',month:'short',year:'numeric'}):''})}return}
+  if((b=t.closest('[data-prev]'))){const[id,pi]=b.dataset.prev.split('.'),o=orders.find(x=>x.id===id);if(o){const p=o.pieces[+pi];openSlip(0,p,o.cust,{o,adv:o.adv||0,recv:o.times&&o.times[0]?new Date(o.times[0]).toLocaleDateString('hi-IN',{day:'numeric',month:'short',year:'numeric'}):''})}return}
   if((b=t.closest('[data-edit]'))){const o=orders.find(x=>x.id===b.dataset.edit);if(o)openOrderEdit(o);return}
-  if((b=t.closest('[data-nx2]'))){const o=orders.find(x=>x.id===b.dataset.nx2),n=o&&NXT[o.fs];if(!o||!n)return;setFS(o,n,'वेंडर: '+FS[n][1]);toast(NXL[n]+' ✓');try{homeNavRefresh()}catch(_){}return draw()}}}
+  if((b=t.closest('[data-nx2]'))){const o=orders.find(x=>x.id===b.dataset.nx2),n=o&&NXT[o.fs];if(!o||!n)return;pickWorker(o,n,true,draw);return}}}
+function waUpdate(o){const f=FS[o.fs],n=wkOf(o,o.fs),tt=orderTotal(o),msg=`नमस्ते ${o.cust.name||''} जी 🙏\n${prof.name||'Door Butik'} से आपके ऑर्डर ${o.id} का अपडेट:\n${f[0]} ${f[1]}${n?' ('+n+' के पास)':''}\n📅 डिलीवरी: ${fmt(oDue(o))}\n💰 कुल ₹${tt} · भुगतान ₹${o.adv||0} · बाकी ₹${Math.max(0,tt-(o.adv||0))}`;let m=String(o.cust.mobile||'').replace(/\D/g,'');if(m.length===10)m='91'+m;window.open('https://wa.me/'+m+'?text='+encodeURIComponent(msg),'_blank')}
+function pickWorker(o,key,fwd,done){const nm=FS[key][1].replace(/ चल रही है$/,''),w=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${fwd?'आगे किसे दें?':'कारीगर चुनें'}</h3><p class="sub2">${FS[key][0]} ${esc(nm)} — ${esc(o.id)}</p><div class="wkl" id="wkl"></div><div class="wkn"><input id="wkin" placeholder="नया कारीगर का नाम"><button id="wkad">＋</button></div>${fwd?'<label class="wkc"><input type="checkbox" id="wkwa" checked> ग्राहक को WhatsApp अपडेट भेजें</label>':''}<button class="btn gold press" id="wkok">${fwd?'✔ आगे बढ़ाएँ':'सेव करें'}</button>`,{h:'72%',pop:false});
+ let sel=wkOf(o,key);const dr=()=>{$('#wkl',w).innerHTML=['',...WK].map(n=>`<button class="${sel===n?'on':''}" data-w="${esc(n)}">${n?'👷 '+esc(n):'— कोई नहीं —'}</button>`).join('')};dr();
+ w.addEventListener('click',e=>{const b=e.target.closest('[data-w]');if(b){sel=b.dataset.w;dr()}});
+ $('#wkad',w).onclick=()=>{const v=$('#wkin',w).value.trim();if(!v)return;if(!WK.includes(v)){WK.push(v);LS('db_wk',WK)}sel=v;$('#wkin',w).value='';dr()};
+ $('#wkok',w).onclick=()=>{o.wk=o.wk||{};o.wk[key]=sel;if(fwd){setFS(o,key,'वेंडर: '+FS[key][1]+(sel?' — '+sel:''))}else{o.log.push({t:Date.now(),txt:FS[key][1]+' — कारीगर: '+(sel||'कोई नहीं')});saveAll()}const wa=fwd&&$('#wkwa',w)&&$('#wkwa',w).checked&&o.cust.mobile;w.close();if(fwd)toast(NXL[key]+' ✓');try{homeNavRefresh()}catch(_){}done&&done();if(wa)waUpdate(o)}}
 /* ---------- PROFILE MENU (drawer) ---------- */
 let prof=LS('db_prof')||{name:'Door Butik',owner:'',mobile:'',photo:''},notifOn=LS('db_notif')!==false;
 const profIni=()=>esc((prof.owner||prof.name||'D')[0].toUpperCase());
@@ -2692,7 +2741,7 @@ async function a4Canvas(p,c,kind,ex){kind=kind||'c';ex=ex||{};
   x.fillStyle='#faf6fb';rrect(x,PAD,y,CW,h,22);x.fill();x.strokeStyle='#e5d5e6';x.lineWidth=2;rrect(x,PAD,y,CW,h,22);x.stroke();let yy=y+34;
   rows.forEach(r=>{x.fillStyle='#4b3b4f';x.font='600 28px '+PF;x.fillText(r[0],PAD+28,yy);x.fillStyle='#2f2233';x.font='700 28px '+PF;R(nf(r[1]),W-PAD-28,yy);yy+=52});
   x.strokeStyle='#cdbad0';x.lineWidth=2;x.beginPath();x.moveTo(PAD+28,yy-12);x.lineTo(W-PAD-28,yy-12);x.stroke();yy+=16;x.fillStyle='#5A1157';x.font='800 38px '+PF;x.fillText('कुल रकम',PAD+28,yy);R(nf(tot),W-PAD-28,yy);yy+=52;
-  if(ex.adv){x.fillStyle='#16a34a';x.font='700 28px '+PF;x.fillText('एडवांस मिला',PAD+28,yy);R('− '+nf(ex.adv),W-PAD-28,yy);yy+=52;x.fillStyle='#B91C1C';x.font='800 32px '+PF;x.fillText('बाकी',PAD+28,yy);R(nf(Math.max(0,tot-ex.adv)),W-PAD-28,yy)}y+=h+30}
+  if(ex.adv){x.fillStyle='#16a34a';x.font='700 28px '+PF;x.fillText(ex.mode==='full'?'पूरा भुगतान मिला':ex.mode==='half'?'आधा भुगतान (एडवांस) मिला':'एडवांस मिला',PAD+28,yy);R('− '+nf(ex.adv),W-PAD-28,yy);yy+=52;const rem=Math.max(0,tot-ex.adv);x.fillStyle=rem?'#B91C1C':'#16a34a';x.font='800 32px '+PF;x.fillText(rem?'बाकी':'✓ पूरा भुगतान प्राप्त',PAD+28,yy);R(nf(rem),W-PAD-28,yy)}y+=h+30}
  /* हस्ताक्षर */
  const H0=Math.max(1754,y+190);
  x.strokeStyle='#8b7d8e';x.lineWidth=2;x.beginPath();x.moveTo(PAD,H0-140);x.lineTo(PAD+420,H0-140);x.moveTo(W-PAD-420,H0-140);x.lineTo(W-PAD,H0-140);x.stroke();
@@ -2861,16 +2910,21 @@ function openGrid(){
  g.addEventListener('input',e=>{const el=e.target,id=el.dataset.g;if(!id)return;let v=el.value.trim();if(/^[xX✕]$/.test(v)){vals[id]='✕';return}v=toAsc(v).replace(/,/g,'.');const n=numOf(v);if(v===''){delete vals[id]}else if(/^\d+(\.\d*)?$/.test(v))vals[id]=v;refresh()});
  $('#gOk',o).onclick=()=>{o.close();refresh()};$('#gOcr',o).onclick=()=>{o.close();setTimeout(openOcr,250)};
  const f=ins.find(x=>!x.value);if(f)setTimeout(()=>f.focus(),350)}
+const payAdv=p=>{const t=(typeof pieceTotal==='function'?pieceTotal(p):0)*(p.qty||1),m=p.pay&&p.pay.mode;return m==='full'?t:m==='half'?Math.round(t/2):m==='custom'?Math.min(t,+p.pay.adv||0):0};
 function openSlip(i,pObj,cObj,ex){
  const p=pObj||cart[i];if(!p)return;const c=cObj||p.cust||cust||{};if(!p.mtr)p.mtr=[];ensurePno(p);saveAll();ex=ex||{};
  let tab='a4c',cache={};
  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3 style="letter-spacing:0">पर्ची #${p.no} · ${esc(p.pn)}</h3><div class="sgm" id="sgm"><button data-t="a4c" class="on">ग्राहक</button><button data-t="a4t">टेलर</button><button data-t="th">थर्मल</button><button data-t="ed">✏ सुधारें</button></div><div class="sc spv" id="spv"></div><div class="sla3"><button class="btn gold press" id="slP">🖨 PDF</button><button class="btn press" id="slS">💬 WhatsApp</button><button class="slm press" id="slD" aria-label="इमेज डाउनलोड">⬇</button></div>`,{h:'95%',pop:false});
- const mk=async t=>t==='th'?thermalCanvas(p,c):a4Canvas(p,c,t==='a4t'?'t':'c',ex);
+ const ex2=()=>Object.assign({},ex,p.pay&&p.pay.mode?{adv:payAdv(p),mode:p.pay.mode}:{});
+ const mk=async t=>t==='th'?thermalCanvas(p,c):a4Canvas(p,c,t==='a4t'?'t':'c',ex2());
  const edHTML=()=>{
   const fabOf=nm=>(p.fabs||[]).find(f=>f[0]===nm);
   const mrows=(p.mtr.length?p.mtr:(p.fabs||[]).map(f=>[f[0],''])).map((m,j)=>{const f=fabOf(m[0]),im=(p.cfab&&p.cfab[m[0]])||(f&&f[2]);return `<div class="pvr"><label class="pvi cf">${im?`<img src="${im}" alt="">`:'📷'}<input type="file" accept="image/*" hidden data-cf="${esc(m[0])}"></label><div class="pvt"><b>${esc(m[0])}</b><small>${f?'दुकान का · '+esc(f[1]):'ग्राहक का कपड़ा · 📷 फोटो जोड़ें'}</small></div><label class="pvm"><input data-mt="${j}" inputmode="decimal" value="${esc(m[1])}" placeholder="0"><small>मीटर</small></label></div>`}).join('');
   const tm=mtotal(p),addL=(p.add||[]).filter(a=>a[2]),addT=addL.reduce((a,z)=>a+z[2]*z[3],0);
-  return `<p class="sub2">नाप, मीटर, कपड़े की फोटो और रेफरेंस फोटो — बदलते ही पर्ची नई बनती है</p><div class="pvg2">${p.meas.map((m,j)=>`<div class="pvf"><label>${esc(m[0])}</label><input data-sm="${j}" inputmode="decimal" value="${m[1]==='✕'?'':esc(m[1])}" placeholder="${m[1]==='✕'?'✕ नहीं':''}"><small>${m[1]==='✕'?'':'inch'}</small></div>`).join('')}</div>
+  const pm=p.pay&&p.pay.mode||'',tt=pieceTotal(p)*(p.qty||1);
+  return `<div class="pvs"><h4>👤 ग्राहक और प्रोडक्ट</h4><div class="cfm"><label>नाम<input data-ce="name" value="${esc(c.name||'')}"></label><label>मोबाइल<input data-ce="mobile" inputmode="numeric" maxlength="10" value="${esc(c.mobile||'')}"></label><label class="w2">पता<input data-ce="addr" value="${esc(c.addr||'')}"></label><label>साइज़<input data-ce="size" value="${esc(p.size||'')}"></label><label>पीस (qty)<input data-ce="qty" inputmode="numeric" value="${p.qty||1}"></label><label>सिलाई ₹<input data-ce="base" inputmode="numeric" value="${p.base||0}"></label><button class="obt" id="cdue">📅 डिलीवरी: ${c.due?fmt(c.due):'चुनें'}</button><label class="w2">नोट<input data-ce="notes" value="${esc(p.notes||'')}"></label></div></div>
+  <div class="pvs"><h4>💳 भुगतान <em id="payem">${pm?'एडवांस ₹'+payAdv(p)+' · बाकी ₹'+Math.max(0,tt-payAdv(p)):''}</em></h4><div class="payc"><button data-pm="full" class="${pm==='full'?'on':''}">✅ पूरा भुगतान</button><button data-pm="half" class="${pm==='half'?'on':''}">½ आधा भुगतान</button><button data-pm="custom" class="${pm==='custom'?'on':''}">✏ कस्टम एडवांस</button><button data-pm="none" class="${pm==='none'?'on':''}">⏳ अभी बाकी</button></div><input class="payi" id="payc" inputmode="numeric" placeholder="एडवांस ₹ लिखें" value="${p.pay&&p.pay.mode==='custom'?p.pay.adv||'':''}" style="display:${pm==='custom'?'block':'none'}"><p class="sub2" style="margin:6px 0 0">कुल ₹${tt}</p></div>
+  <p class="sub2">नाप, मीटर, कपड़े की फोटो और रेफरेंस फोटो — बदलते ही पर्ची नई बनती है</p><div class="pvg2">${p.meas.map((m,j)=>`<div class="pvf"><label>${esc(m[0])}</label><input data-sm="${j}" inputmode="decimal" value="${m[1]==='✕'?'':esc(m[1])}" placeholder="${m[1]==='✕'?'✕ नहीं':''}"><small>${m[1]==='✕'?'':'inch'}</small></div>`).join('')}</div>
   <div class="pvs"><h4>🧵 कपड़ा · मीटर <em>${tm?'कुल '+tm+' मी':''}</em></h4>${mrows||'<p class="pvn">कपड़ा दर्ज नहीं</p>'}<button class="obt" data-addm="1">＋ ग्राहक का कपड़ा (मीटर) जोड़ें</button></div>
   <div class="pvs"><h4>📷 रेफरेंस फोटो</h4><div class="pvrf">${(p.refs||[]).map((r,k)=>`<span><img src="${r}" alt=""><i data-rx="${k}">✕</i></span>`).join('')}<label class="pvad">＋<input type="file" accept="image/*" hidden id="rfa"></label></div></div>
   <div class="pvs"><h4>🧰 एसेसरीज़ <em>${addT?'₹'+addT:''}</em></h4>${addL.map(a=>`<div class="pvr"><span class="pvi">${ico(a[4]||a[1])}</span><div class="pvt"><b>${esc(a[0])}</b><small>${+a[3]?'₹'+a[3]+' × '+a[2]:'फ्री × '+a[2]}</small></div><strong class="pvp">${+a[3]?'₹'+a[3]*a[2]:'फ्री'}</strong></div>`).join('')||'<p class="pvn">कोई एसेसरीज़ नहीं</p>'}</div>`};
@@ -2880,13 +2934,18 @@ function openSlip(i,pObj,cObj,ex){
   try{if(!cache[t])cache[t]=await mk(t);if(tab!==t)return;box.innerHTML=`<div class="${t==='th'?'thw':'a4w'}"><img src="${cache[t].toDataURL('image/jpeg',.9)}" alt="पर्ची"></div>`}catch(e){box.innerHTML='<div class="spin2">पर्ची नहीं बन पाई — '+esc(e.message||'')+'</div>'}};
  show('a4c');
  o.querySelector('#sgm').onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.t)};
- o.addEventListener('input',e=>{const t=e.target,j=t.dataset.sm,k=t.dataset.mt;
+ const payUp=()=>{const em=o.querySelector('#payem');if(!em)return;const tt=pieceTotal(p)*(p.qty||1),a=payAdv(p);em.textContent=p.pay&&p.pay.mode?'एडवांस ₹'+a+' · बाकी ₹'+Math.max(0,tt-a):'';if(ex.o&&ex.o.pieces.length===1){ex.o.adv=a}saveAll()};
+ o.addEventListener('input',e=>{const t=e.target,j=t.dataset.sm,k=t.dataset.mt,ce=t.dataset.ce;
+  if(ce){const v=t.value;if(ce==='name')c.name=v;else if(ce==='mobile'){c.mobile=v.replace(/\D/g,'');t.value=c.mobile}else if(ce==='addr')c.addr=v;else if(ce==='size')p.size=v;else if(ce==='notes')p.notes=v;else if(ce==='qty'){p.qty=Math.max(1,+v.replace(/\D/g,'')||1);payUp()}else if(ce==='base'){p.base=+v.replace(/\D/g,'')||0;payUp()}saveAll();return}
+  if(t.id==='payc'){p.pay={mode:'custom',adv:+t.value.replace(/\D/g,'')||0};payUp();return}
   if(j!==undefined){p.meas[+j][1]=t.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');t.value=p.meas[+j][1];saveAll();return}
   if(k!==undefined){const v=t.value.replace(/,/g,'.').replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');t.value=v;if(!p.mtr.length&&p.fabs)p.fabs.forEach(f=>p.mtr.push([f[0],'']));if(p.mtr[+k]){p.mtr[+k][1]=v;saveAll();const em=o.querySelector('.pvs h4 em');if(em){const tm=mtotal(p);em.textContent=tm?'कुल '+tm+' मी':''}}}});
  o.addEventListener('change',async e=>{const t=e.target;
   if(t.dataset.cf!==undefined&&t.files[0]){p.cfab=p.cfab||{};p.cfab[t.dataset.cf]=await shrinkImg(t.files[0],360);saveAll();show('ed')}
   if(t.id==='rfa'&&t.files[0]){p.refs=(p.refs||[]).concat([await shrinkImg(t.files[0],700)]).slice(0,6);saveAll();show('ed')}});
  o.addEventListener('click',e=>{const t=e.target;
+  const pmb=t.closest('[data-pm]');if(pmb){const m=pmb.dataset.pm;p.pay={mode:m,adv:m==='custom'?(p.pay&&p.pay.adv)||0:0};o.querySelectorAll('[data-pm]').forEach(b=>b.classList.toggle('on',b===pmb));const pi=o.querySelector('#payc');if(pi)pi.style.display=m==='custom'?'block':'none';payUp();return}
+  if(t.closest('#cdue')){openCal({val:c.due,rem:ex.o?ex.o.rem:undefined,title:'डिलीवरी की तारीख',onPick:(d,r)=>{c.due=d;if(r!=null&&ex.o)ex.o.rem=r;saveAll();const b=o.querySelector('#cdue');if(b)b.textContent='📅 डिलीवरी: '+fmt(d)}});return}
   if(t.dataset.rx!==undefined){p.refs.splice(+t.dataset.rx,1);saveAll();show('ed')}
   if(t.dataset.addm){const nm=(p.mtr.length||(p.fabs||[]).length)?'दूसरा कपड़ा':(p.pn||'कपड़ा');if(!p.mtr.length&&p.fabs)p.fabs.forEach(f=>p.mtr.push([f[0],'']));p.mtr.push([nm,'']);saveAll();show('ed')}});
  const cur=async()=>{const t=tab==='ed'?'a4c':tab;if(!cache[t])cache[t]=await mk(t);return[cache[t],t==='th',t]};
@@ -2919,24 +2978,38 @@ async function sysDec(i){
  const [wp,wm,sp,sm]=await Promise.all([get(L.wp,720,960,L.y0),get(L.wm,720,960,L.y0),get(L.sp,390,960),get(L.sm,390,960)]);
  return sysDecC[i]={wp,wm,sp,sm}}
 async function composeMix(T,B,D){
- const t=await sysDec(T),b=await sysDec(B),d=await sysDec(D),s=seamOf(T,B)<0?teOf(T):seamOf(T,B),w=720,h=960;
+ const t=await sysDec(T),b=await sysDec(B),d=D<0?null:await sysDec(D),s=seamOf(T,B)<0?teOf(T):seamOf(T,B),w=720,h=960;
  const ph=new ImageData(w,h),mk=new ImageData(w,h),P=ph.data,M=mk.data;
  for(let y=0;y<h;y++){const wB=s>=960?0:Math.min(1,Math.max(0,(y-(s-14))/28)),belowSeam=y>=s&&s<960;
   for(let x=0;x<w;x++){const i=(y*w+x)*4;let br=255,bg=255,bb=255,sa=0;
-   if(x>=330){const j=(y*390+x-330)*4;br=d.sp[j];bg=d.sp[j+1];bb=d.sp[j+2];sa=d.sm[j]/255*Math.min(1,(x-330)/18)}
+   if(x>=330&&d){const j=(y*390+x-330)*4;br=d.sp[j];bg=d.sp[j+1];bb=d.sp[j+2];sa=d.sm[j]/255*Math.min(1,(x-330)/18)}
    let wr,wg,wbl,wa;
    if(wB===0){wr=t.wp[i];wg=t.wp[i+1];wbl=t.wp[i+2];wa=t.wm[i+2]/255}
    else if(wB===1){wr=b.wp[i];wg=b.wp[i+1];wbl=b.wp[i+2];wa=b.wm[i+2]/255}
    else{const u=1-wB;wr=t.wp[i]*u+b.wp[i]*wB;wg=t.wp[i+1]*u+b.wp[i+1]*wB;wbl=t.wp[i+2]*u+b.wp[i+2]*wB;wa=(t.wm[i+2]*u+b.wm[i+2]*wB)/255}
    P[i]=br*(1-wa)+wr*wa;P[i+1]=bg*(1-wa)+wg*wa;P[i+2]=bb*(1-wa)+wbl*wa;P[i+3]=255;
-   M[i]=belowSeam?0:t.wm[i];M[i+1]=belowSeam?b.wm[i+1]:0;M[i+2]=x>=330?sa*255*(1-wa):0;M[i+3]=255}}
+   M[i]=belowSeam?0:t.wm[i];M[i+1]=belowSeam?b.wm[i+1]:0;M[i+2]=(x>=330&&d)?sa*255*(1-wa):0;M[i+3]=255}}
  const c1=document.createElement('canvas'),c2=document.createElement('canvas');c1.width=c2.width=w;c1.height=c2.height=h;
  c1.getContext('2d').putImageData(ph,0,0);c2.getContext('2d').putImageData(mk,0,0);
  return{photo:c1.toDataURL('image/jpeg',.9),mask:c2.toDataURL('image/png')}}
+/* ===== रंग / फैब्रिक टिंट (मॉडल पर) ===== */
+var mixTint={t:null,b:null,d:null};
+async function tintModel(m,tn){
+ const act=['t','b','d'].filter(k=>tn[k]);if(!act.length)return m.photo;
+ const[ph,mk]=await Promise.all([imgLoad(m.photo),imgLoad(m.mask)]),w=ph.width,h=ph.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(ph,0,0);
+ const pd=x.getImageData(0,0,w,h),P=pd.data,c2=document.createElement('canvas');c2.width=w;c2.height=h;const y2=c2.getContext('2d');y2.drawImage(mk,0,0);const M=y2.getImageData(0,0,w,h).data;
+ const spec={};for(const k of act){const t=tn[k];if(t.img){const im=await imgLoad(t.img),cc=document.createElement('canvas');cc.width=w;cc.height=h;const cx=cc.getContext('2d'),tile=document.createElement('canvas'),ts=Math.round(Math.min(w,h)/4.2);tile.width=ts;tile.height=Math.round(ts*im.height/im.width);tile.getContext('2d').drawImage(im,0,0,tile.width,tile.height);cx.fillStyle=cx.createPattern(tile,'repeat');cx.fillRect(0,0,w,h);spec[k]={tex:cx.getImageData(0,0,w,h).data}}else{const hx=t.c.replace('#','');spec[k]={r:parseInt(hx.slice(0,2),16),g:parseInt(hx.slice(2,4),16),b:parseInt(hx.slice(4,6),16)}}}
+ const ch={t:0,b:1,d:2};
+ for(let i=0;i<w*h*4;i+=4){const lum=P[i]*.3+P[i+1]*.59+P[i+2]*.11,kk=Math.min(1.35,lum/215);
+  for(const k of act){const mv=M[i+ch[k]]/255;if(mv<.02)continue;const sp=spec[k];let r,g,b;if(sp.tex){r=sp.tex[i]*kk;g=sp.tex[i+1]*kk;b=sp.tex[i+2]*kk}else{r=sp.r*kk;g=sp.g*kk;b=sp.b*kk}
+   P[i]=P[i]*(1-mv)+Math.min(255,r)*mv;P[i+1]=P[i+1]*(1-mv)+Math.min(255,g)*mv;P[i+2]=P[i+2]*(1-mv)+Math.min(255,b)*mv}}
+ x.putImageData(pd,0,0);return c.toDataURL('image/jpeg',.9)}
+const tintSig=tn=>['t','b','d'].map(k=>tn[k]?(tn[k].c||('i'+tn[k].img.length+tn[k].img.slice(-12))):'-').join('|');
+async function mixModelT(T,B,D,tn){const m=await mixModelOf(T,B,D);const sig=tintSig(tn);if(sig==='-|-|-')return m;const id=m.id+'_'+sig;if(mixModels[id])return mixModels[id];return mixModels[id]={...m,id,photo:await tintModel(m,tn)}}
 async function mixModelOf(T,B,D){
  const id=`mx_${T}_${B}_${D}`;if(mixModels[id])return mixModels[id];
  const r=await composeMix(T,B,D),one=SYSL[T].one,cat=one?SYSL[T].c:SYSL[B].c;
- return mixModels[id]={id,sys:3,cat,name:one?`मिक्स: ${SYSL[T].n}`:`मिक्स: ${SYSL[T].pn[0]} + ${SYSL[B].pn[1]}`,pn:one?SYSL[T].pn.slice():[SYSL[T].pn[0],SYSL[B].pn[1],'दुपट्टा'],tpl:tplFor(cat).id,builtin:1,photo:r.photo,mask:r.mask}}
+ return mixModels[id]={id,sys:3,cat,name:one?`मिक्स: ${SYSL[T].n}`:`मिक्स: ${SYSL[T].pn[0]} + ${SYSL[B].pn[1]}`,pn:one?SYSL[T].pn.slice():(D<0?[SYSL[T].pn[0],SYSL[B].pn[1]]:[SYSL[T].pn[0],SYSL[B].pn[1],'दुपट्टा']),tpl:tplFor(cat).id,builtin:1,photo:r.photo,mask:r.mask}}
 function s2List(){if(!SYSL.length)return[];return _s2||(_s2=SYSL.map((d,i)=>({d,i})).filter(o=>!o.d.bo).map(({d,i})=>({id:'s2_'+i,sys:2,cat:d.c,name:d.n,pn:d.pn.slice(),tpl:tplFor(d.c).id,builtin:1,photo:null,mask:null,i,lazy:async function(){if(this.photo)return;const r=await composeMix(i,i,i);this.photo=r.photo;this.mask=r.mask}})))}
 async function sysIM(i,k){const key=i+k;return sysIm[key]||(sysIm[key]=await imgLoad(SYSL[i][k]))}
 async function paintThumb(c,i,k){const im=await sysIM(i,k==='d'?'sp':'wp'),x=c.getContext('2d'),S=c.width,y0=SYSL[i].y0||0;x.fillStyle='#fff';x.fillRect(0,0,S,S);
@@ -2961,7 +3034,7 @@ function openSystems2(tab){
  const mxRefresh=()=>{
   const {t,b,d}=mixSel,one=SYSL[t].one;mxMark();
   {const key=`mx_${t}_${one?t:b}_${d}`,g=$('#mxgo');if(g)g.classList.toggle('show',mxDirty&&key!==curModel.id)}
-  const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(nameOf('t',t))}</span>${one?'':`<span>👖 ${esc(nameOf('b',b))}</span>`}<span>🧣 ${esc(nameOf('d',d))}</span>${mixExtra.map(x=>`<span class="ex" data-xr="${x.id}">✨ ${esc(x.n)} ✕</span>`).join('')}`;
+  const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(nameOf('t',t))}</span>${one?'':`<span>👖 ${esc(nameOf('b',b))}</span>`}${d<0?'':`<span>🧣 ${esc(nameOf('d',d))}</span>`}${mixExtra.map(x=>`<span class="ex" data-xr="${x.id}">✨ ${esc(x.n)} ✕</span>`).join('')}`;
   mxTray();mixPrev()};
  const paint=()=>{
   const tabs=`<div class="systabs">${[1,2,3].map(n=>`<button class="stab ${sysTab===n?'on':''}" data-t="${n}"><b>सिस्टम ${n}</b><small>${['पूरे मॉडल · अभी वाले','पूरे मॉडल · नई शीट','मिक्स-मैच'][n-1]}</small></button>`).join('')}</div>${sysTab===3?'':`<p class="sysd">${SYSD[sysTab-1]}</p>`}`;
@@ -2975,11 +3048,11 @@ function openSystems2(tab){
  };
  const mixPrev=()=>{const tok=++mixTok,{t,b,d}=mixSel,one=SYSL[t].one,bb=one?t:b;
   const p=$('#mxp');if(p&&p.parentNode)p.parentNode.classList.remove('ld');
-  setTimeout(async()=>{if(tok!==mixTok)return;const m=await mixModelOf(t,bb,d);if(tok!==mixTok)return;const q=$('#mxp');if(q){q.src=m.photo;q.parentNode.classList.add('ld')}},30)};
- const DEFP={t:200,b:150,d:80};let act='t',pend=null;mixExtra=[];
+  setTimeout(async()=>{if(tok!==mixTok)return;const m=await mixModelT(t,bb,d,mixTint);if(tok!==mixTok)return;const q=$('#mxp');if(q){q.src=m.photo;q.parentNode.classList.add('ld')}},30)};
+ const DEFP={t:200,b:150,d:80};let act='t',pend=null;mixExtra=[];mixTint={t:null,b:null,d:null};
  const pmap=()=>LS('db_s3p')||{},ovr=()=>LS('db_s3o')||{},cust3=()=>LS('db_s3c')||[];
  const nameOf=(k,i)=>(ovr()[k+i]&&ovr()[k+i].n)||mxLabel(k,i),imgOf=(k,i)=>ovr()[k+i]&&ovr()[k+i].img;
- const priceOf=(k,i)=>{const m=pmap(),v=m[k+i];return v!=null?+v:(k==='t'&&SYSL[i].one?450:DEFP[k])};
+ const priceOf=(k,i)=>{if(k==='d'&&i<0)return 0;const m=pmap(),v=m[k+i];return v!=null?+v:(k==='t'&&SYSL[i].one?450:DEFP[k])};
  const accT=()=>ADD.reduce((a,x)=>a+(addons[x[0]]?addons[x[0]]*x[3]:0),0);
  const exT=()=>mixExtra.reduce((a,x)=>a+(+x.p||0),0);
  function mxTotal(withAcc){const{t,b,d}=mixSel,one=SYSL[t].one;return priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d)+exT()+(withAcc?accT():0)}
@@ -2996,7 +3069,7 @@ function openSystems2(tab){
   let h='';
   if(act==='a'){h=ADD.map(x=>{const q=addons[x[0]]||0;return `<div class="mxb ac ${q?'on':''}" data-acc="${x[0]}"><span class="ae">${ico(accImg(x))}</span><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small>${q?`<em class="q">${q}</em><i class="qm" data-qm="${x[0]}">−</i>`:''}</div>`}).join('');if(isV())h+=`<div class="mxb plus" data-newacc="1"><span>＋</span><b>नया सामान</b></div>`}
   else if(act==='b'&&one){h='<p class="mxnote">गाउन / साड़ी में बॉटम साथ ही है — टॉप बदलकर देखिए</p>'}
-  else{const idx=act==='t'?S3TOP:act==='b'?S3BOT_A.concat(S3BOT_B):S3DUP;h=idx.map(i=>tileHTML(act,{i})).join('')+cust3().filter(c=>c.k===act).map(c=>tileHTML(act,{c})).join('');if(isV())h+=`<div class="mxb plus" data-newit="${act}"><span>＋</span><b>नया आइटम</b></div>`}
+  else{const idx=act==='t'?S3TOP:act==='b'?S3BOT_A.concat(S3BOT_B):S3DUP;h=(act==='d'?`<div class="mxb ${mixSel.d<0?'on':''}" data-none="d"><span class="ae">🚫</span><b>बिना दुपट्टा</b><small>₹0</small></div>`:'')+idx.map(i=>tileHTML(act,{i})).join('')+cust3().filter(c=>c.k===act).map(c=>tileHTML(act,{c})).join('');if(isV())h+=`<div class="mxb plus" data-newit="${act}"><span>＋</span><b>नया आइटम</b></div>`}
   tr.innerHTML=h;paintAll(tr);
   const tt=$('#mxtot');if(tt)tt.textContent='₹'+mxTotal(true);const ad=$('#mxadd');if(ad)ad.classList.toggle('show',!!pend)}
  function pickMx(k,i){if(k==='b'&&!sepOK(mixSel.t,i)){toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');return false}
@@ -3028,7 +3101,35 @@ function openSystems2(tab){
    toast('सेव हो गया ✓');done()};
   const d=$('#edd',o);if(d)d.onclick=()=>{if(!confirm('हटा दें?'))return;if(kind==='c'){LS('db_s3c',cust3().filter(z=>z.id!==id));mixExtra=mixExtra.filter(z=>z.id!==id)}else{ADD=ADD.filter(z=>z[0]!==id);delete addons[id];persistAcc()}toast('हटा दिया');done()};
   const r=$('#edrs',o);if(r)r.onclick=()=>{const m=ovr();delete m[k+ref.i];LS('db_s3o',m);const pm=pmap();delete pm[k+ref.i];LS('db_s3p',pm);toast('मूल रूप लौट आया');done()}}
- function applyPend(){if(!pend)return;if(pend.c){const c=cust3().find(z=>z.id===pend.c);if(c&&!mixExtra.some(x=>x.id===c.id))mixExtra.push({...c});else if(c)mixExtra=mixExtra.filter(x=>x.id!==c.id)}else pickMx(pend.k,pend.i);pend=null;mxDirty=true;mxRefresh()}
+ function applyPend(){if(!pend)return;const tl=document.querySelector('#mxtr .mxb.pend');if(tl)flyFrom(tl);if(pend.c){const c=cust3().find(z=>z.id===pend.c);if(c&&!mixExtra.some(x=>x.id===c.id))mixExtra.push({...c});else if(c)mixExtra=mixExtra.filter(x=>x.id!==c.id)}else pickMx(pend.k,pend.i);pend=null;mxDirty=true;mxRefresh()}
+
+ function flyFrom(el){try{const src=el.querySelector('canvas,img,.ae');const r=el.getBoundingClientRect(),tg=$('#mxp').getBoundingClientRect();
+  const f=document.createElement('div');f.className='mxfly';f.style.cssText=`left:${r.left+r.width/2-30}px;top:${r.top}px`;
+  if(src&&src.tagName==='CANVAS'){const im=document.createElement('img');im.src=src.toDataURL();f.append(im)}else if(src&&src.tagName==='IMG'){const im=document.createElement('img');im.src=src.src;f.append(im)}else f.textContent='✨';
+  document.body.append(f);const dx=tg.left+tg.width/2-(r.left+r.width/2),dy=tg.top+tg.height*.45-r.top;
+  const a=f.animate([{transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-70}px) scale(1.7) rotate(-12deg)`,opacity:1,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(2.6) rotate(8deg)`,opacity:0}],{duration:720,easing:'cubic-bezier(.25,.8,.3,1)'});
+  a.onfinish=()=>{f.remove();const m=$('.mxp');if(m){m.classList.remove('pop');void m.offsetWidth;m.classList.add('pop')}}}catch(e){}}
+ function removePart(k){if(k==='d'){if(mixSel.d<0)return toast('दुपट्टा पहले से हटा हुआ है');mixSel.d=-1;mixTint.d=null}
+  else if(k==='t'){mixSel.t=S3TOP[0];if(SYSL[mixSel.t].one)mixSel.b=mixSel.t;else if(!sepOK(mixSel.t,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0];mixTint.t=null}
+  else{mixSel.b=S3BOT_A[0];if(!sepOK(mixSel.t,mixSel.b)){mixSel.t=S3TOP[0];mixSel.b=S3BOT_A[0]}mixTint.b=null}
+  mxDirty=true;mxRefresh();toast(k==='d'?'दुपट्टा हटा दिया ✓':k==='t'?'टॉप हटाकर सादा टॉप लगा दिया':'बॉटम हटाकर सादा बॉटम लगा दिया')}
+ const COLS=['#FFFFFF','#F5E6C8','#F4C2C2','#E75480','#C1121F','#800020','#FF8C00','#FFD60A','#9ACD32','#2E8B57','#006D77','#00B4D8','#1D3FA8','#5A1157','#9B5DE5','#8B5E3C','#4A4A4A','#111111'];
+ const PN={t:'👚 टॉप',b:'👖 बॉटम',d:'🧣 दुपट्टा'};
+ function openTint(k){
+  if(k==='b'&&SYSL[mixSel.t].one)k='t';
+  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🎨 ${PN[k]} — रंग / फैब्रिक</h3><p class="sub2">रंग चुनते ही मॉडल पर तुरंत लग जाता है</p><div class="sc"><div class="tcs">${COLS.map(c=>`<i data-c="${c}" style="background:${c}"></i>`).join('')}<label class="tcc">🎨<input type="color" id="tcp" hidden></label></div><label class="obt" style="display:block;text-align:center;margin:12px 0 4px;cursor:pointer">📷 फैब्रिक की फोटो अपलोड करें<input type="file" accept="image/*" id="tcf" hidden></label><div id="tcv" class="tcv"></div><button class="obt" id="tcr" style="width:100%;margin-top:8px">↺ मूल रंग पर लौटें</button></div><button class="btn gold press" id="tcok">✓ हो गया</button>`,{h:'66%',pop:false});
+  const show=()=>{const t=mixTint[k];$('#tcv',o).innerHTML=t?(t.img?`<img src="${t.img}" alt=""><small>फैब्रिक लगा है</small>`:`<i style="background:${t.c}"></i><small>${t.c}</small>`):'<small>अभी मूल रंग</small>'};show();
+  const set=t=>{mixTint[k]=t;mxDirty=true;show();mixPrev()};
+  o.addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c)set({c:c.dataset.c});if(e.target.closest('#tcr'))set(null);if(e.target.closest('#tcok'))o.close()});
+  $('#tcp',o).onchange=e=>set({c:e.target.value});
+  $('#tcf',o).onchange=async e=>{const f=e.target.files[0];if(f)set({img:await shrinkImg(f,260)})}}
+ {const R=$('#syw');if(R){let t=null,sx=0,sy=0,ev=null;R.addEventListener('pointerdown',e=>{const el=e.target.closest('.mxp');if(!el||e.target.closest('.mxchips'))return;sx=e.clientX;sy=e.clientY;ev=e;clearTimeout(t);t=setTimeout(()=>{window._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}partMenu(ev)},520)});
+   ['pointerup','pointercancel','pointerleave'].forEach(n=>R.addEventListener(n,()=>clearTimeout(t)));R.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)>10)clearTimeout(t)})}}
+ function partMenu(e){const im=$('#mxp');if(!im)return;const r=im.getBoundingClientRect(),sc=Math.min(r.width/720,r.height/960),ox=(r.width-720*sc)/2,oy=(r.height-960*sc)/2,xi=(e.clientX-r.left-ox)/sc,yi=(e.clientY-r.top-oy)/sc;
+  const{t,b,d}=mixSel,one=SYSL[t].one,sm=seamOf(t,one?t:b)<0?teOf(t):seamOf(t,one?t:b);let k=xi>=330&&d>=0?'d':(yi<sm||one?'t':'b');if(xi>=330&&d<0)k=yi<sm||one?'t':'b';
+  const nm=k==='d'?nameOf('d',d):k==='t'?nameOf('t',t):nameOf('b',b);
+  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${PN[k]} · ${esc(nm)}</h3><div class="sc"><button class="pmb" data-a="tint">🎨 रंग / फैब्रिक बदलें</button><button class="pmb red" data-a="rm">🗑 ${k==='d'?'दुपट्टा पूरा हटाएँ':k==='t'?'यह टॉप हटाएँ (सादा टॉप लगेगा)':'यह बॉटम हटाएँ (सादा बॉटम लगेगा)'}</button></div>`,{h:'36%',pop:false});
+  o.addEventListener('click',ev=>{const a=ev.target.closest('[data-a]');if(!a)return;o.close();if(a.dataset.a==='rm')removePart(k);else setTimeout(()=>openTint(k),200)})}
  function openPick(k){
   if(k==='s')return openSaved();
   if(k==='a')return openAcc();
@@ -3040,7 +3141,7 @@ function openSystems2(tab){
   onLong(o,'.pkc[data-i],.pkc[data-c]',el=>{editItem(el.dataset.c?{k,c:el.dataset.c}:{k,i:+el.dataset.i});});
   o.addEventListener('click',e=>{if(justLP())return;const nw=e.target.closest('[data-newit]');if(nw){editItem({newK:nw.dataset.newit});return}
    const c=e.target.closest('.pkc');if(!c)return;if(c.dataset.c){pend={k,c:c.dataset.c};applyPend();o.close();return}
-   if(c.classList.contains('dis')){toast('ये बॉटम इस टॉप के साथ नहीं बैठता');return}if(pickMx(k,+c.dataset.i))o.close()})}
+   if(c.classList.contains('dis')){toast('ये बॉटम इस टॉप के साथ नहीं बैठता');return}{flyFrom(c);if(pickMx(k,+c.dataset.i))o.close()}})}
  function openAcc(){
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🧰 एसेसरीज़ जोड़ें</h3><p class="sub2">${isV()?'वेंडर: किसी को दबाकर रखें → नाम / कीमत / फोटो बदलें · ':''}प्रेस, लाइनिंग, डोरी… जितनी चाहिए जोड़ें</p><div class="sc"><div class="acl" id="acl"></div></div>${isV()?'<button class="obt" id="acn" style="margin:6px 0">＋ नया सामान जोड़ें</button>':''}<button class="btn gold press" id="acok">✓ हो गया</button>`,{h:'86%',pop:false});
   const draw=()=>{$('#acl',o).innerHTML=ADD.map(x=>`<div class="acr ${addons[x[0]]?'on':''}" data-id="${x[0]}"><span class="aci">${ico(accImg(x))}</span><div class="act"><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small></div><div class="acq"><button data-ad="${x[0]}" data-d="-1">−</button><em>${addons[x[0]]||0}</em><button data-ad="${x[0]}" data-d="1">＋</button></div></div>`).join('')};draw();
@@ -3053,7 +3154,7 @@ function openSystems2(tab){
   o.addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(d){const L=LS('db_s3b')||[];L.splice(+d.dataset.del,1);LS('db_s3b',L);draw();return}
    const r=e.target.closest('.svr');if(!r)return;const x=(LS('db_s3b')||[])[+r.dataset.j];if(!x)return;mixSel={...x.sel};Object.keys(addons).forEach(k=>delete addons[k]);Object.assign(addons,x.acc||{});mixExtra=(x.ex||[]).slice();mxDirty=true;mxRefresh();o.close();toast('"'+x.n+'" लग गया ✓')})}
  function saveSet(){
-  const sum=`${nameOf('t',mixSel.t)}${SYSL[mixSel.t].one?'':' + '+nameOf('b',mixSel.b)} + ${nameOf('d',mixSel.d)}`;
+  const sum=`${nameOf('t',mixSel.t)}${SYSL[mixSel.t].one?'':' + '+nameOf('b',mixSel.b)} + ${mixSel.d<0?'बिना दुपट्टा':nameOf('d',mixSel.d)}`;
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>💾 यह सेट सेव करें</h3><p class="sub2">${esc(sum)} · कुल ₹${mxTotal(true)}</p><input class="nm" id="svn" placeholder="सेट का नाम, जैसे: शादी स्पेशल सूट" autofocus><button class="btn gold press" id="svk">💾 सेव करें</button>`,{h:'46%',pop:false});
   $('#svk',o).onclick=()=>{const n=$('#svn',o).value.trim();if(!n)return toast('नाम लिखिए');const L=LS('db_s3b')||[];L.unshift({n,sel:{...mixSel},acc:{...addons},ex:mixExtra.slice(),price:mxTotal(true),sum});LS('db_s3b',L.slice(0,40));o.close();toast('सेट सेव हो गया ✓')}}
  paint();
@@ -3075,10 +3176,11 @@ function openSystems2(tab){
   if(e.target.closest('[data-newacc]')){editItem({newAcc:1});return}
   const qm=e.target.closest('[data-qm]');if(qm){const id=qm.dataset.qm;if(addons[id]>1)addons[id]--;else delete addons[id];mxTray();return}
   const ac=e.target.closest('[data-acc]');if(ac){const id=ac.dataset.acc;addons[id]=(addons[id]||0)+1;mxTray();return}
-  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');const k=tk.dataset.k;pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};mxTray();return}
+  const nn=e.target.closest('[data-none]');if(nn){removePart('d');return}
+  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');const k=tk.dataset.k;if(tk.classList.contains('on')&&!tk.dataset.c&&!(pend&&pend.k===k)){openTint(k);return}pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};mxTray();return}
   if(e.target.closest('#mxadd')){applyPend();return}
   if(e.target.closest('#mxsv')){saveSet();return}
-  if(e.target.closest('#mxgo')){const{t,b,d}=mixSel,one=SYSL[t].one;const m=await mixModelOf(t,one?t:b,d);m.bprice=priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d);mixExtra.forEach(x=>{const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p||0,0,x.img||'']);addons[id]=1});await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice)}}
+  if(e.target.closest('#mxgo')){const{t,b,d}=mixSel,one=SYSL[t].one;const m=await mixModelT(t,one?t:b,d,mixTint);m.bprice=priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d);mixExtra.forEach(x=>{const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p||0,0,x.img||'']);addons[id]=1});await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice)}}
 }
 
 
@@ -3572,7 +3674,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-18.10';
+const APP_VER='2026-11-19.2';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
