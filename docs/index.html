@@ -943,6 +943,20 @@ html[data-theme=dark] #seli .pill{--pb:#2a2030;background:#2a2030!important;bord
 .ocrow{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid #eee5ee}.ocrow.off{opacity:.4}.ocn{flex:1;min-width:0}.ocn input{width:100%;border:0;border-bottom:1px solid #d9ccdc;font:600 14px 'Noto Sans Devanagari',sans-serif;color:#2f2233;padding:2px 0;outline:0}.ocn small{font-size:10.5px;color:#8b7d8e}
 .ocv{width:62px;text-align:center;border:1px solid #cdbad0;border-radius:12px;padding:8px 2px;font:600 16px 'Noto Sans Devanagari',sans-serif}
 .gq{display:flex;align-items:center;gap:10px;padding:6px 2px;border-bottom:1px solid #f0e8f1}.gq span{flex:1;font:600 14px 'Noto Sans Devanagari',sans-serif;color:#5A1157}.gq input{width:90px;text-align:center;border:1px solid #cdbad0;border-radius:12px;padding:9px 4px;font:600 17px 'Noto Sans Devanagari',sans-serif;color:#2f2233;outline:0}.gq input:focus{border-color:#5A1157;box-shadow:0 0 0 3px #5a115722}.gq em{font-style:normal;font-size:10px;color:#94a3b8;width:28px}
+
+/* v37 */
+.bbar{position:absolute!important;left:8px;right:8px;bottom:10px;margin:0!important;z-index:6}
+.bbar.bmin{left:auto!important;right:14px;bottom:12px;width:58px}
+#rows{padding-bottom:104px}
+.bsw{position:relative;flex:1;height:40px;border-radius:20px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff;font:600 12px 'Noto Sans Devanagari',sans-serif;overflow:hidden;min-width:0}
+.bsl,.bsr{cursor:pointer;white-space:nowrap}.bsl i{font-style:normal;background:#FFB800;color:#5A1157;border-radius:9px;padding:0 5px;margin-left:4px;font-size:10px;font-weight:800}
+.bkn{position:absolute;left:50%;top:3px;margin-left:-17px;width:34px;height:34px;border-radius:50%;background:#FFB800;color:#5A1157;display:grid;place-items:center;font-size:15px;font-weight:900;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:grab;z-index:2}
+.bsw[data-d=r] .bsr{color:#FFB800;font-weight:800}.bsw[data-d=l] .bsl{color:#FFB800;font-weight:800}
+.bbar.bmin .bsw{display:none}
+.ocf{position:absolute;right:16px;bottom:86px;width:46px;height:46px;border-radius:50%;background:#FFB800;color:#5A1157;font-size:21px;display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.3);z-index:6}
+.ocim{display:block;width:100%;max-height:230px;object-fit:contain;background:#f4edf5;border-radius:14px;margin:0 0 10px}
+.occr{width:92px;height:40px;object-fit:contain;border:1px solid #e5d5e6;border-radius:8px;background:#fff;flex-shrink:0}
+.pvn{font-size:12px;color:#8b7d8e;text-align:center;margin:8px 0}
 </style>
 </head>
 <body>
@@ -1321,13 +1335,18 @@ function showForm(){
   <div class="tc"><small>डिज़ाइन फोटो</small><div class="tp" id="tr"></div></div>
   </div>
   <div class="nb3"><div class="t" id="nt">नोट लिखें…</div><button class="press" id="clip" aria-label="अटैच">📎</button><button class="press mic" id="mic" aria-label="वॉइस नोट">${MIC(20)}</button></div></div></div>
- <div class="bbar" id="bbar"><button class="bmn press" id="bmn" aria-label="छोटा करें">⌄</button><div class="bth" id="bth"></div><div class="bin" id="bin"></div><button class="bn press" id="bn">अभी खरीदें</button><button class="bcart press" id="fc">＋ कार्ट में जोड़ें</button><i class="bbd" id="bbd"></i></div></div>`);
+ <div class="bbar" id="bbar"><button class="bmn press" id="bmn" aria-label="छोटा करें">⌄</button><div class="bth" id="bth"></div><div class="bin" id="bin"></div><div class="bsw" id="bsw"><span class="bsl" id="bn">‹ ऑर्डर</span><span class="bsr" id="fc">कार्ट ›</span><b class="bkn" id="bkn" aria-label="खींचें">⇄</b></div><i class="bbd" id="bbd"></i></div><button class="ocf press" id="ocf" aria-label="फोटो से नाप भरें">📷</button></div>`);
  buildRows();$('#mdx').onclick=closeDrop;$('#airab').onclick=airaToggle;$('#airag').onclick=airaSettings;
  $('#rows').onclick=e=>{const xg=e.target.closest('[data-xg]');if(xg)return xg.dataset.xg==='ocr'?openOcr():openGrid();if(e.target.closest('[data-add]'))return openNamePicker(null);const a=e.target.closest('[data-act]');if(!a)return;const rw=a.closest('.row'),id=rw.dataset.id;cur=id;if(a.dataset.act==='tape')return rw.classList.contains('lock')?toast('पहले ऊपर की नाप भरें 🔒'):openTape();a.dataset.act==='guide'?openGuide():openVar()};
  $('#rows').oninput=e=>{const id=e.target.closest('.row').dataset.id;vals[id]=e.target.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');refresh()};
  $('#pf').onclick=openCust;$('#pc').onclick=openLooks;$('#addc').onclick=openAdd;$('#clip').onclick=openAttach;$('#nt').onclick=openMedia;$('#mic').onclick=openMedia;
  $('#tray3').onclick=e=>{const t=e.target.closest('.tp');if(!t)return;({tm:openMat,ts:openSize,tr:openRef})[t.id]()};
- $('#fc').onclick=()=>addToCart();$('#bn').onclick=buyNow;
+ $('#fc').onclick=()=>addToCart();$('#bn').onclick=buyNow;$('#ocf').onclick=()=>openOcr();
+ {const kn=$('#bkn'),sw=$('#bsw');let sx=0,dx=0,dr=false;const mx=()=>(sw.clientWidth-kn.clientWidth)/2;
+  kn.addEventListener('pointerdown',e=>{dr=true;sx=e.clientX;dx=0;try{kn.setPointerCapture(e.pointerId)}catch(_){}kn.style.transition='none'});
+  kn.addEventListener('pointermove',e=>{if(!dr)return;dx=Math.max(-mx(),Math.min(mx(),e.clientX-sx));kn.style.transform=`translateX(${dx}px)`;sw.dataset.d=dx>10?'r':dx<-10?'l':''});
+  const end=()=>{if(!dr)return;dr=false;const m=mx(),d=dx;kn.style.transition='transform .25s';kn.style.transform='';sw.dataset.d='';dx=0;if(d>m*.65)addToCart();else if(d<-m*.65)buyNow()};
+  kn.addEventListener('pointerup',end);kn.addEventListener('pointercancel',end)}
  $('#bbar').classList.toggle('bmin',!!window._barMin);
  $('#bbar').addEventListener('click',e=>{const b=$('#bbar');if(e.target.closest('#bmn')){window._barMin=true;b.classList.add('bmin');e.stopPropagation();return}if(b.classList.contains('bmin')){window._barMin=false;b.classList.remove('bmin');e.stopPropagation();e.preventDefault()}},true);
  paintTray();
@@ -1359,7 +1378,7 @@ function paintTray(){
  $('#tr').innerHTML=`${imgs.length?stack(imgs.map(m=>`<img class="sb1 im" src="${m}" alt="">`)):'<span class="sb1 e">🖼️</span>'}<b>${imgs.length?imgs.length+' फोटो':'फोटो / डिज़ाइन'}</b><button class="pl press" tabindex="-1">＋</button>`;
  $('#bth').innerHTML=looks.slice(0,3).map(l=>`<img src="${l.thumb}" alt="">`).join('')||'<span>👗</span>';
  $('#bin').innerHTML=`<b>${lk?esc(lk.name):'प्रोडक्ट'}</b><small>₹${tot} · ${looks.length+cart.length} नग${cart.length?` · 🛍${cart.length}`:''}</small>`;
- const bn=$('#bn');bn.innerHTML=`अभी खरीदें${cart.length?`<i>${cart.length}</i>`:''}`;const bd=$('#bbd');if(bd)bd.textContent=(looks.length+cart.length)||'';
+ const bn=$('#bn');bn.innerHTML=`‹ ऑर्डर${cart.length?`<i>${cart.length}</i>`:''}`;const bd=$('#bbd');if(bd)bd.textContent=(looks.length+cart.length)||'';
 }
 
 /* ---------- आयरा : आवाज़ से नाप (ऑफ़लाइन + फ़्लोटिंग बबल) ---------- */
@@ -1862,7 +1881,7 @@ function openLooks(){
   if(i!==curLook){curLook=i;loadLook(looks[i]);applyLook(looks[i]);buildRows();paintTray();$('.list').scrollTo({top:0});toast(looks[i].name+' की नाप खुली')}o.close()};
  $('#nl',o).onclick=()=>{o.close();pendingNew=true;closeDrop();setTimeout(()=>toast('नया मॉडल / कपड़ा चुनकर ✂ नाप दबाइए'),500)};
 }
-function buildRows(){$('#rows').innerHTML=steps.map(rowHTML).join('')+'<div class="addbar"><button class="addrow press" data-add="1">＋ नई नाप</button><button class="addrow press" data-xg="grid">⊞ एक साथ भरें</button><button class="addrow press" data-xg="ocr">📷 फोटो से</button></div>';refresh();initRowLP()}
+function buildRows(){$('#rows').innerHTML=steps.map(rowHTML).join('')+'<div class="addbar"><button class="addrow press" data-add="1">＋ नई नाप</button><button class="addrow press" data-xg="grid">⊞ एक साथ भरें</button></div>';refresh();initRowLP()}
 const FN_BASE=['अपर चेस्ट','चेस्ट / बॉडी','कमर','हिप','लंबाई','बाजू','बाजू की लंबाई','बाजू का घेरा','मोहरी (कफ)','गला','आगे का गला','पीछे का गला','तीरा (कंधा)','घेरा','आर्महोल','जांघ','घुटना','पिंडली','पायचा (मोहरी)','टॉप लंबाई','पलाज़ो लंबाई','सलवार लंबाई','ब्लाउज़ लंबाई','स्कर्ट लंबाई','दुपट्टा लंबाई','कॉलर','पीठ की चौड़ाई'];
 function fieldBank(){const m=new Map();const add=n=>{n=String(n||'').trim();if(n&&!m.has(n.toLowerCase()))m.set(n.toLowerCase(),n)};
  (LS('db_fnames')||[]).forEach(add);steps.forEach(x=>add(x.h));try{TPLS.forEach(t=>t.fields.forEach(f=>add(f.h)))}catch(_){}FN_BASE.forEach(add);return[...m.values()]}
@@ -2607,14 +2626,86 @@ async function ocrImage(file){
  if(A&&A.ocr){const b64=cv.toDataURL('image/jpeg',.9).split(',')[1];const r=await A.ocr({image:b64});return{tokens:r.tokens||[],eng:'ML Kit'}}
  if(!window.Tesseract)await new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';sc.onload=ok;sc.onerror=()=>no(new Error('OCR इंजन लोड नहीं हुआ (इंटरनेट चाहिए)'));document.head.append(sc)});
  const r=await Tesseract.recognize(cv,'hin+eng');const tk=[];((r.data&&r.data.words)||[]).forEach(w=>tk.push({t:w.text,x1:w.bbox.x0,y1:w.bbox.y0,x2:w.bbox.x1,y2:w.bbox.y1}));return{tokens:tk,eng:'Tesseract'}}
-function applyMeas(list){let n=0;list.forEach(o=>{if(!o.on||o.value==null)return;let id=o.id;if(!id){id='x'+Date.now().toString(36)+n;steps.push({id,h:o.name||o.label,i:'📏'})}vals[id]=fmtN(o.value);n++});buildRows();refresh();return n}
-function openOcr(){
- const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>📷 फोटो से नाप भरें</h3><p class="sub2">हाथ से लिखे फॉर्म / कागज़ की साफ़ फोटो लीजिए — लेबल और नाप अपने-आप पढ़कर नीचे दिखेंगे। भरने से पहले आप सुधार सकते हैं।</p><div class="ocb"><label class="btn gold press">📸 फोटो खींचें<input type="file" accept="image/*" capture="environment" id="ocC" hidden></label><label class="btn press">🖼 गैलरी से<input type="file" accept="image/*" id="ocG" hidden></label></div><div class="ocr" id="ocr"></div><button class="btn gold press" id="ocK" style="display:none">✓ नाप भरें</button>`,{h:'92%',pop:false});
- let list=[];const box=$('#ocr',o);
- const draw=()=>{box.innerHTML=list.length?list.map((r,i)=>`<div class="ocrow ${r.on?'':'off'}"><input type="checkbox" data-on="${i}" ${r.on?'checked':''}><div class="ocn"><input data-nm="${i}" value="${esc(r.name)}"><small>${r.id?'✓ मिला':'＋ नया फ़ील्ड बनेगा'}${r.label!==r.name?' · पढ़ा: '+esc(r.label):''}</small></div><input class="ocv" data-v="${i}" inputmode="decimal" value="${fmtN(r.value)}"></div>`).join(''):'<div class="spin2">कोई नाप नहीं मिली — साफ़ रोशनी में सीधी फोटो लें</div>';$('#ocK',o).style.display=list.length?'':'none'};
- const run=async f=>{if(!f)return;box.innerHTML='<div class="spin2">पढ़ रहा हूँ… कुछ सेकंड</div>';try{const r=await ocrImage(f);list=parseOcr(r.tokens);draw()}catch(e){box.innerHTML='<div class="spin2">'+esc(e.message||'पढ़ नहीं पाया')+'</div>'}};
+function applyMeas(list){let n=0;list.forEach(o=>{if(!o.on||o.value==null)return;let id=o.id;if(!id){id='x'+Date.now().toString(36)+n;steps.push({id,h:o.name||o.label,i:'📏'})}else if(!steps.some(z=>z.id===id))steps.push({id,h:o.name||o.label,i:'📏'});vals[id]=fmtN(o.value);n++});buildRows();refresh();return n}
+/* ===== छपा टेम्पलेट + स्कैन ===== */
+const TW=1240,TH=1754;
+function tplLayout(fields){const n=fields.length,rows=Math.max(1,Math.ceil(n/2)),top=470,avail=TH-150-top,pitch=Math.min(150,avail/rows),bh=Math.min(96,pitch-34),bw=470,xs=[110,TW-110-bw];
+ return{markers:[[60,60],[TW-60,60],[TW-60,TH-60],[60,TH-60]],ms:66,boxes:fields.map((f,k)=>({id:f.id,h:f.h,x:xs[k%2],y:top+Math.floor(k/2)*pitch+24,w:bw,hh:bh}))}}
+const cropRect=b=>({x:b.x+14,y:b.y+22,w:b.w-14-110,h:b.hh-22-10});
+function tplCanvas(cat,fields){const L=tplLayout(fields),cv=document.createElement('canvas');cv.width=TW;cv.height=TH;const x=cv.getContext('2d');
+ x.fillStyle='#fff';x.fillRect(0,0,TW,TH);x.fillStyle='#000';L.markers.forEach(m=>x.fillRect(m[0]-L.ms/2,m[1]-L.ms/2,L.ms,L.ms));x.textBaseline='middle';
+ x.fillStyle='#5A1157';x.font='800 58px '+PF;x.textAlign='left';x.fillText('DOOR | BUTIK',130,130);x.font='600 30px '+PF;x.fillStyle='#4b3b4f';x.fillText('नाप पर्ची · '+cat,130,186);
+ x.textAlign='right';x.fillStyle='#8b7d8e';x.font='500 22px '+PF;x.fillText('नीले/काले पेन से बॉक्स के अंदर साफ़ अंक लिखें · भिन्न: 12.5',TW-130,186);x.textAlign='left';
+ x.strokeStyle='#8b7d8e';x.lineWidth=2;x.fillStyle='#2f2233';x.font='600 26px '+PF;
+ [['नाम',130,280,640],['मोबाइल',810,280,300],['डिलीवरी तारीख',130,350,420],['एडवांस ₹',640,350,470]].forEach(([t,a,b,w])=>{x.fillText(t,a,b);const tw=x.measureText(t).width;x.beginPath();x.moveTo(a+tw+14,b+16);x.lineTo(a+w,b+16);x.stroke()});
+ x.fillStyle='#5A1157';x.font='700 30px '+PF;x.fillText('📏 नाप (इंच में)',110,430);
+ L.boxes.forEach(b=>{x.strokeStyle='#5A1157';x.lineWidth=3;rrect(x,b.x,b.y,b.w,b.hh,22);x.stroke();x.font='600 24px '+PF;const tw=x.measureText(b.h).width;x.fillStyle='#fff';x.fillRect(b.x+b.w/2-tw/2-12,b.y-10,tw+24,20);x.fillStyle='#5A1157';x.textAlign='center';x.fillText(b.h,b.x+b.w/2,b.y);x.textAlign='left';x.fillStyle='#94a3b8';x.font='500 20px '+PF;x.fillText('inch',b.x+b.w-86,b.y+b.hh/2+8)});
+ x.fillStyle='#a79aab';x.font='500 20px '+PF;x.textAlign='center';x.fillText('चारों कोने के काले चौकोर न ढकें · Door Butik',TW/2,TH-60);return cv}
+function getTplFields(cat){const t=tplOf(cat);return(cat===curTplId?steps:t.fields).map(f=>({id:f.id,h:f.h}))}
+function openTplSheet(){let cat=curTplId;
+ const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🖨 छपने वाला नाप-फॉर्म</h3><p class="sub2">इसे A4 पर छापिए (या खाली बिल-बुक की जगह रखिए)। दुकानदार बॉक्स में पेन से नाप लिखे, फिर 📷 से फोटो लेते ही सब अपने-आप भर जाएगा।</p><div class="sgm" id="tpc">${TPLS.map(t=>`<button data-c="${t.id}" class="${t.id===cat?'on':''}">${t.em} ${esc(t.name)}</button>`).join('')}</div><div class="sc spv" id="tpv"></div><div class="sla3"><button class="btn gold press" id="tpP">🖨 PDF / प्रिंट</button><button class="btn press" id="tpS">↗ शेयर</button><button class="slm press" id="tpD" aria-label="इमेज">⬇</button></div>`,{h:'95%',pop:false});
+ let cv=null;const draw=()=>{const fl=getTplFields(cat);cv=tplCanvas(tplOf(cat).name,fl);$('#tpv',o).innerHTML=`<div class="a4w"><img src="${cv.toDataURL('image/jpeg',.9)}" alt="फॉर्म"></div>`;LS('db_tpl_last',{cat,fields:fl})};
+ draw();$('#tpc',o).onclick=e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.c;o.querySelectorAll('#tpc button').forEach(z=>z.classList.toggle('on',z===b));draw()};
+ $('#tpP',o).onclick=async()=>{try{saveBlobOut(await cvPdf(cv,false),'naap-form-'+cat+'.pdf')}catch(e){toast('PDF नहीं बन पाया')}};
+ $('#tpD',o).onclick=async()=>saveBlobOut(await cvBlob(cv),'naap-form-'+cat+'.png');
+ $('#tpS',o).onclick=async()=>{const b=await cvBlob(cv);if(await nativeOut(b,'naap-form.png'))return;try{const f=new File([b],'naap-form.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'नाप फॉर्म'});return}}catch(e){if(e&&e.name==='AbortError')return}saveBlobOut(b,'naap-form.png')}}
+function solveH(a,b){/* a=[[u,v]x4] टेम्पलेट, b=[[x,y]x4] फोटो → 3x3 */
+ const M=[];for(let i=0;i<4;i++){const[u,v]=a[i],[x,y]=b[i];M.push([u,v,1,0,0,0,-u*x,-v*x,x]);M.push([0,0,0,u,v,1,-u*y,-v*y,y])}
+ for(let c=0;c<8;c++){let p=c;for(let r=c+1;r<8;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;[M[c],M[p]]=[M[p],M[c]];const d=M[c][c];if(Math.abs(d)<1e-12)return null;for(let k=c;k<9;k++)M[c][k]/=d;for(let r=0;r<8;r++)if(r!==c){const f=M[r][c];if(f)for(let k=c;k<9;k++)M[r][k]-=f*M[c][k]}}
+ return[M[0][8],M[1][8],M[2][8],M[3][8],M[4][8],M[5][8],M[6][8],M[7][8],1]}
+function findMarkers(cv){
+ const sc=Math.min(1,640/Math.max(cv.width,cv.height)),w=Math.round(cv.width*sc),h=Math.round(cv.height*sc),t=document.createElement('canvas');t.width=w;t.height=h;t.getContext('2d').drawImage(cv,0,0,w,h);
+ const d=t.getContext('2d').getImageData(0,0,w,h).data,g=new Uint8Array(w*h),hist=new Array(256).fill(0);for(let i=0;i<w*h;i++){const l=(d[i*4]*.3+d[i*4+1]*.59+d[i*4+2]*.11)|0;g[i]=l;hist[l]++}
+ let tot=w*h,sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];let sB=0,wB=0,mx=0,thr=100;for(let i=0;i<256;i++){wB+=hist[i];if(!wB)continue;const wF=tot-wB;if(!wF)break;sB+=i*hist[i];const mB=sB/wB,mF=(sum-sB)/wF,v=wB*wF*(mB-mF)*(mB-mF);if(v>mx){mx=v;thr=i}}
+ thr=Math.min(thr,110);const dark=new Uint8Array(w*h);for(let i=0;i<w*h;i++)dark[i]=g[i]<thr?1:0;
+ const seen=new Uint8Array(w*h),blobs=[],q=new Int32Array(w*h);
+ for(let s0=0;s0<w*h;s0++){if(!dark[s0]||seen[s0])continue;let qh=0,qt=0;q[qt++]=s0;seen[s0]=1;let x1=w,y1=h,x2=0,y2=0,a=0,sx=0,sy=0;
+  while(qh<qt){const p=q[qh++],px=p%w,py=(p/w)|0;a++;sx+=px;sy+=py;if(px<x1)x1=px;if(px>x2)x2=px;if(py<y1)y1=py;if(py>y2)y2=py;
+   for(const n of [p-1,p+1,p-w,p+w]){if(n<0||n>=w*h||seen[n]||!dark[n])continue;if((n===p-1&&px===0)||(n===p+1&&px===w-1))continue;seen[n]=1;q[qt++]=n}}
+  const bw=x2-x1+1,bh=y2-y1+1;if(a<60||bw<6||bh<6)continue;const fill=a/(bw*bh),ar=bw/bh;if(fill<.72||ar<.6||ar>1.65)continue;blobs.push({cx:sx/a/sc,cy:sy/a/sc,a,bw})}
+ if(blobs.length<4)return null;
+ const corners=[[0,0],[cv.width,0],[cv.width,cv.height],[0,cv.height]],res=[];
+ for(const c of corners){let best=null,bd=1e18;for(const b of blobs){const dd=Math.hypot(b.cx-c[0],b.cy-c[1]);if(dd<bd){bd=dd;best=b}}res.push(best)}
+ if(new Set(res).size<4)return null;const ws=res.map(b=>b.bw);if(Math.max(...ws)/Math.min(...ws)>2.2)return null;return res.map(b=>[b.cx,b.cy])}
+function warpTo(cv,H){const sc=cv.getContext('2d').getImageData(0,0,cv.width,cv.height),sd=sc.data,sw=cv.width,sh=cv.height,out=document.createElement('canvas');out.width=TW;out.height=TH;const ox=out.getContext('2d'),od=ox.createImageData(TW,TH),o=od.data;
+ for(let v=0;v<TH;v++)for(let u=0;u<TW;u++){const z=H[6]*u+H[7]*v+1,x=(H[0]*u+H[1]*v+H[2])/z,y=(H[3]*u+H[4]*v+H[5])/z,i=(v*TW+u)*4;if(x<0||y<0||x>=sw-1||y>=sh-1){o[i]=o[i+1]=o[i+2]=255;o[i+3]=255;continue}
+  const x0=x|0,y0=y|0,fx=x-x0,fy=y-y0,a=(y0*sw+x0)*4,b=a+4,c=a+sw*4,d=c+4;for(let k=0;k<3;k++)o[i+k]=sd[a+k]*(1-fx)*(1-fy)+sd[b+k]*fx*(1-fy)+sd[c+k]*(1-fx)*fy+sd[d+k]*fx*fy;o[i+3]=255}
+ ox.putImageData(od,0,0);return out}
+function prepCrop(src,r){const c=document.createElement('canvas'),H=150,sc=H/r.h,W=Math.max(60,Math.round(r.w*sc));c.width=W+80;c.height=H+60;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+ const t=document.createElement('canvas');t.width=Math.round(r.w);t.height=Math.round(r.h);t.getContext('2d').drawImage(src,r.x,r.y,r.w,r.h,0,0,t.width,t.height);
+ const id=t.getContext('2d').getImageData(0,0,t.width,t.height),d=id.data,n=t.width*t.height,hist=new Array(256).fill(0),L=new Uint8Array(n);for(let i=0;i<n;i++){const l=(d[i*4]*.3+d[i*4+1]*.59+d[i*4+2]*.11)|0;L[i]=l;hist[l]++}
+ const pc=p=>{let a=0;for(let i=0;i<256;i++){a+=hist[i];if(a>=n*p)return i}return 255},med=pc(.5),lo=pc(.015),hi=Math.max(med,lo+30);
+ let ink=0;const cut=med*.72;for(let i=0;i<n;i++){if(L[i]<cut)ink++;const v=Math.max(0,Math.min(255,(L[i]-lo)/(hi-lo)*255));d[i*4]=d[i*4+1]=d[i*4+2]=v}
+ t.getContext('2d').putImageData(id,0,0);x.drawImage(t,0,0,t.width,t.height,40,30,W,H);return{cv:c,ink:ink/n}}
+function cleanVal(raw){let t=String(raw||'').replace(/[Oo○◯D]/g,'0').replace(/[lI|i!]/g,'1').replace(/[Ss]/g,'5').replace(/B/g,'8').replace(/[Zz]/g,'2').replace(/[gq]/g,'9').replace(/,/g,'.');t=toAsc(t).replace(/[^0-9./½¼¾\s]/g,'').trim().replace(/\s+/g,' ');if(!t)return null;let m;if((m=t.match(/^(\d+)\s+(\d)\/(\d)$/)))return +m[3]?+m[1]+ +m[2]/+m[3]:null;t=t.replace(/ /g,'');const v=numOf(t);return v}
+let _tw=null;
+async function readDigits(cv){const A=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.Aira;
+ if(A&&A.ocr){const r=await A.ocr({image:cv.toDataURL('image/jpeg',.92).split(',')[1]});return(r.tokens||[]).sort((a,b)=>a.x1-b.x1).map(t=>t.t).join(' ')}
+ if(!window.Tesseract)await new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';sc.onload=ok;sc.onerror=()=>no(new Error('OCR इंजन लोड नहीं हुआ (इंटरनेट चाहिए)'));document.head.append(sc)});
+ if(!_tw){_tw=await Tesseract.createWorker('eng');await _tw.setParameters({tessedit_char_whitelist:'0123456789./',tessedit_pageseg_mode:'7'})}
+ const r=await _tw.recognize(cv);return r.data.text}
+async function scanTemplate(file,tpl,onP){
+ const im=await loadFileImg(file,2000);const mk=findMarkers(im);
+ if(!mk)throw new Error('चारों कोने के काले चौकोर नहीं दिखे — पूरा पन्ना फ्रेम में, सीधा और रोशनी में लें');
+ const L=tplLayout(tpl.fields),H=solveH(L.markers,mk);if(!H)throw new Error('पन्ना सीधा नहीं पकड़ा, दोबारा फोटो लें');
+ const w=warpTo(im,H),out=[];let k=0;
+ for(const b of L.boxes){onP&&onP(++k,L.boxes.length);const r=cropRect(b),p=prepCrop(w,r),preview=p.cv.toDataURL('image/jpeg',.7);
+  if(p.ink<.012){out.push({label:b.h,name:b.h,id:b.id,value:null,on:false,img:preview,empty:1});continue}
+  let raw='';try{raw=await readDigits(p.cv)}catch(e){if(/इंजन/.test(e.message))throw e}
+  const v=cleanVal(raw);out.push({label:b.h,name:b.h,id:b.id,value:v,on:v!==null,img:preview,raw})}
+ return{rows:out,page:w.toDataURL('image/jpeg',.6)}}
+async function loadFileImg(file,max){const url=URL.createObjectURL(file),im=await imgLoad(url),sc=Math.min(1,max/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0,cv.width,cv.height);URL.revokeObjectURL(url);return cv}
+function openOcr(){let mode=LS('db_tpl_last')?'tp':'any';
+ const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>📷 फोटो से नाप भरें</h3><div class="sgm" id="ocm"><button data-m="tp">📄 छपा फॉर्म (सटीक)</button><button data-m="any">✍ कोई भी कागज़</button></div><p class="sub2" id="ocs"></p><div class="ocb"><label class="btn gold press">📸 फोटो खींचें<input type="file" accept="image/*" capture="environment" id="ocC" hidden></label><label class="btn press">🖼 गैलरी से<input type="file" accept="image/*" id="ocG" hidden></label></div><button class="addrow press" id="ocT" style="margin:0 0 8px">🖨 खाली नाप-फॉर्म छापें / शेयर करें</button><div class="ocr" id="ocr"></div><button class="btn gold press" id="ocK" style="display:none">✓ नाप भरें</button>`,{h:'94%',pop:false});
+ let list=[];const box=$('#ocr',o),sub=$('#ocs',o);
+ const setMode=m=>{mode=m;o.querySelectorAll('#ocm button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));sub.textContent=m==='tp'?'पहले "खाली नाप-फॉर्म छापें" से फॉर्म छापिए। उस पर पेन से लिखकर पूरा पन्ना (चारों कोने के काले चौकोर समेत) सीधा खींचिए — हर बॉक्स अलग से पढ़ा जाएगा।':'किसी भी कागज़ की साफ़ फोटो — लेबल और नाप पढ़कर नीचे दिखेंगे (छपे फॉर्म जितना सटीक नहीं)।'};setMode(mode);
+ const draw=(pg)=>{const act=list.filter(r=>!r.empty),emp=list.length-act.length;box.innerHTML=(pg?`<img class="ocim" src="${pg}" alt="फोटो">`:'')+(list.length?act.map(r=>{const i=list.indexOf(r);return `<div class="ocrow ${r.on?'':'off'}"><input type="checkbox" data-on="${i}" ${r.on?'checked':''}>${r.img?`<img class="occr" src="${r.img}" alt="">`:''}<div class="ocn"><input data-nm="${i}" value="${esc(r.name)}"><small>${r.id?'✓ मिला':'＋ नया फ़ील्ड बनेगा'}${r.label!==r.name?' · पढ़ा: '+esc(r.label):''}${r.on||r.value!==null?'':' · अंक नहीं पढ़ पाया, खुद लिखें'}</small></div><input class="ocv" data-v="${i}" inputmode="decimal" value="${r.value==null?'':fmtN(r.value)}"></div>`}).join('')+(emp?`<p class="pvn">${emp} बॉक्स खाली थे — छोड़ दिए</p>`:''):'<div class="spin2">कोई नाप नहीं मिली — साफ़ रोशनी में सीधी फोटो लें</div>');$('#ocK',o).style.display=list.length?'':'none'};
+ const run=async f=>{if(!f)return;const prev=URL.createObjectURL(f);box.innerHTML=`<img class="ocim" src="${prev}" alt="फोटो"><div class="spin2" id="ocp">पढ़ रहा हूँ… कुछ सेकंड</div>`;
+  try{if(mode==='tp'){const tpl=LS('db_tpl_last');if(!tpl)throw new Error('पहले "खाली नाप-फॉर्म छापें" दबाकर फॉर्म बनाइए');const r=await scanTemplate(f,tpl,(a,b)=>{const e=$('#ocp',o);if(e)e.textContent=`नाप पढ़ रहा हूँ… ${a}/${b}`});list=r.rows;draw(prev)}
+   else{const r=await ocrImage(f);list=parseOcr(r.tokens);draw(prev)}}catch(e){box.innerHTML=`<img class="ocim" src="${prev}" alt="फोटो"><div class="spin2">${esc(e.message||'पढ़ नहीं पाया')}</div>`}};
  $('#ocC',o).onchange=e=>run(e.target.files[0]);$('#ocG',o).onchange=e=>run(e.target.files[0]);
- o.addEventListener('input',e=>{const t=e.target;if(t.dataset.nm!==undefined){const r=list[+t.dataset.nm];r.name=t.value;const st=steps.find(z=>z.h===t.value);r.id=st?st.id:null}if(t.dataset.v!==undefined){const v=numOf(t.value);list[+t.dataset.v].value=v}});
+ $('#ocm',o).onclick=e=>{const b=e.target.closest('button');if(b)setMode(b.dataset.m)};$('#ocT',o).onclick=()=>{o.close();setTimeout(openTplSheet,250)};
+ o.addEventListener('input',e=>{const t=e.target;if(t.dataset.nm!==undefined){const r=list[+t.dataset.nm];r.name=t.value;const st=steps.find(z=>z.h===t.value);if(st)r.id=st.id}if(t.dataset.v!==undefined){const r=list[+t.dataset.v],v=cleanVal(t.value);r.value=v;if(v!==null){r.on=true;const cb=o.querySelector(`[data-on="${t.dataset.v}"]`);if(cb)cb.checked=true;t.closest('.ocrow').classList.remove('off')}}});
  o.addEventListener('change',e=>{const t=e.target;if(t.dataset.on!==undefined){list[+t.dataset.on].on=t.checked;t.closest('.ocrow').classList.toggle('off',!t.checked)}});
  $('#ocK',o).onclick=()=>{const n=applyMeas(list);o.close();toast(n+' नाप भर दीं')};
  o._test=l=>{list=l;draw()};window._ocrSheet=o}
@@ -3236,7 +3327,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-18.5';
+const APP_VER='2026-11-18.6';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
