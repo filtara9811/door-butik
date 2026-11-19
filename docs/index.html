@@ -1063,6 +1063,13 @@ html[data-theme=dark] #seli .pill{--pb:#2a2030;background:#2a2030!important;bord
 .mxcb{height:44px;padding:0 16px;border-radius:22px;background:#FFB800;color:#3b2a00;font:800 13px 'Noto Sans Devanagari',sans-serif;box-shadow:0 3px 10px rgba(255,184,0,.5)}
 #mxsl{width:100%;height:64px;border-radius:32px;margin-top:8px;box-sizing:border-box}#mxsl .kn{width:54px;height:54px;top:5px;margin-left:-27px;background-size:cover;background-position:top;border:3px solid #FFB800;line-height:48px;animation:none}#mxsl.armed .kn{box-shadow:0 0 0 5px rgba(255,184,0,.45)}#mxsl span{font-size:13px}
 .mxfly.big{width:60px;height:80px;border-radius:12px;background:#fff}.mxfly.big img{object-fit:contain}
+
+/* v45 fab */
+.mxfab{position:absolute;top:8px;right:8px;z-index:6;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px 6px;border-radius:26px;background:rgba(255,255,255,.92);box-shadow:0 4px 14px rgba(90,17,87,.28);touch-action:none;user-select:none}
+.mxfab small{font:600 9px 'Noto Sans Devanagari',sans-serif;color:#8b7d8e;line-height:1}.mxfab b{font:800 13px sans-serif;color:#5A1157;line-height:1}
+.mxfab .fc{width:44px;height:44px;border-radius:50%;background:#FFB800;font-size:20px;box-shadow:0 3px 8px rgba(255,184,0,.55)}.mxfab .fs{width:34px;height:34px;border-radius:50%;background:#F4EDF5;font-size:15px}
+.zrs{right:auto;left:8px}
+.mxb canvas.tfl,.mxb.on canvas.tfl{border:0}.mxb canvas.tfl{border-radius:10px}
 </style>
 </head>
 <body>
@@ -3085,10 +3092,10 @@ function openSystems2(tab){
   let body='';
   if(sysTab===1)body=`<div class="sgrid">${allModels().filter(m=>!m.sys).map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img src="${m.photo}" alt=""></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
   if(sysTab===2)body=`<div class="sgrid">${s2List().map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img alt="" id="s2i${m.i}"><i class="sk"></i></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
-  if(sysTab===3)body=`<div class="mxp" id="mxst"><div class="mxs" id="mxs"><img id="mxp" alt=""><img id="mxd" alt="" hidden></div><i class="sk"></i><div class="mxchips" id="mxi"></div><button class="zrs" id="zrs" hidden>⤢ ज़ूम रीसेट</button></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="g">👜 एसेसरीज़</button><button data-pk="a">🧰 सामान</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾</button><button class="mxcb" id="mxcb">🛍 ऐड टू कार्ट</button></div><div class="mxsl" id="mxsl"><span class="l">◀ ऑर्डर करें</span><span class="r">सिलाई ▶</span><b class="kn" id="mxkn">🛍</b></div></div>`;
+  if(sysTab===3)body=`<div class="mxp" id="mxst"><div class="mxs" id="mxs"><img id="mxp" alt=""><img id="mxd" alt="" hidden></div><i class="sk"></i><div class="mxchips" id="mxi"></div><button class="zrs" id="zrs" hidden>⤢ ज़ूम रीसेट</button><div class="mxfab" id="mxfab"><small>कुल</small><b id="mxtot">₹0</b><button id="mxcb" class="fc" aria-label="ऐड टू कार्ट">🛍</button><button id="mxsv" class="fs" aria-label="सेव">💾</button></div></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="g">👜 एसेसरीज़</button><button data-pk="a">🧰 सामान</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxsl" id="mxsl"><span class="l">◀ ऑर्डर करें</span><span class="r">सिलाई ▶</span><b class="kn" id="mxkn">🛍</b></div></div>`;
   $('#syw').innerHTML=tabs+body;{const pg=$('#fs .scr');if(pg)pg.classList.toggle('s3m',sysTab===3)}
   if(sysTab===2)(async()=>{for(const m of s2List()){if(!$('#s2i'+m.i))return;await m.lazy();const e=$('#s2i'+m.i);if(!e)return;e.src=m.photo;e.parentNode.classList.add('ld')}})();
-  if(sysTab===3){fillList();mxRefresh();layout();renderStk()}
+  if(sysTab===3){fillList();mxRefresh();layout();renderStk();fabPos()}
  };
  const mixPrev=()=>{const tok=++mixTok,{t,b,d}=mixSel,one=SYSL[t].one,bb=one?t:b;
   const st=$('#mxst');if(st)st.classList.remove('ld');
@@ -3097,6 +3104,7 @@ function openSystems2(tab){
  const DEFP={t:200,b:150,d:80,g:0};let act='t',pend=null;mixExtra=[];mixTint={t:null,b:null,d:null};
  let subSel={},carted=false,stk=[],selS=null,dupC=null,DUP={x:0,y:0,s:1},Z={z:1,px:0,py:0};
  const layout=()=>{const st=$('#mxst'),m=$('#mxs');if(!st||!m)return;const w=st.clientWidth,h=st.clientHeight;if(!w||!h)return;const k=Math.min(w/720,h/960);m.style.width=720*k+'px';m.style.height=960*k+'px';m.style.marginLeft=-360*k+'px';m.style.marginTop=-480*k+'px';applyZ()};
+ const fabPos=()=>{const f=$('#mxfab'),st=$('#mxst');if(!f||!st)return;const p=LS('db_fab');if(p&&typeof p.x==='number'){f.style.right='auto';f.style.left=Math.max(0,Math.min(st.clientWidth-f.offsetWidth,p.x*st.clientWidth))+'px';f.style.top=Math.max(0,Math.min(st.clientHeight-f.offsetHeight,p.y*st.clientHeight))+'px'}};
  const applyZ=()=>{const m=$('#mxs');if(!m)return;m.style.transform=`translate(${Z.px}px,${Z.py}px) scale(${Z.z})`;const z=$('#zrs');if(z)z.hidden=Z.z<=1.02&&!Z.px&&!Z.py};
  const applyDup=()=>{const e=$('#mxd');if(e)e.style.transform=`translate(${DUP.x*100}%,${DUP.y*100}%) scale(${DUP.s})`};
  window.addEventListener('resize',()=>setTimeout(layout,200));
@@ -3185,9 +3193,10 @@ function openSystems2(tab){
  function addStk(ref,el){let o;if(ref.c){const c=cust3().find(z=>z.id===ref.c);if(!c)return;o={c:c.id,n:c.n,p:+c.p||0,src:c.img||emojiURL('✨'),x:.5,y:.5,s:.25}}
   else{const d=STKS[ref.i];o={i:ref.i,n:nameOf('g',ref.i),p:priceOf('g',ref.i),src:imgOf('g',ref.i)||stkSrc(d),x:d[2],y:d[3],s:d[4]}}
   o.id='s'+Date.now().toString(36)+Math.random().toString(36).slice(2,4);stk.push(o);mxDirty=true;if(el)flyFrom(el);selS=o.id;renderStk();mxRefresh()}
- {const R=$('#syw');if(R){const P=new Map();let G=null,lt=null;const stop=()=>{clearTimeout(lt)};
+ {const R=$('#syw');if(R){const P=new Map();let G=null,lt=null,F=null;const stop=()=>{clearTimeout(lt)};
   R.addEventListener('pointerdown',e=>{
    const kn=e.target.closest('#mxkn');if(kn){G={slide:1,sx:e.clientX,el:kn,w:$('#mxsl').offsetWidth};try{kn.setPointerCapture(e.pointerId)}catch(_){}e.preventDefault();return}
+   const fb=e.target.closest('.mxfab');if(fb){F={el:fb,sx:e.clientX,sy:e.clientY,l:fb.offsetLeft,t:fb.offsetTop,moved:false};try{fb.setPointerCapture(e.pointerId)}catch(_){}return}
    const st=e.target.closest('#mxst');if(!st||e.target.closest('.stkbar,.zrs,.mxchips'))return;
    try{st.setPointerCapture(e.pointerId)}catch(_){}
    P.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -3198,6 +3207,7 @@ function openSystems2(tab){
    else if(P.size===2&&G){stop();const[a,b]=[...P.values()];G.pinch={d0:Math.max(10,Math.hypot(a.x-b.x,a.y-b.y)),s0:G.ty==='stk'?G.obj.s:G.ty==='dup'?DUP.s:Z.z,mx:(a.x+b.x)/2,my:(a.y+b.y)/2,px:Z.px,py:Z.py,z:Z.z};G.moved=true}
   });
   R.addEventListener('pointermove',e=>{
+   if(F){const dx=e.clientX-F.sx,dy=e.clientY-F.sy;if(!F.moved&&Math.hypot(dx,dy)<7)return;F.moved=true;const st=$('#mxst'),f=F.el;f.style.right='auto';f.style.left=cl(F.l+dx,0,st.clientWidth-f.offsetWidth)+'px';f.style.top=cl(F.t+dy,0,st.clientHeight-f.offsetHeight)+'px';return}
    if(G&&G.slide){const dx=cl(e.clientX-G.sx,-(G.w/2-30),G.w/2-30);G.dx=dx;G.el.style.transform=`translateX(${dx}px)`;return}
    if(!P.has(e.pointerId)||!G)return;P.set(e.pointerId,{x:e.clientX,y:e.clientY});
    if(P.size>=2&&G.pinch){const[a,b]=[...P.values()],r=Math.hypot(a.x-b.x,a.y-b.y)/G.pinch.d0;
@@ -3207,6 +3217,7 @@ function openSystems2(tab){
    else if(G.ty==='dup'){DUP.x=cl(G.x0+dx/(SW()*Z.z),-1,1);DUP.y=cl(G.y0+dy/(SH()*Z.z),-1,1);applyDup();mxDirty=true}
    else{Z.px=cl(G.px0+dx,-SW()*Z.z*.7,SW()*Z.z*.7);Z.py=cl(G.py0+dy,-SH()*Z.z*.7,SH()*Z.z*.7);applyZ()}});
   const up=e=>{stop();
+   if(F){const f=F.el,st=$('#mxst');if(F.moved&&st){window._fabAt=Date.now();LS('db_fab',{x:f.offsetLeft/st.clientWidth,y:f.offsetTop/st.clientHeight})}F=null;return}
    if(G&&G.slide){const kn=G.el,w=G.w,dx=G.dx||0;G=null;kn.style.transition='transform .25s';kn.style.transform='';setTimeout(()=>{kn.style.transition=''},260);
     if(Math.abs(dx)>w*.22)finishMx(dx>0?'seli':'order');else if(Math.abs(dx)<6)finishMx('');return}
    if(!P.has(e.pointerId))return;P.delete(e.pointerId);
@@ -3288,6 +3299,7 @@ function openSystems2(tab){
   const nn=e.target.closest('[data-none]');if(nn){removePart('d');return}
   const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — दूसरा टॉप / बॉटम चुनिए');const k=tk.dataset.k;if(tk.classList.contains('on')&&!tk.dataset.c){openTint(k);return}pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};applyPend(tk);return}
   {const sc=e.target.closest('[data-subclr]');if(sc){subSel[sc.dataset.subclr]=null;mxTray();return}}
+  if(Date.now()-(window._fabAt||0)<350&&e.target.closest('.mxfab'))return;
   if(e.target.closest('#mxcb')){cartMx();return}
   if(e.target.closest('#sysbtn')){openSysMenu();return}
   if(e.target.closest('#zrs')){Z={z:1,px:0,py:0};applyZ();return}
@@ -3788,7 +3800,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-19.5';
+const APP_VER='2026-11-19.6';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
