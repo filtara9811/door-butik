@@ -1052,6 +1052,17 @@ html[data-theme=dark] #seli .pill{--pb:#2a2030;background:#2a2030!important;bord
 .mxb.on{border-color:#FFB800;background:#fffbeb;box-shadow:0 0 0 2px #ffb80066}.mxb.on canvas,.mxb.on .mxim{border-color:#FFB800}.mxb.ae,.mxb .ae img{object-fit:contain;padding:6px;box-sizing:border-box}
 .mxsl{position:relative;flex:none;width:200px;height:46px;border-radius:23px;background:linear-gradient(90deg,#10B981,#5A1157);display:flex;align-items:center;justify-content:space-between;padding:0 14px;box-shadow:0 4px 14px rgba(90,17,87,.35)}.mxsl span{color:#fff;font:800 11px 'Noto Sans Devanagari',sans-serif}.mxsl .kn{position:absolute;left:50%;top:3px;margin-left:-20px;width:40px;height:40px;border-radius:50%;background:#FFB800;color:#3b2a00;font:900 18px/40px sans-serif;text-align:center;touch-action:none;box-shadow:0 2px 8px rgba(0,0,0,.35);animation:airap 1.6s infinite}
 .mxadd,.mxok#mxgo{display:none!important}
+
+/* v43 */
+.stkbar{display:none!important}
+.mxb canvas.tfl{width:70px;height:94px;border-radius:12px;border:2px solid #e5d5e6;background:#fff}.mxb.on canvas.tfl{border-color:#FFB800}.mxb{width:92px}.mxb.clr .ae{border-radius:12px;font-size:26px;color:#5A1157}
+.pkc canvas.tfl{width:100%;height:auto;aspect-ratio:3/4;border-radius:12px;border:0;background:#fff}
+.subc{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}.subc::-webkit-scrollbar{display:none}.subc button{flex:none;padding:9px 14px;border-radius:18px;background:#F4EDF5;color:#5A1157;font:700 13px 'Noto Sans Devanagari',sans-serif}.subc button.on{background:#5A1157;color:#fff}
+.sysbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:18px;background:#F4EDF5;color:#5A1157;font:700 13px 'Noto Sans Devanagari',sans-serif}.sysbtn small{opacity:.7;font-size:10px}.sysbtn i{font-style:normal}.s3m .systabs{padding:2px 8px 0}
+.pmb.sy small{display:block;font-weight:500;color:#6b5b6e;margin-top:3px;font-size:11px}.pmb.sy.on{background:#5A1157;color:#fff}.pmb.sy.on small{color:#e8d3e7}
+.mxcb{height:44px;padding:0 16px;border-radius:22px;background:#FFB800;color:#3b2a00;font:800 13px 'Noto Sans Devanagari',sans-serif;box-shadow:0 3px 10px rgba(255,184,0,.5)}
+#mxsl{width:100%;height:64px;border-radius:32px;margin-top:8px;box-sizing:border-box}#mxsl .kn{width:54px;height:54px;top:5px;margin-left:-27px;background-size:cover;background-position:top;border:3px solid #FFB800;line-height:48px;animation:none}#mxsl.armed .kn{box-shadow:0 0 0 5px rgba(255,184,0,.45)}#mxsl span{font-size:13px}
+.mxfly.big{width:60px;height:80px;border-radius:12px;background:#fff}.mxfly.big img{object-fit:contain}
 </style>
 </head>
 <body>
@@ -2487,7 +2498,7 @@ function ordDash(){
  <div class="dchs"><button class="dch all ${!oSt.chip?'on':''}" data-chip=""><small>सभी</small><b>∞</b><u class="z"></u></button>${chips.join('')}</div>
  <div class="sfs">${SFIL.map(x=>`<button class="${oSt.st===x[0]?'on':''}" data-sf="${x[0]}">${x[1]} <em>${x[2]?orders.filter(o=>x[2].includes(o.fs)).length:orders.length}</em></button>`).join('')}</div>
  <h4 class="osh">📦 ऑर्डर (${L0.length})${oSt.chip?' · '+fmt(oSt.chip):''}</h4>${L0.map(o=>dbCard(o)).join('')||'<p class="oem">कोई ऑर्डर नहीं मिला</p>'}<div class="osep"></div>`;
- return hero+`<div class="otiles"><div><b>${orders.length}</b><small>कुल ऑर्डर</small></div><div><b>${A.length}</b><small>चालू</small></div><div class="${tdy?'hot':''}"><b>${tdy}</b><small>आज देना है</small></div><div class="${late?'red':''}"><b>${late}</b><small>लेट</small></div><div><b>₹${kfmt(tot)}</b><small>कुल सेल</small></div><div><b>₹${kfmt(bak)}</b><small>बकाया</small></div></div>
+ return hero+`<div class="otiles"><div><b>${orders.length}</b><small>कुल ऑर्डर</small></div><div><b>₹${kfmt(tot)}</b><small>कुल सेल</small></div></div>
  <div class="ocart"><div class="och2"><b>📈 सेल (नए ऑर्डर)</b><span class="sgm2" id="orng"><button data-rg="7" class="${oSt.rng===7?'on':''}">7 दिन</button><button data-rg="30" class="${oSt.rng===30?'on':''}">30 दिन</button></span></div>
   <div class="obars ${oSt.rng===30?'thin':''}">${days.map((d,k)=>`<div class="ob" title="${d}"><em>${sale[k]?kfmt(sale[k]):''}</em><i style="height:${Math.max(sale[k]?6:2,sale[k]/mx*100)}%"></i><small>${oSt.rng===30&&k%5?'':new Date(d+'T00:00').getDate()}</small></div>`).join('')}</div>
   <div class="osum">इस दौरान <b>${cnt.reduce((a,b)=>a+b,0)}</b> ऑर्डर · <b>₹${sale.reduce((a,b)=>a+b,0)}</b></div></div>
@@ -2979,7 +2990,9 @@ function findModel(id){return allModels().find(x=>x.id===id)||s2List().find(x=>x
 var mxCat='t',mxDirty=false,mixExtra=[];
 const teOf=i=>SYSL[i].te??SYSL[i].ys,bsOf=i=>SYSL[i].bs??SYSL[i].ys;
 function seamOf(T,B){if(SYSL[T].one)return 960;const lo=Math.max(teOf(T),teOf(B)),hi=bsOf(T);if(lo>hi+3)return -1;return Math.round((lo+Math.max(lo,hi))/2)}
-const sepOK=(T,B)=>SYSL[T].one?T===B:(!SYSL[B].one&&seamOf(T,B)>=0);
+const wideB=B=>/स्कर्ट|लहंगा|शरारा|गरारा/.test((SYSL[B].bo?SYSL[B].n:(SYSL[B].pn[1]||''))+'');
+const sepOK=(T,B)=>SYSL[T].one?T===B:(!SYSL[B].one&&seamOf(T,B)>=0&&!(wideB(B)&&bsOf(T)>520));
+const firstB=T=>{const L=S3BOT_A.concat(S3BOT_B).filter(b=>sepOK(T,b));return L.find(b=>!wideB(b))??L[0]??S3BOT_A[0]};
 function initS3(){S3TOP=SYSL.map((d,i)=>i).filter(i=>!SYSL[i].bo||SYSL[i].top);S3BOT_A=SYSL.map((d,i)=>i).filter(i=>SYSL[i].bo);S3BOT_B=SYSL.map((d,i)=>i).filter(i=>!SYSL[i].bo&&!SYSL[i].one);S3DUP=SYSL.map((d,i)=>i).filter(i=>!SYSL[i].bo)}
 async function sysDec(i){
  if(sysDecC[i])return sysDecC[i];
@@ -3021,14 +3034,29 @@ async function mixModelOf(T,B,D){
  return mixModels[id]={id,sys:3,cat,name:one?`मिक्स: ${SYSL[T].n}`:`मिक्स: ${SYSL[T].pn[0]} + ${SYSL[B].pn[1]}`,pn:one?SYSL[T].pn.slice():(D<0?[SYSL[T].pn[0],SYSL[B].pn[1]]:[SYSL[T].pn[0],SYSL[B].pn[1],'दुपट्टा']),tpl:tplFor(cat).id,builtin:1,photo:r.photo,mask:r.mask}}
 function s2List(){if(!SYSL.length)return[];return _s2||(_s2=SYSL.map((d,i)=>({d,i})).filter(o=>!o.d.bo).map(({d,i})=>({id:'s2_'+i,sys:2,cat:d.c,name:d.n,pn:d.pn.slice(),tpl:tplFor(d.c).id,builtin:1,photo:null,mask:null,i,lazy:async function(){if(this.photo)return;const r=await composeMix(i,i,i);this.photo=r.photo;this.mask=r.mask}})))}
 async function sysIM(i,k){const key=i+k;return sysIm[key]||(sysIm[key]=await imgLoad(SYSL[i][k]))}
-async function paintThumb(c,i,k){const im=await sysIM(i,k==='d'?'sp':'wp'),x=c.getContext('2d'),S=c.width,y0=SYSL[i].y0||0;x.fillStyle='#fff';x.fillRect(0,0,S,S);
- const one=SYSL[i].one,box=k==='t'?(one?[20,110,400,400]:[50,110,340,340]):k==='b'?[20,430,470,470]:[0,70,390,390];x.drawImage(im,box[0],box[1]-(k==='d'?0:y0),box[2],box[3],0,0,S,S)}
+async function paintThumb(c,i,k){const x=c.getContext('2d'),W=c.width,H=c.height,fl=c.classList.contains('tfl'),y0=SYSL[i].y0||0;
+ if(!fl){const im=await sysIM(i,k==='d'?'sp':'wp'),S=W;x.fillStyle='#fff';x.fillRect(0,0,S,S);const one=SYSL[i].one,box=k==='t'?(one?[20,110,400,400]:[50,110,340,340]):k==='b'?[20,430,470,470]:[0,70,390,390];x.drawImage(im,box[0],box[1]-(k==='d'?0:y0),box[2],box[3],0,0,S,S);return}
+ const iw=k==='d'?390:720,ih=960,sc=Math.min(W/iw,H/ih),dw=iw*sc,dh=ih*sc,dx=(W-dw)/2,dy=(H-dh)/2,oy=k==='d'?0:y0;
+ const draw=(cx,im)=>{cx.save();cx.beginPath();cx.rect(dx,dy,dw,dh);cx.clip();cx.drawImage(im,dx,dy+oy*sc,im.width*sc,im.height*sc);cx.restore()};
+ x.fillStyle='#fff';x.fillRect(0,0,W,H);draw(x,await sysIM(i,k==='d'?'sp':'wp'));
+ const tn=mixTint[k];if(!tn)return;
+ try{const t=document.createElement('canvas');t.width=W;t.height=H;const tx=t.getContext('2d');tx.fillStyle='#000';tx.fillRect(0,0,W,H);draw(tx,await sysIM(i,k==='d'?'sm':'wm'));
+  const M=tx.getImageData(0,0,W,H).data,pd=x.getImageData(0,0,W,H),P=pd.data,ch=k==='b'?1:0;let tex=null,rr=0,gg=0,bb=0;
+  if(tn.img){const im=await imgLoad(tn.img),pc=document.createElement('canvas');pc.width=W;pc.height=H;const px=pc.getContext('2d'),tile=document.createElement('canvas'),ts=Math.round(Math.min(W,H)/3.2);tile.width=ts;tile.height=Math.round(ts*im.height/im.width);tile.getContext('2d').drawImage(im,0,0,tile.width,tile.height);px.fillStyle=px.createPattern(tile,'repeat');px.fillRect(0,0,W,H);tex=px.getImageData(0,0,W,H).data}
+  else{const h=tn.c.replace('#','');rr=parseInt(h.slice(0,2),16);gg=parseInt(h.slice(2,4),16);bb=parseInt(h.slice(4,6),16)}
+  for(let p=0;p<P.length;p+=4){const mv=M[p+ch]/255;if(mv<.02)continue;const kk=Math.min(1.35,(P[p]*.3+P[p+1]*.59+P[p+2]*.11)/215);let r,g,b;if(tex){r=tex[p]*kk;g=tex[p+1]*kk;b=tex[p+2]*kk}else{r=rr*kk;g=gg*kk;b=bb*kk}
+   P[p]=P[p]*(1-mv)+Math.min(255,r)*mv;P[p+1]=P[p+1]*(1-mv)+Math.min(255,g)*mv;P[p+2]=P[p+2]*(1-mv)+Math.min(255,b)*mv}
+  x.putImageData(pd,0,0)}catch(e){}}
 const SYSD=['अभी वाला तरीका — हर मॉडल पूरी फोटो है। कपड़ा बदलना, ज़ूम, घुमाना सब चलता है।','नई शीटों के 20 मॉडल — पूरे सेट के रूप में, उसी तरह कपड़ा बदल सकते हैं। (फोटो छोटी है, इसलिए थोड़ी नरम दिखेगी)','खुद मिलाइए: टॉप + बॉटम + दुपट्टा अलग-अलग चुनिए। 14 नए बॉटम हर टॉप के साथ चलते हैं; लंबे बॉटम वाले सेट सिर्फ़ लंबे टॉप के साथ।'];
 const mxLabel=(k,i)=>k==='t'?(SYSL[i].top?'सादा क्रॉप टॉप':SYSL[i].one?SYSL[i].n:SYSL[i].pn[0]):k==='b'?(SYSL[i].bo?SYSL[i].n:SYSL[i].pn[1]+' ('+SYSL[i].n.split(' ')[0]+')'):'दुपट्टा '+(S3DUP.indexOf(i)+1);
 async function openSystems(tab){
  if(!sysLoaded||!SYSL.length){screen('सिस्टम चुनिए','<div class="sysd" style="text-align:center;padding:60px 20px;font-size:13px">⏳ स्टाइल लोड हो रहे हैं…</div>',true);
   try{await loadSys()}catch(e){toast('लोड नहीं हुआ — इंटरनेट चेक करके फिर खोलें');return}}
  return openSystems2(tab)}
+const subOf=(k,i)=>{const n=(typeof mxLabel==='function'?mxLabel(k,i):'')+'';
+ if(k==='t'){if(/गाउन/.test(n))return '👗 गाउन';if(/साड़ी/.test(n))return '🥻 साड़ी';if(/जैकेट/.test(n))return '🧥 जैकेट';if(/शर्ट/.test(n))return '👔 शर्ट';if(/कुर्त/.test(n))return '👚 कुर्ता / कुर्ती';if(/टॉप/.test(n))return '🎽 टॉप';return '✨ अन्य'}
+ if(k==='b'){if(/स्कर्ट|लहंगा/.test(n))return '👗 स्कर्ट / लहंगा';if(/पलाज़ो/.test(n))return '👖 पलाज़ो';if(/पैंट|कुलोट्स/.test(n))return '👖 पैंट';if(/शरारा|गरारा/.test(n))return '👖 शरारा / गरारा';return '👖 सादा बॉटम'}
+ return '🧣 दुपट्टे'};
 const STKS=[['पर्स','👜',.74,.6,.26],['वॉलेट','👛',.27,.64,.18],['बेल्ट','belt',.5,.5,.34],['चश्मा','🕶',.5,.135,.17],['घड़ी','⌚',.2,.54,.1],['हैट','👒',.5,.045,.3],['जूते','👠',.4,.93,.15],['माला','📿',.5,.3,.2]];
 const _su={};
 function emojiURL(e){if(_su[e])return _su[e];const c=document.createElement('canvas');c.width=c.height=200;const x=c.getContext('2d');x.font='150px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,100,112);return _su[e]=c.toDataURL('image/png')}
@@ -3053,11 +3081,11 @@ function openSystems2(tab){
   const i=$('#mxi');if(i)i.innerHTML=`<span>👚 ${esc(nameOf('t',t))}</span>${one?'':`<span>👖 ${esc(nameOf('b',b))}</span>`}${d<0?'':`<span>🧣 ${esc(nameOf('d',d))}</span>`}${mixExtra.map(x=>`<span class="ex" data-xr="${x.id}">✨ ${esc(x.n)} ✕</span>`).join('')}${stk.map(x=>`<span class="ex" data-xs="${x.id}">👜 ${esc(x.n)} ✕</span>`).join('')}`;
   mxTray();mixPrev()};
  const paint=()=>{
-  const tabs=`<div class="systabs">${[1,2,3].map(n=>`<button class="stab ${sysTab===n?'on':''}" data-t="${n}"><b>सिस्टम ${n}</b><small>${['पूरे मॉडल · अभी वाले','पूरे मॉडल · नई शीट','मिक्स-मैच'][n-1]}</small></button>`).join('')}</div>${sysTab===3?'':`<p class="sysd">${SYSD[sysTab-1]}</p>`}`;
+  const tabs=`<div class="systabs"><button class="sysbtn" id="sysbtn"><span>◧</span><b>सिस्टम ${sysTab}</b><small>${['पूरे मॉडल','नई शीट','मिक्स-मैच'][sysTab-1]}</small><i>▾</i></button></div>${sysTab===3?'':`<p class="sysd">${SYSD[sysTab-1]}</p>`}`;
   let body='';
   if(sysTab===1)body=`<div class="sgrid">${allModels().filter(m=>!m.sys).map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img src="${m.photo}" alt=""></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
   if(sysTab===2)body=`<div class="sgrid">${s2List().map(m=>`<button class="scard ${m.id===curModel.id?'on':''}" data-id="${m.id}"><div class="simg"><img alt="" id="s2i${m.i}"><i class="sk"></i></div><b>${esc(m.name)}</b><small>${esc(catName(m.cat))}</small>${m.id===curModel.id?'<em>✓ होम पर</em>':''}</button>`).join('')}</div>`;
-  if(sysTab===3)body=`<div class="mxp" id="mxst"><div class="mxs" id="mxs"><img id="mxp" alt=""><img id="mxd" alt="" hidden></div><i class="sk"></i><div class="mxchips" id="mxi"></div><div class="stkbar" id="stkb" hidden><span class="sn"></span><button data-sa="-">−</button><button data-sa="+">＋</button><button data-sa="x">🗑</button></div><button class="zrs" id="zrs" hidden>⤢ ज़ूम रीसेट</button></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="g">👜 एसेसरीज़</button><button data-pk="a">🧰 सामान</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾</button><div class="mxsl" id="mxsl"><span class="l">◀ कार्ट</span><span class="r">सिलाई ▶</span><b class="kn" id="mxkn">✓</b></div></div></div>`;
+  if(sysTab===3)body=`<div class="mxp" id="mxst"><div class="mxs" id="mxs"><img id="mxp" alt=""><img id="mxd" alt="" hidden></div><i class="sk"></i><div class="mxchips" id="mxi"></div><button class="zrs" id="zrs" hidden>⤢ ज़ूम रीसेट</button></div><div class="mxdock"><div class="mxcat" id="mxcat"><button data-pk="t" class="on">👚 टॉप</button><button data-pk="b">👖 बॉटम</button><button data-pk="d">🧣 दुपट्टा</button><button data-pk="g">👜 एसेसरीज़</button><button data-pk="a">🧰 सामान</button><button data-pk="s">📂 सेव</button></div><div class="mxtray" id="mxtr"></div><div class="mxfoot"><div class="mxtot"><small>कुल कीमत</small><b id="mxtot">₹0</b></div><button class="mxsv" id="mxsv">💾</button><button class="mxcb" id="mxcb">🛍 ऐड टू कार्ट</button></div><div class="mxsl" id="mxsl"><span class="l">◀ ऑर्डर करें</span><span class="r">सिलाई ▶</span><b class="kn" id="mxkn">🛍</b></div></div>`;
   $('#syw').innerHTML=tabs+body;{const pg=$('#fs .scr');if(pg)pg.classList.toggle('s3m',sysTab===3)}
   if(sysTab===2)(async()=>{for(const m of s2List()){if(!$('#s2i'+m.i))return;await m.lazy();const e=$('#s2i'+m.i);if(!e)return;e.src=m.photo;e.parentNode.classList.add('ld')}})();
   if(sysTab===3){fillList();mxRefresh();layout();renderStk()}
@@ -3067,9 +3095,9 @@ function openSystems2(tab){
   setTimeout(async()=>{if(tok!==mixTok)return;const m0=await mixModelT(t,bb,-1,mixTint),m1=d<0?null:await mixModelT(t,bb,d,mixTint),L=m1?await dupLayer(m1):null;if(tok!==mixTok)return;
    const q=$('#mxp'),dq=$('#mxd');if(!q)return;q.src=m0.photo;if(L){dq.src=L.url;dq.hidden=false;dupC=L.c}else{dq.hidden=true;dupC=null}applyDup();layout();const s2=$('#mxst');if(s2)s2.classList.add('ld')},30)};
  const DEFP={t:200,b:150,d:80,g:0};let act='t',pend=null;mixExtra=[];mixTint={t:null,b:null,d:null};
- let stk=[],selS=null,dupC=null,DUP={x:0,y:0,s:1},Z={z:1,px:0,py:0};
+ let subSel={},carted=false,stk=[],selS=null,dupC=null,DUP={x:0,y:0,s:1},Z={z:1,px:0,py:0};
  const layout=()=>{const st=$('#mxst'),m=$('#mxs');if(!st||!m)return;const w=st.clientWidth,h=st.clientHeight;if(!w||!h)return;const k=Math.min(w/720,h/960);m.style.width=720*k+'px';m.style.height=960*k+'px';m.style.marginLeft=-360*k+'px';m.style.marginTop=-480*k+'px';applyZ()};
- const applyZ=()=>{const m=$('#mxs');if(!m)return;m.style.transform=`translate(${Z.px}px,${Z.py}px) scale(${Z.z})`;const z=$('#zrs');if(z)z.hidden=Z.z<=1.02};
+ const applyZ=()=>{const m=$('#mxs');if(!m)return;m.style.transform=`translate(${Z.px}px,${Z.py}px) scale(${Z.z})`;const z=$('#zrs');if(z)z.hidden=Z.z<=1.02&&!Z.px&&!Z.py};
  const applyDup=()=>{const e=$('#mxd');if(e)e.style.transform=`translate(${DUP.x*100}%,${DUP.y*100}%) scale(${DUP.s})`};
  window.addEventListener('resize',()=>setTimeout(layout,200));
  const pmap=()=>LS('db_s3p')||{},ovr=()=>LS('db_s3o')||{},cust3=()=>LS('db_s3c')||[];
@@ -3080,7 +3108,7 @@ function openSystems2(tab){
  function mxTotal(withAcc){const{t,b,d}=mixSel,one=SYSL[t].one;return priceOf('t',t)+(one?0:priceOf('b',b))+priceOf('d',d)+exT()+(withAcc?accT():0)}
  window.mxTotal=mxTotal;
  const accImg=x=>typeof x[5]==='string'&&x[5].startsWith('data:')&&x[5].length<60000?x[5]:x[2];
- const thumbHTML=(k,i,sz)=>{const im=imgOf(k,i);return im?`<img class="mxim" src="${im}" alt="">`:`<canvas width="${sz}" height="${sz}" data-k="${k}" data-i="${i}"></canvas>`};
+ const thumbHTML=(k,i,sz)=>{const im=imgOf(k,i);return im?`<img class="mxim" src="${im}" alt="">`:`<canvas class="tfl" width="${k==='d'?120:144}" height="192" data-k="${k}" data-i="${i}"></canvas>`};
  const paintAll=root=>root.querySelectorAll('canvas[data-k]').forEach(c=>paintThumb(c,+c.dataset.i,c.dataset.k));
  function tileHTML(k,it){const one=SYSL[mixSel.t].one;
   if(it.c){const on=mixExtra.some(x=>x.id===it.c.id),pd=pend&&pend.c===it.c.id;return `<div class="mxb ${on?'on':''} ${pd?'pend':''}" data-k="${k}" data-c="${it.c.id}">${it.c.img?`<img class="mxim" src="${it.c.img}" alt="">`:'<span class="ae">✨</span>'}<b>${esc(it.c.n)}</b><small>₹${it.c.p}</small></div>`}
@@ -3092,12 +3120,12 @@ function openSystems2(tab){
   if(act==='a'){h=ADD.map(x=>{const q=addons[x[0]]||0;return `<div class="mxb ac ${q?'on':''}" data-acc="${x[0]}"><span class="ae">${ico(accImg(x))}</span><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small>${q?`<em class="q">${q}</em><i class="qm" data-qm="${x[0]}">−</i>`:''}</div>`}).join('');if(isV())h+=`<div class="mxb plus" data-newacc="1"><span>＋</span><b>नया सामान</b></div>`}
   else if(act==='g'){h=STKS.map((d,i)=>`<div class="mxb ${stk.some(z=>z.i===i)?'on':''}" data-g="${i}"><span class="ae">${imgOf('g',i)?`<img src="${imgOf('g',i)}" alt="">`:`<img src="${stkSrc(d)}" alt="">`}</span><b>${esc(nameOf('g',i))}</b><small>${priceOf('g',i)?'₹'+priceOf('g',i):'फ्री'}</small></div>`).join('')+cust3().filter(c=>c.k==='g').map(c=>`<div class="mxb ${stk.some(z=>z.c===c.id)?'on':''}" data-gc="${c.id}"><span class="ae">${c.img?`<img src="${c.img}" alt="">`:'✨'}</span><b>${esc(c.n)}</b><small>${c.p?'₹'+c.p:'फ्री'}</small></div>`).join('')+(isV()?`<div class="mxb plus" data-newit="g"><span>＋</span><b>नया आइटम</b></div>`:'')}
   else if(act==='b'&&one){h='<p class="mxnote">गाउन / साड़ी में बॉटम साथ ही है — टॉप बदलकर देखिए</p>'}
-  else{const idx=act==='t'?S3TOP:act==='b'?S3BOT_A.concat(S3BOT_B):S3DUP;h=(act==='d'?`<div class="mxb ${mixSel.d<0?'on':''}" data-none="d"><span class="ae">🚫</span><b>बिना दुपट्टा</b><small>₹0</small></div>`:'')+idx.map(i=>tileHTML(act,{i})).join('')+cust3().filter(c=>c.k===act).map(c=>tileHTML(act,{c})).join('');if(isV())h+=`<div class="mxb plus" data-newit="${act}"><span>＋</span><b>नया आइटम</b></div>`}
+  else{const idx0=act==='t'?S3TOP:act==='b'?S3BOT_A.concat(S3BOT_B):S3DUP,sf=subSel[act],idx=sf?idx0.filter(i=>subOf(act,i)===sf):idx0;h=(sf?`<div class="mxb clr" data-subclr="${act}"><span class="ae">↺</span><b>सभी ${esc(sf.split(' ').slice(1).join(' '))}</b><small>सारे दिखाएँ</small></div>`:'')+(act==='d'?`<div class="mxb ${mixSel.d<0?'on':''}" data-none="d"><span class="ae">🚫</span><b>बिना दुपट्टा</b><small>₹0</small></div>`:'')+idx.map(i=>tileHTML(act,{i})).join('')+cust3().filter(c=>c.k===act).map(c=>tileHTML(act,{c})).join('');if(isV())h+=`<div class="mxb plus" data-newit="${act}"><span>＋</span><b>नया आइटम</b></div>`}
   tr.innerHTML=h;paintAll(tr);
   const tt=$('#mxtot');if(tt)tt.textContent='₹'+mxTotal(true);const ad=$('#mxadd');if(ad)ad.classList.toggle('show',!!pend)}
- function pickMx(k,i){if(k==='b'&&!sepOK(mixSel.t,i)){toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');return false}
+ function pickMx(k,i){if(k==='b'&&!sepOK(mixSel.t,i)){toast('ये बॉटम इस टॉप के साथ नहीं बैठता — दूसरा टॉप / बॉटम चुनिए');return false}
   mixSel[k]=i;mxDirty=true;if(k==='d')DUP={x:0,y:0,s:1};
-  if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0]}
+  if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=firstB(i)}
   mxRefresh();return true}
  const persistAcc=()=>{try{localStorage.setItem('db_acc',JSON.stringify(ADD.filter(a=>a[0][0]!=='c')))}catch(e){toast('स्टोरेज भर गया')}};
  function onLong(root,sel,cb){let t=null,sx=0,sy=0;root.addEventListener('pointerdown',e=>{const el=e.target.closest(sel);if(!el||!isV())return;sx=e.clientX;sy=e.clientY;clearTimeout(t);t=setTimeout(()=>{window._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}cb(el)},520)});
@@ -3133,8 +3161,8 @@ function openSystems2(tab){
   const a=f.animate([{transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-70}px) scale(1.7) rotate(-12deg)`,opacity:1,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(2.6) rotate(8deg)`,opacity:0}],{duration:720,easing:'cubic-bezier(.25,.8,.3,1)'});
   a.onfinish=()=>{f.remove();const m=$('.mxp');if(m){m.classList.remove('pop');void m.offsetWidth;m.classList.add('pop')}}}catch(e){}}
  function removePart(k){if(k==='d'){if(mixSel.d<0)return toast('दुपट्टा पहले से हटा हुआ है');mixSel.d=-1;mixTint.d=null;DUP={x:0,y:0,s:1}}
-  else if(k==='t'){mixSel.t=S3TOP[0];if(SYSL[mixSel.t].one)mixSel.b=mixSel.t;else if(!sepOK(mixSel.t,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0];mixTint.t=null}
-  else{mixSel.b=S3BOT_A[0];if(!sepOK(mixSel.t,mixSel.b)){mixSel.t=S3TOP[0];mixSel.b=S3BOT_A[0]}mixTint.b=null}
+  else if(k==='t'){mixSel.t=S3TOP[0];if(SYSL[mixSel.t].one)mixSel.b=mixSel.t;else if(!sepOK(mixSel.t,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=firstB(mixSel.t);mixTint.t=null}
+  else{mixSel.b=firstB(mixSel.t);if(!sepOK(mixSel.t,mixSel.b)){mixSel.t=S3TOP[0];mixSel.b=firstB(mixSel.t)}mixTint.b=null}
   mxDirty=true;mxRefresh();toast(k==='d'?'दुपट्टा हटा दिया ✓':k==='t'?'टॉप हटाकर सादा टॉप लगा दिया':'बॉटम हटाकर सादा बॉटम लगा दिया')}
  const COLS=['#FFFFFF','#F5E6C8','#F4C2C2','#E75480','#C1121F','#800020','#FF8C00','#FFD60A','#9ACD32','#2E8B57','#006D77','#00B4D8','#1D3FA8','#5A1157','#9B5DE5','#8B5E3C','#4A4A4A','#111111'];
  const PN={t:'👚 टॉप',b:'👖 बॉटम',d:'🧣 दुपट्टा'};
@@ -3142,7 +3170,7 @@ function openSystems2(tab){
   if(k==='b'&&SYSL[mixSel.t].one)k='t';
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🎨 ${PN[k]} — रंग / फैब्रिक</h3><p class="sub2">रंग चुनते ही मॉडल पर तुरंत लग जाता है</p><div class="sc"><div class="tcs">${COLS.map(c=>`<i data-c="${c}" style="background:${c}"></i>`).join('')}<label class="tcc">🎨<input type="color" id="tcp" hidden></label></div><label class="obt" style="display:block;text-align:center;margin:12px 0 4px;cursor:pointer">📷 फैब्रिक की फोटो अपलोड करें<input type="file" accept="image/*" id="tcf" hidden></label><div id="tcv" class="tcv"></div><button class="obt" id="tcr" style="width:100%;margin-top:8px">↺ मूल रंग पर लौटें</button></div><button class="btn gold press" id="tcok">✓ हो गया</button>`,{h:'66%',pop:false});
   const show=()=>{const t=mixTint[k];$('#tcv',o).innerHTML=t?(t.img?`<img src="${t.img}" alt=""><small>फैब्रिक लगा है</small>`:`<i style="background:${t.c}"></i><small>${t.c}</small>`):'<small>अभी मूल रंग</small>'};show();
-  const set=t=>{mixTint[k]=t;mxDirty=true;show();mixPrev()};
+  const set=t=>{mixTint[k]=t;mxDirty=true;show();mixPrev();mxTray()};
   o.addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c)set({c:c.dataset.c});if(e.target.closest('#tcr'))set(null);if(e.target.closest('#tcok'))o.close()});
   $('#tcp',o).onchange=e=>set({c:e.target.value});
   $('#tcf',o).onchange=async e=>{const f=e.target.files[0];if(f)set({img:await shrinkImg(f,260)})}}
@@ -3166,24 +3194,31 @@ function openSystems2(tab){
    if(P.size===1){let ty='stage',obj=null;const se=e.target.closest('.stk');if(se){ty='stk';obj=stk.find(z=>z.id===se.dataset.id)}else if(dupHit(e.clientX,e.clientY))ty='dup';
     G={ty,obj,sx:e.clientX,sy:e.clientY,moved:false,x0:obj?obj.x:DUP.x,y0:obj?obj.y:DUP.y,s0:obj?obj.s:DUP.s,z0:Z.z,px0:Z.px,py0:Z.py,pinch:null,ev:e};
     stop();lt=setTimeout(()=>{if(!G||G.moved||P.size!==1)return;window._lpAt=Date.now();if(navigator.vibrate)try{navigator.vibrate(15)}catch(_){}
-     if(G.ty==='stk'){selStk(G.obj.id)}else partMenu(G.ev,G.ty==='dup'?'d':null);G.lp=true},520)}
-   else if(P.size===2&&G){stop();const[a,b]=[...P.values()];G.pinch={d0:Math.max(10,Math.hypot(a.x-b.x,a.y-b.y)),s0:G.ty==='stk'?G.obj.s:G.ty==='dup'?DUP.s:Z.z};G.moved=true}
+     if(G.ty==='stk'){selStk(G.obj.id);stkMenu(G.obj)}else partMenu(G.ev,G.ty==='dup'?'d':null);G.lp=true},520)}
+   else if(P.size===2&&G){stop();const[a,b]=[...P.values()];G.pinch={d0:Math.max(10,Math.hypot(a.x-b.x,a.y-b.y)),s0:G.ty==='stk'?G.obj.s:G.ty==='dup'?DUP.s:Z.z,mx:(a.x+b.x)/2,my:(a.y+b.y)/2,px:Z.px,py:Z.py,z:Z.z};G.moved=true}
   });
   R.addEventListener('pointermove',e=>{
-   if(G&&G.slide){const dx=cl(e.clientX-G.sx,-(G.w/2-24),G.w/2-24);G.dx=dx;G.el.style.transform=`translateX(${dx}px)`;return}
+   if(G&&G.slide){const dx=cl(e.clientX-G.sx,-(G.w/2-30),G.w/2-30);G.dx=dx;G.el.style.transform=`translateX(${dx}px)`;return}
    if(!P.has(e.pointerId)||!G)return;P.set(e.pointerId,{x:e.clientX,y:e.clientY});
    if(P.size>=2&&G.pinch){const[a,b]=[...P.values()],r=Math.hypot(a.x-b.x,a.y-b.y)/G.pinch.d0;
-    if(G.ty==='stk'){G.obj.s=cl(G.pinch.s0*r,.05,1);updStk(G.obj)}else if(G.ty==='dup'){DUP.s=cl(G.pinch.s0*r,.35,3);applyDup()}else{Z.z=cl(G.pinch.s0*r,1,3.5);const mx=(Z.z-1)*SW()/2,my=(Z.z-1)*SH()/2;Z.px=cl(Z.px,-mx,mx);Z.py=cl(Z.py,-my,my);applyZ()}mxDirty=true;return}
+    if(G.ty==='stk'){G.obj.s=cl(G.pinch.s0*r,.05,1);updStk(G.obj)}else if(G.ty==='dup'){DUP.s=cl(G.pinch.s0*r,.35,3);applyDup()}else{const nz=cl(G.pinch.s0*r,.5,4),sr=$('#mxst').getBoundingClientRect(),cx=sr.left+sr.width/2,cy=sr.top+sr.height/2,mx=(a.x+b.x)/2,my=(a.y+b.y)/2,q0x=(G.pinch.mx-cx-G.pinch.px)/G.pinch.z,q0y=(G.pinch.my-cy-G.pinch.py)/G.pinch.z;Z.z=nz;Z.px=cl(mx-cx-nz*q0x,-SW()*nz*.7,SW()*nz*.7);Z.py=cl(my-cy-nz*q0y,-SH()*nz*.7,SH()*nz*.7);applyZ()}mxDirty=true;return}
    const dx=e.clientX-G.sx,dy=e.clientY-G.sy;if(!G.moved&&Math.hypot(dx,dy)<8)return;if(!G.moved){G.moved=true;stop()}
    if(G.ty==='stk'){G.obj.x=cl(G.x0+dx/(SW()*Z.z),-.1,1.1);G.obj.y=cl(G.y0+dy/(SH()*Z.z),-.1,1.1);if(selS!==G.obj.id){selS=G.obj.id;renderStk()}else updStk(G.obj)}
    else if(G.ty==='dup'){DUP.x=cl(G.x0+dx/(SW()*Z.z),-1,1);DUP.y=cl(G.y0+dy/(SH()*Z.z),-1,1);applyDup();mxDirty=true}
-   else if(Z.z>1){const mx=(Z.z-1)*SW()/2,my=(Z.z-1)*SH()/2;Z.px=cl(G.px0+dx,-mx,mx);Z.py=cl(G.py0+dy,-my,my);applyZ()}});
+   else{Z.px=cl(G.px0+dx,-SW()*Z.z*.7,SW()*Z.z*.7);Z.py=cl(G.py0+dy,-SH()*Z.z*.7,SH()*Z.z*.7);applyZ()}});
   const up=e=>{stop();
    if(G&&G.slide){const kn=G.el,w=G.w,dx=G.dx||0;G=null;kn.style.transition='transform .25s';kn.style.transform='';setTimeout(()=>{kn.style.transition=''},260);
-    if(Math.abs(dx)>w*.22)finishMx(dx>0?'seli':'cart');else if(Math.abs(dx)<6)finishMx('');return}
+    if(Math.abs(dx)>w*.22)finishMx(dx>0?'seli':'order');else if(Math.abs(dx)<6)finishMx('');return}
    if(!P.has(e.pointerId))return;P.delete(e.pointerId);
+   if(P.size===1&&G){const r=[...P.values()][0];G.sx=r.x;G.sy=r.y;G.x0=G.obj?G.obj.x:DUP.x;G.y0=G.obj?G.obj.y:DUP.y;G.px0=Z.px;G.py0=Z.py;G.pinch=null;G.moved=true}
    if(P.size===0&&G){if(!G.moved&&!G.lp&&!G.pinch){if(G.ty==='stk')selStk(G.obj.id);else if(selS){selS=null;renderStk()}}G=null}};
   ['pointerup','pointercancel'].forEach(n=>R.addEventListener(n,up))}}
+ function stkMenu(o){const w=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${esc(o.n)}</h3><div class="sc"><button class="pmb red" data-a="rm">🗑 हटाएँ</button></div>`,{h:'30%',pop:false});w.addEventListener('click',e=>{if(e.target.closest('[data-a=rm]')){w.close();removeStk(o.id)}})}
+ async function cartMx(){const{t,b}=mixSel,one=SYSL[t].one;let url;try{url=await bakeMx(t,one?t:b)}catch(e){return}const st=$('#mxst'),kn=$('#mxkn');if(!st||!kn)return;
+  const fr=st.getBoundingClientRect(),tr=kn.getBoundingClientRect(),f=document.createElement('div');f.className='mxfly big';f.style.cssText=`left:${fr.left+fr.width/2-30}px;top:${fr.top+fr.height/2-40}px`;f.innerHTML=`<img src="${url}" alt="">`;document.body.append(f);
+  const dx=tr.left+tr.width/2-(fr.left+fr.width/2),dy=tr.top+tr.height/2-(fr.top+fr.height/2);
+  const an=f.animate([{transform:'translate(0,0) scale(2.6)',opacity:1},{transform:`translate(${dx*.6}px,${dy*.5-40}px) scale(1.3)`,opacity:1,offset:.6},{transform:`translate(${dx}px,${dy}px) scale(.55)`,opacity:.9}],{duration:700,easing:'cubic-bezier(.3,.7,.3,1)'});
+  an.onfinish=()=>{f.remove();kn.style.backgroundImage=`url(${url})`;kn.textContent='';$('#mxsl').classList.add('armed');carted=true;const cb=$('#mxcb');if(cb)cb.textContent='✓ कार्ट में जुड़ा';toast('अब दाएँ → सिलाई · बाएँ → ऑर्डर')}}
  async function bakeMx(t,bb){const m0=await mixModelT(t,bb,-1,mixTint),c=document.createElement('canvas');c.width=720;c.height=960;const x=c.getContext('2d');x.drawImage(await imgLoad(m0.photo),0,0,720,960);
   if(dupC&&mixSel.d>=0){x.save();x.translate(360+DUP.x*720,480+DUP.y*960);x.scale(DUP.s,DUP.s);x.drawImage(dupC,-360,-480,720,960);x.restore()}
   for(const o of stk){const im=await imgLoad(o.src),w=o.s*720,h=w*im.height/im.width;x.drawImage(im,o.x*720-w/2,o.y*960-h/2,w,h)}
@@ -3193,25 +3228,29 @@ function openSystems2(tab){
   mixExtra.forEach(x=>{const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p||0,0,x.img||'']);addons[id]=1});
   stk.forEach(x=>{if(+x.p>0){const id='c'+x.id;if(!ADD.some(z=>z[0]===id))ADD.push([id,x.n,'✨',+x.p,0,'']);addons[id]=1}});
   await setModel(m,true);closeFS();toast('मिक्स-मैच मॉडल लग गया ✓ · सिलाई ₹'+m.bprice);
-  if(go==='cart')setTimeout(()=>addToCart(),450);else if(go==='seli')setTimeout(()=>showForm(),350)}
+  if(go==='order')setTimeout(()=>addToCart(true),450);else if(go==='seli')setTimeout(()=>showForm(),350)}
  function partMenu(e,fk){const im=$('#mxp');if(!im)return;const r=im.getBoundingClientRect(),sc=Math.min(r.width/720,r.height/960),ox=(r.width-720*sc)/2,oy=(r.height-960*sc)/2,xi=(e.clientX-r.left-ox)/sc,yi=(e.clientY-r.top-oy)/sc;
   const{t,b,d}=mixSel,one=SYSL[t].one,sm=seamOf(t,one?t:b)<0?teOf(t):seamOf(t,one?t:b);let k=fk||(yi<sm||one?'t':'b');
   const nm=k==='d'?nameOf('d',d):k==='t'?nameOf('t',t):nameOf('b',b);
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${PN[k]} · ${esc(nm)}</h3><div class="sc"><button class="pmb" data-a="tint">🎨 रंग / फैब्रिक बदलें</button><button class="pmb red" data-a="rm">🗑 ${k==='d'?'दुपट्टा पूरा हटाएँ':k==='t'?'यह टॉप हटाएँ (सादा टॉप लगेगा)':'यह बॉटम हटाएँ (सादा बॉटम लगेगा)'}</button></div>`,{h:'36%',pop:false});
   o.addEventListener('click',ev=>{const a=ev.target.closest('[data-a]');if(!a)return;o.close();if(a.dataset.a==='rm')removePart(k);else setTimeout(()=>openTint(k),200)})}
+ function openSysMenu(){const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>सिस्टम चुनिए</h3><div class="sc">${[1,2,3].map(n=>`<button class="pmb sy ${sysTab===n?'on':''}" data-s="${n}"><b>सिस्टम ${n} · ${['पूरे मॉडल (अभी वाले)','पूरे मॉडल (नई शीट)','मिक्स-मैच'][n-1]}</b><small>${SYSD[n-1]}</small></button>`).join('')}</div>`,{h:'66%',pop:false});o.addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;sysTab=+b.dataset.s;o.close();paint();$('#sb').scrollTo({top:0})})}
  function openPick(k){
   if(k==='s')return openSaved();
   if(k==='a')return openAcc();
   if(k==='g')return;
   const one=SYSL[mixSel.t].one;if(k==='b'&&one){toast('गाउन / साड़ी में बॉटम साथ है');return}
-  const idx=k==='t'?S3TOP:k==='b'?S3BOT_A.concat(S3BOT_B):S3DUP,ttl={t:'👚 सारे टॉप',b:'👖 सारे बॉटम',d:'🧣 सारे दुपट्टे'}[k];
-  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${ttl}</h3>${isV()?'<p class="sub2">वेंडर: किसी भी आइटम को दबाकर रखें → नाम / कीमत / फोटो बदलें</p>':''}<div class="sc"><div class="pkg" id="pkg"></div></div>`,{h:'86%',pop:false});
-  const draw=()=>{const g=$('#pkg',o);g.innerHTML=idx.map(i=>{const ok=k!=='b'||sepOK(mixSel.t,i),on=mixSel[k]===i&&(k!=='b'||!one);return `<div class="pkc ${on?'on':''} ${ok?'':'dis'}" data-i="${i}">${thumbHTML(k,i,140)}<em>✓</em><small>${esc(nameOf(k,i))}</small><b>₹${priceOf(k,i)}</b></div>`}).join('')+cust3().filter(c=>c.k===k).map(c=>`<div class="pkc ${mixExtra.some(x=>x.id===c.id)?'on':''}" data-c="${c.id}">${c.img?`<img class="mxim" src="${c.img}" alt="">`:'<span class="ae">✨</span>'}<em>✓</em><small>${esc(c.n)}</small><b>₹${c.p}</b></div>`).join('')+(isV()?`<div class="pkc plus" data-newit="${k}"><span class="ae">＋</span><small>नया आइटम</small></div>`:'');paintAll(g)};
+  const idx=k==='t'?S3TOP:k==='b'?S3BOT_A.concat(S3BOT_B):S3DUP,ttl={t:'👚 टॉप',b:'👖 बॉटम',d:'🧣 दुपट्टा'}[k],subs=[...new Set(idx.map(i=>subOf(k,i)))];
+  const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>${ttl} — कैटेगरी चुनिए</h3>${subs.length>1?'<div class="subc" id="subc"></div>':''}${isV()?'<p class="sub2">वेंडर: आइटम को दबाकर रखें → नाम / कीमत / फोटो बदलें</p>':''}<div class="sc"><div class="pkg" id="pkg"></div></div>`,{h:'94%',pop:false});
+  let cur=subSel[k]||'';
+  const draw=()=>{const sc=$('#subc',o);if(sc)sc.innerHTML=[['','सभी']].concat(subs.map(x=>[x,x+' ('+idx.filter(i=>subOf(k,i)===x).length+')'])).map(x=>`<button data-sub="${esc(x[0])}" class="${cur===x[0]?'on':''}">${esc(x[1])}</button>`).join('');
+   const g=$('#pkg',o),L=idx.filter(i=>!cur||subOf(k,i)===cur);g.innerHTML=L.map(i=>{const ok=k!=='b'||sepOK(mixSel.t,i),on=mixSel[k]===i&&(k!=='b'||!one);return `<div class="pkc ${on?'on':''} ${ok?'':'dis'}" data-i="${i}">${thumbHTML(k,i,140)}<em>✓</em><small>${esc(nameOf(k,i))}</small><b>₹${priceOf(k,i)}</b></div>`}).join('')+(cur?'':cust3().filter(c=>c.k===k).map(c=>`<div class="pkc ${mixExtra.some(x=>x.id===c.id)?'on':''}" data-c="${c.id}">${c.img?`<img class="mxim" src="${c.img}" alt="">`:'<span class="ae">✨</span>'}<em>✓</em><small>${esc(c.n)}</small><b>₹${c.p}</b></div>`).join(''))+(isV()?`<div class="pkc plus" data-newit="${k}"><span class="ae">＋</span><small>नया आइटम</small></div>`:'');paintAll(g)};
   draw();
   onLong(o,'.pkc[data-i],.pkc[data-c]',el=>{editItem(el.dataset.c?{k,c:el.dataset.c}:{k,i:+el.dataset.i});});
-  o.addEventListener('click',e=>{if(justLP())return;const nw=e.target.closest('[data-newit]');if(nw){editItem({newK:nw.dataset.newit});return}
+  o.addEventListener('click',e=>{if(justLP())return;const sb=e.target.closest('[data-sub]');if(sb){cur=sb.dataset.sub;subSel[k]=cur||null;draw();mxTray();return}
+   const nw=e.target.closest('[data-newit]');if(nw){editItem({newK:nw.dataset.newit});return}
    const c=e.target.closest('.pkc');if(!c)return;if(c.dataset.c){pend={k,c:c.dataset.c};applyPend();o.close();return}
-   if(c.classList.contains('dis')){toast('ये बॉटम इस टॉप के साथ नहीं बैठता');return}{flyFrom(c);if(pickMx(k,+c.dataset.i))o.close()}})}
+   if(c.classList.contains('dis')){toast('ये बॉटम इस टॉप के साथ नहीं बैठता');return}{if(pickMx(k,+c.dataset.i)){o.close();setTimeout(()=>{const t=document.querySelector(`#mxtr .mxb[data-k=${k}].on`);if(t){flyFrom(t);t.scrollIntoView({inline:'center',block:'nearest'})}},120)}}})}
  function openAcc(){
   const o=sheet(`<button class="pmx" data-close aria-label="बंद करें">✕</button><h3>🧰 एसेसरीज़ जोड़ें</h3><p class="sub2">${isV()?'वेंडर: किसी को दबाकर रखें → नाम / कीमत / फोटो बदलें · ':''}प्रेस, लाइनिंग, डोरी… जितनी चाहिए जोड़ें</p><div class="sc"><div class="acl" id="acl"></div></div>${isV()?'<button class="obt" id="acn" style="margin:6px 0">＋ नया सामान जोड़ें</button>':''}<button class="btn gold press" id="acok">✓ हो गया</button>`,{h:'86%',pop:false});
   const draw=()=>{$('#acl',o).innerHTML=ADD.map(x=>`<div class="acr ${addons[x[0]]?'on':''}" data-id="${x[0]}"><span class="aci">${ico(accImg(x))}</span><div class="act"><b>${esc(x[1])}</b><small>${x[3]?'₹'+x[3]:'फ्री'}</small></div><div class="acq"><button data-ad="${x[0]}" data-d="-1">−</button><em>${addons[x[0]]||0}</em><button data-ad="${x[0]}" data-d="1">＋</button></div></div>`).join('')};draw();
@@ -3237,7 +3276,7 @@ function openSystems2(tab){
   const x=e.target.closest('.mxc');
   if(x){if(x.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — इसके लिए लंबा टॉप चुनिए');
    const k=x.dataset.r,i=+x.dataset.i;mixSel[k]=i;mxDirty=true;
-   if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=S3BOT_A[0];fillList()}
+   if(k==='t'){if(SYSL[i].one)mixSel.b=i;else if(!sepOK(i,mixSel.b)||SYSL[mixSel.b].one)mixSel.b=firstB(i);fillList()}
    mxRefresh();return}
   if(justLP())return;
   const xr=e.target.closest('[data-xr]');if(xr){mixExtra=mixExtra.filter(z=>z.id!==xr.dataset.xr);mxDirty=true;mxRefresh();return}
@@ -3247,7 +3286,10 @@ function openSystems2(tab){
   const qm=e.target.closest('[data-qm]');if(qm){const id=qm.dataset.qm;if(addons[id]>1)addons[id]--;else delete addons[id];mxTray();return}
   const ac=e.target.closest('[data-acc]');if(ac){const id=ac.dataset.acc;addons[id]=(addons[id]||0)+1;mxTray();return}
   const nn=e.target.closest('[data-none]');if(nn){removePart('d');return}
-  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — लंबा टॉप चुनिए');const k=tk.dataset.k;if(tk.classList.contains('on')&&!tk.dataset.c){openTint(k);return}pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};applyPend(tk);return}
+  const tk=e.target.closest('.mxb[data-k]');if(tk){if(tk.classList.contains('dis'))return toast('ये बॉटम इस टॉप के साथ नहीं बैठता — दूसरा टॉप / बॉटम चुनिए');const k=tk.dataset.k;if(tk.classList.contains('on')&&!tk.dataset.c){openTint(k);return}pend=tk.dataset.c?{k,c:tk.dataset.c}:{k,i:+tk.dataset.i};applyPend(tk);return}
+  {const sc=e.target.closest('[data-subclr]');if(sc){subSel[sc.dataset.subclr]=null;mxTray();return}}
+  if(e.target.closest('#mxcb')){cartMx();return}
+  if(e.target.closest('#sysbtn')){openSysMenu();return}
   if(e.target.closest('#zrs')){Z={z:1,px:0,py:0};applyZ();return}
   {const gi=e.target.closest('[data-g]');if(gi){addStk({i:+gi.dataset.g},gi);return}const gc=e.target.closest('[data-gc]');if(gc){addStk({c:gc.dataset.gc},gc);return}const xs=e.target.closest('[data-xs]');if(xs){removeStk(xs.dataset.xs);return}
    const sa=e.target.closest('[data-sa]');if(sa){const o=stk.find(z=>z.id===selS);if(!o)return;if(sa.dataset.sa==='x')return removeStk(o.id);o.s=cl(o.s*(sa.dataset.sa==='+'?1.15:.87),.05,1);updStk(o);return}}
@@ -3746,7 +3788,7 @@ applyTheme();
 showSplash();applyLang();
 
 /* ---------- ऐप के अंदर अपडेट ---------- */
-const APP_VER='2026-11-19.3';
+const APP_VER='2026-11-19.5';
 function showUpd(j){if($('.upd'))return;const o=document.createElement('div');o.className='upd';o.innerHTML=`<div class="updb"><div class="updi">⬆</div><h3>नया अपडेट आया है</h3><p>${esc(j.notes||'ऐप में नए सुधार हैं')}</p><button class="ok" data-a="u">अपडेट करें</button><button class="no" data-a="x">बाद में</button></div>`;ph.append(o);
  o.onclick=e=>{const a=e.target.dataset.a;if(a==='x')o.remove();if(a==='u'){e.target.textContent='अपडेट हो रहा है…';location.replace(location.pathname+'?v='+encodeURIComponent(j.v))}}}
 function checkUpdate(){if(!/github\.io$/.test(location.hostname))return;
